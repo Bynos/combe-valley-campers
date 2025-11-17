@@ -1,0 +1,208 @@
+{% comment %}
+  Conversion Guides Megamenu Block
+  This is designed to be used as a block within a header section
+  
+  Usage in section schema:
+  {
+    "type": "conversion_guides_megamenu",
+    "name": "Conversion Guides Megamenu",
+    "settings": [...]
+  }
+{% endcomment %}
+
+<div class="cvc-megamenu cvc-megamenu--conversion-guides">
+  <div class="cvc-megamenu__container">
+    <h2 class="cvc-megamenu__title">
+      {{ block.settings.title }}
+    </h2>
+
+    {% if block.settings.show_description and block.settings.description != blank %}
+      <p class="cvc-megamenu__description">
+        {{ block.settings.description }}
+      </p>
+    {% endif %}
+
+    <div class="cvc-megamenu__phases">
+      {% for i in (1..10) %}
+        {% assign phase_title_key = 'phase_' | append: i | append: '_title' %}
+        {% assign phase_links_key = 'phase_' | append: i | append: '_links' %}
+        {% assign phase_title = block.settings[phase_title_key] %}
+        {% assign phase_links = block.settings[phase_links_key] %}
+        
+        {% if phase_title != blank %}
+          <div class="cvc-phase-column">
+            <h3 class="cvc-phase-column__title">{{ phase_title }}</h3>
+            <ul class="cvc-phase-column__links">
+              {% assign links = phase_links | newline_to_br | split: '<br />' %}
+              {% for link in links %}
+                {% if link != blank %}
+                  {% assign link_parts = link | split: '|' %}
+                  {% if link_parts.size == 2 %}
+                    <li>
+                      <a href="{{ link_parts[1] | strip }}">
+                        {{ link_parts[0] | strip }}
+                      </a>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="#">{{ link | strip }}</a>
+                    </li>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Conversion Guides",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Conversion Phases"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Conversion Guides"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "phase_1_title",
+      "label": "Phase 1 Title",
+      "default": "Phase 1"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_1_links",
+      "label": "Phase 1 Links (one per line)",
+      "default": "Insure Your Van\nStrip & Clean\nWindows\nCab Seating",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_2_title",
+      "label": "Phase 2 Title",
+      "default": "Phase 2"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_2_links",
+      "label": "Phase 2 Links (one per line)",
+      "default": "Sound Deadening\nPly Panels\nCarpeting\nFlooring",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_3_title",
+      "label": "Phase 3 Title",
+      "default": "Phase 3"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_3_links",
+      "label": "Phase 3 Links (one per line)",
+      "default": "Window Shades\nElectrics\nHeaters",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_4_title",
+      "label": "Phase 4 Title",
+      "default": "Phase 4"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_4_links",
+      "label": "Phase 4 Links (one per line)",
+      "default": "Beds\nAppliances\nAwnings\nWheels",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_5_title",
+      "label": "Phase 5 Title",
+      "default": "Phase 5"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_5_links",
+      "label": "Phase 5 Links (one per line)",
+      "default": "Storage\nCamping\nStyling\nAccessories",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_6_title",
+      "label": "Phase 6 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_6_links",
+      "label": "Phase 6 Links (one per line)",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_7_title",
+      "label": "Phase 7 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_7_links",
+      "label": "Phase 7 Links (one per line)",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_8_title",
+      "label": "Phase 8 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_8_links",
+      "label": "Phase 8 Links (one per line)",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_9_title",
+      "label": "Phase 9 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_9_links",
+      "label": "Phase 9 Links (one per line)",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    },
+    {
+      "type": "text",
+      "id": "phase_10_title",
+      "label": "Phase 10 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "phase_10_links",
+      "label": "Phase 10 Links (one per line)",
+      "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+    }
+  ]
+}
+{% endschema %}

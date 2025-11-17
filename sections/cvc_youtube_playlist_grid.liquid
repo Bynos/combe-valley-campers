@@ -1,0 +1,559 @@
+{% comment %}
+This shopify section is a youtube video grid
+
+There is a heading that shows a Youtube playlist profile image, name, subscriber count and a subscribe button
+
+under the heading is a grid of youtube videos
+
+each youtube video is represented by: 
+- thumbnail image, 
+- title and published date
+- description in 2 lines max cut off by ellipsis
+- view count + likes + comments count
+
+The user can add a link to a youtube playlist and the page will show the videos in a grid
+
+{% endcomment %}
+
+{% assign playlist_url = section.settings.playlist_url %}
+{% assign channel_name = section.settings.channel_name | default: 'YouTube Channel' %}
+{% assign channel_image = section.settings.channel_image %}
+{% assign subscriber_count = section.settings.subscriber_count | default: '' %}
+{% assign grid_columns = section.settings.grid_columns | default: 3 %}
+
+<div class="cvc-youtube-playlist" {{ section.shopify_attributes }}>
+  {% comment %} Channel Header {% endcomment %}
+  <div class="cvc-youtube-playlist__header">
+    <div class="cvc-youtube-playlist__channel-info">
+      {% if channel_image %}
+        <img src="{{ channel_image | img_url: '80x80' }}" 
+             alt="{{ channel_name | escape }}" 
+             class="cvc-youtube-playlist__channel-avatar"
+             loading="lazy">
+      {% else %}
+        <div class="cvc-youtube-playlist__channel-avatar-placeholder">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="40" fill="#E0E0E0"/>
+            <path d="M40 20C28.954 20 20 28.954 20 40C20 51.046 28.954 60 40 60C51.046 60 60 51.046 60 40C60 28.954 51.046 20 40 20ZM40 28C43.314 28 46 30.686 46 34C46 37.314 43.314 40 40 40C36.686 40 34 37.314 34 34C34 30.686 36.686 28 40 28ZM40 56C34 56 28.8 53.2 26 48.8C26.1 44.3 35 41.8 40 41.8C44.9 41.8 53.9 44.3 54 48.8C51.2 53.2 46 56 40 56Z" fill="#BDBDBD"/>
+          </svg>
+        </div>
+      {% endif %}
+      
+      <div class="cvc-youtube-playlist__channel-details">
+        <h2 class="cvc-youtube-playlist__channel-name">{{ channel_name }}</h2>
+        {% if subscriber_count != blank %}
+          <p class="cvc-youtube-playlist__subscriber-count">{{ subscriber_count }} subscribers</p>
+        {% endif %}
+      </div>
+    </div>
+    
+    {% if playlist_url != blank %}
+      <a href="{{ playlist_url }}" 
+         target="_blank" 
+         rel="noopener noreferrer" 
+         class="cvc-youtube-playlist__subscribe-btn">
+        Subscribe
+      </a>
+    {% endif %}
+  </div>
+  
+  {% comment %} Video Grid {% endcomment %}
+  <div class="cvc-youtube-playlist__grid cvc-youtube-playlist__grid--{{ grid_columns }}-cols">
+    {% for block in section.blocks %}
+      {% if block.type == 'video' %}
+        <div class="cvc-youtube-playlist__video-card" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.video_url }}" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="cvc-youtube-playlist__thumbnail-link">
+            {% if block.settings.thumbnail %}
+              <img src="{{ block.settings.thumbnail | img_url: '480x270' }}" 
+                   alt="{{ block.settings.title | escape }}"
+                   class="cvc-youtube-playlist__thumbnail"
+                   loading="lazy">
+            {% else %}
+              <div class="cvc-youtube-playlist__thumbnail-placeholder">
+                <svg width="120" height="84" viewBox="0 0 120 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="120" height="84" fill="#E0E0E0"/>
+                  <path d="M60 30L70 42L60 54L50 42L60 30Z" fill="#BDBDBD"/>
+                </svg>
+              </div>
+            {% endif %}
+            
+            {% if block.settings.duration %}
+              <span class="cvc-youtube-playlist__duration">{{ block.settings.duration }}</span>
+            {% endif %}
+          </a>
+          
+          <div class="cvc-youtube-playlist__video-info">
+            <h3 class="cvc-youtube-playlist__video-title">
+              <a href="{{ block.settings.video_url }}" target="_blank" rel="noopener noreferrer">
+                {{ block.settings.title | default: 'Untitled Video' }}
+              </a>
+            </h3>
+            
+            {% if block.settings.published_date %}
+              <p class="cvc-youtube-playlist__video-date">{{ block.settings.published_date }}</p>
+            {% endif %}
+            
+            {% if block.settings.description %}
+              <p class="cvc-youtube-playlist__video-description">{{ block.settings.description }}</p>
+            {% endif %}
+            
+            <div class="cvc-youtube-playlist__video-stats">
+              {% if block.settings.view_count %}
+                <span class="cvc-youtube-playlist__stat">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 3C4.5 3 1.5 5.5 0 8C1.5 10.5 4.5 13 8 13C11.5 13 14.5 10.5 16 8C14.5 5.5 11.5 3 8 3ZM8 11.5C6.3 11.5 5 10.2 5 8.5C5 6.8 6.3 5.5 8 5.5C9.7 5.5 11 6.8 11 8.5C11 10.2 9.7 11.5 8 11.5ZM8 7C7.2 7 6.5 7.7 6.5 8.5C6.5 9.3 7.2 10 8 10C8.8 10 9.5 9.3 9.5 8.5C9.5 7.7 8.8 7 8 7Z"/>
+                  </svg>
+                  {{ block.settings.view_count }}
+                </span>
+              {% endif %}
+              
+              {% if block.settings.like_count %}
+                <span class="cvc-youtube-playlist__stat">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M1 7H3V14H1V7ZM14.5 7C14.5 6.17 13.83 5.5 13 5.5H9.87L10.38 3.03L10.4 2.82C10.4 2.52 10.28 2.24 10.08 2.04L9.54 1.5L5.27 5.77C5.1 5.94 5 6.19 5 6.5V12.5C5 13.33 5.67 14 6.5 14H11.5C12.15 14 12.7 13.59 12.93 13.03L14.45 9.03C14.48 8.94 14.5 8.84 14.5 8.75V7Z"/>
+                  </svg>
+                  {{ block.settings.like_count }}
+                </span>
+              {% endif %}
+              
+              {% if block.settings.comment_count %}
+                <span class="cvc-youtube-playlist__stat">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M14 0H2C0.9 0 0 0.9 0 2V12C0 13.1 0.9 14 2 14H12L16 18V2C16 0.9 15.1 0 14 0ZM12 11H4V9H12V11ZM12 8H4V6H12V8ZM12 5H4V3H12V5Z"/>
+                  </svg>
+                  {{ block.settings.comment_count }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .cvc-youtube-playlist {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  /* Channel Header Styles */
+  .cvc-youtube-playlist__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--cvc-green, #344945);
+  }
+
+  .cvc-youtube-playlist__channel-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cvc-youtube-playlist__channel-avatar,
+  .cvc-youtube-playlist__channel-avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .cvc-youtube-playlist__channel-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0;
+  }
+
+  .cvc-youtube-playlist__channel-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cvc-youtube-playlist__channel-name {
+    font-family: var(--heading_font, 'Open Sans', sans-serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--cvc-black, #344945);
+    margin: 0;
+  }
+
+  .cvc-youtube-playlist__subscriber-count {
+    font-size: 0.95rem;
+    color: #606060;
+    margin: 0;
+  }
+
+  .cvc-youtube-playlist__subscribe-btn {
+    background-color: var(--cvc_red, #d41349);
+    color: white;
+    padding: 0.75rem 1.75rem;
+    border-radius: 24px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cvc-youtube-playlist__subscribe-btn:hover {
+    background-color: #b01040;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 19, 73, 0.3);
+  }
+
+  /* Video Grid Styles */
+  .cvc-youtube-playlist__grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .cvc-youtube-playlist__grid--2-cols {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+
+  .cvc-youtube-playlist__grid--3-cols {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+
+  .cvc-youtube-playlist__grid--4-cols {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  /* Video Card Styles */
+  .cvc-youtube-playlist__video-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .cvc-youtube-playlist__video-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+  }
+
+  .cvc-youtube-playlist__thumbnail-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .cvc-youtube-playlist__thumbnail,
+  .cvc-youtube-playlist__thumbnail-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .cvc-youtube-playlist__thumbnail-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e0e0e0;
+  }
+
+  .cvc-youtube-playlist__video-card:hover .cvc-youtube-playlist__thumbnail {
+    transform: scale(1.05);
+  }
+
+  .cvc-youtube-playlist__duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* Video Info Styles */
+  .cvc-youtube-playlist__video-info {
+    padding: 1rem;
+  }
+
+  .cvc-youtube-playlist__video-title {
+    font-family: var(--heading_font, 'Open Sans', sans-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 0.5rem 0;
+    
+    /* Limit to 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cvc-youtube-playlist__video-title a {
+    color: var(--cvc-black, #344945);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .cvc-youtube-playlist__video-title a:hover {
+    color: var(--cvc_red, #d41349);
+  }
+
+  .cvc-youtube-playlist__video-date {
+    font-size: 0.85rem;
+    color: #606060;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .cvc-youtube-playlist__video-description {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+    
+    /* Limit to 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Stats Styles */
+  .cvc-youtube-playlist__video-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cvc-youtube-playlist__stat {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: #606060;
+  }
+
+  .cvc-youtube-playlist__stat svg {
+    flex-shrink: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .cvc-youtube-playlist {
+      padding: 1.5rem 1rem;
+    }
+
+    .cvc-youtube-playlist__header {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .cvc-youtube-playlist__channel-info {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .cvc-youtube-playlist__channel-name {
+      font-size: 1.5rem;
+    }
+
+    .cvc-youtube-playlist__grid--2-cols,
+    .cvc-youtube-playlist__grid--3-cols,
+    .cvc-youtube-playlist__grid--4-cols {
+      grid-template-columns: 1fr;
+    }
+
+    .cvc-youtube-playlist__grid {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cvc-youtube-playlist__channel-avatar,
+    .cvc-youtube-playlist__channel-avatar-placeholder {
+      width: 60px;
+      height: 60px;
+    }
+
+    .cvc-youtube-playlist__channel-name {
+      font-size: 1.25rem;
+    }
+
+    .cvc-youtube-playlist__video-info {
+      padding: 0.75rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "YouTube Playlist Grid",
+  "tag": "section",
+  "class": "cvc-youtube-playlist-section",
+  "settings": [
+    {
+      "type": "url",
+      "id": "playlist_url",
+      "label": "YouTube Playlist URL",
+      "info": "Full URL to your YouTube playlist or channel"
+    },
+    {
+      "type": "text",
+      "id": "channel_name",
+      "label": "Channel Name",
+      "default": "YouTube Channel"
+    },
+    {
+      "type": "image_picker",
+      "id": "channel_image",
+      "label": "Channel Profile Image"
+    },
+    {
+      "type": "text",
+      "id": "subscriber_count",
+      "label": "Subscriber Count",
+      "info": "e.g., '1.2K' or '10,000'"
+    },
+    {
+      "type": "range",
+      "id": "grid_columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Grid Columns",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Videos"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Full URL to the YouTube video"
+        },
+        {
+          "type": "image_picker",
+          "id": "thumbnail",
+          "label": "Video Thumbnail"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Video Title",
+          "default": "Video Title"
+        },
+        {
+          "type": "text",
+          "id": "published_date",
+          "label": "Published Date",
+          "info": "e.g., '2 weeks ago' or 'Jan 15, 2024'"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "info": "Will be limited to 2 lines with ellipsis"
+        },
+        {
+          "type": "text",
+          "id": "duration",
+          "label": "Duration",
+          "info": "e.g., '10:45'"
+        },
+        {
+          "type": "text",
+          "id": "view_count",
+          "label": "View Count",
+          "info": "e.g., '1.2K views'"
+        },
+        {
+          "type": "text",
+          "id": "like_count",
+          "label": "Like Count",
+          "info": "e.g., '150'"
+        },
+        {
+          "type": "text",
+          "id": "comment_count",
+          "label": "Comment Count",
+          "info": "e.g., '25'"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "YouTube Playlist Grid",
+      "category": "Video",
+      "blocks": [
+        {
+          "type": "video",
+          "settings": {
+            "title": "Sample Video 1",
+            "published_date": "1 week ago",
+            "description": "This is a sample video description that will be displayed in the grid.",
+            "duration": "10:45",
+            "view_count": "1.2K",
+            "like_count": "150",
+            "comment_count": "25"
+          }
+        },
+        {
+          "type": "video",
+          "settings": {
+            "title": "Sample Video 2",
+            "published_date": "2 weeks ago",
+            "description": "Another sample video with interesting content.",
+            "duration": "15:30",
+            "view_count": "2.5K",
+            "like_count": "300",
+            "comment_count": "45"
+          }
+        },
+        {
+          "type": "video",
+          "settings": {
+            "title": "Sample Video 3",
+            "published_date": "1 month ago",
+            "description": "A third sample video to demonstrate the grid layout.",
+            "duration": "8:20",
+            "view_count": "850",
+            "like_count": "90",
+            "comment_count": "12"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

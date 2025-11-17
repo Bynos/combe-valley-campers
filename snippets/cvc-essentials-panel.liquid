@@ -1,0 +1,44 @@
+{%- liquid
+  assign image = block.settings.image
+  assign label = block.settings.label
+  assign link = block.settings.link
+-%}
+
+{%- if link != blank -%}
+  <a 
+    href="{{ link }}" 
+    class="cvc-essentials-panel cvc-essentials-panel--horizontal"
+    {{ block.shopify_attributes }}
+  >
+{%- else -%}
+  <div 
+    class="cvc-essentials-panel cvc-essentials-panel--horizontal"
+    {{ block.shopify_attributes }}
+  >
+{%- endif -%}
+    
+    <div class="cvc-essentials-panel__image">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 800
+          | image_tag: loading: 'lazy', alt: image.alt | default: label
+        }}
+      {%- else -%}
+        <div class="cvc-essentials-panel__image--placeholder">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    <div class="cvc-essentials-panel__content">
+      {%- if label != blank -%}
+        <p class="cvc-essentials-panel__label">{{ label }}</p>
+      {%- endif -%}
+    </div>
+
+{%- if link != blank -%}
+  </a>
+{%- else -%}
+  </div>
+{%- endif -%}

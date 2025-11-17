@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Title",
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "cvc_two_images_plus_text_yBPhCD": {
+      "type": "cvc_two_images_plus_text",
+      "name": "Two Stacked Images + Text",
+      "settings": {
+        "image_top": "shopify://shop_images/Howden-Insurance-Logo-1.png",
+        "image_bottom": "shopify://shop_images/ChatGPT_Image_Oct_31_2025_01_02_25_PM.png",
+        "subtitle": "Mention 'Combe Valley Campers' for a special rate to be applied to your policy.",
+        "heading": "CAMPER VAN INSURANCE",
+        "text": "<p>We have started working with the team at Howden Modified Van Insurance to help get your van covered. We have some of our personal vehicles insured through Howden and we strongly recommend giving them a call to see what they can do for you. </p><p>​<br/><strong>Mention 'Combe Valley Campers' for a special rate to be applied to your policy.</strong><br/><br/></p><p>Check out the featured video below from when Howden (previously A Plan) joined us on the Camper Van Cast.</p>",
+        "button_label_1": "Watch Video",
+        "button_link_1": "https://www.youtube.com/watch?v=OQKsKyiRpmo&t=98s",
+        "button_label_2": "Visit Howden's Website",
+        "button_link_2": "https://www.howdeninsurance.co.uk/get-a-quote?page=2593",
+        "inherit_color_scheme": true,
+        "color_scheme": "",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding_block_start": 40,
+        "padding_block_end": 40,
+        "padding_inline_start": 20,
+        "padding_inline_end": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "cvc_two_images_plus_text_yBPhCD"
+  ]
+}

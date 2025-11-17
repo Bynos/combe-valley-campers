@@ -1,0 +1,56 @@
+{% # theme-check-disable %}
+{%- liquid
+  assign body_font_url = settings.type_body_font | font_url
+  assign subheading_font_url = settings.type_subheading_font | font_url
+  assign heading_font_url = settings.type_heading_font | font_url
+  assign accent_font_url = settings.type_accent_font | font_url
+-%}
+{%- unless settings.type_body_font.system? -%}
+  {%- if body_font_url != blank and body_font_url != nil -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ body_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endif -%}
+{%- endunless -%}
+{%- unless settings.type_subheading_font.system? -%}
+  {%- if subheading_font_url != blank and subheading_font_url != nil -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ subheading_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endif -%}
+{%- endunless -%}
+{%- unless settings.type_heading_font.system? -%}
+  {%- if heading_font_url != blank and heading_font_url != nil -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ heading_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endif -%}
+{%- endunless -%}
+{%- unless settings.type_accent_font.system? -%}
+  {%- if accent_font_url != blank and accent_font_url != nil -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ accent_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endif -%}
+{%- endunless -%}
+{% # theme-check-enable %}

@@ -1,0 +1,224 @@
+{% comment %}
+  Brands Carousel Section
+  
+  Displays a continuous scrolling carousel of brand logos.
+  Uses dynamic blocks so you can add/remove as many logos as needed.
+{% endcomment %}
+
+{% assign style = 'light' %}
+{% assign speed = 120 %}
+
+{% comment %} Get settings from carousel block {% endcomment %}
+{% for block in section.blocks %}
+  {% if block.type == 'carousel' %}
+    {% assign style = block.settings.style %}
+    {% assign speed = block.settings.speed %}
+  {% endif %}
+{% endfor %}
+
+<section class="cvc-brands-carousel-section">
+  <div class="cvc-brands-carousel cvc-brands-carousel--{{ style }}" data-speed="{{ speed }}">
+    <div class="cvc-brands-carousel__container">
+      <div class="cvc-brands-carousel__track">
+        {% comment %} First set of logos {% endcomment %}
+        {% for block in section.blocks %}
+          {% if block.type == 'brand_logo' %}
+            <div class="cvc-brands-carousel__item">
+              <img src="{{ block.settings.logo | image_url: width: 400 }}" 
+                   alt="{{ block.settings.alt_text | escape | default: 'Brand logo' }}"
+                   loading="lazy">
+            </div>
+          {% endif %}
+        {% endfor %}
+        
+        {% comment %} Duplicate items for seamless loop {% endcomment %}
+        {% for block in section.blocks %}
+          {% if block.type == 'brand_logo' %}
+            <div class="cvc-brands-carousel__item">
+              <img src="{{ block.settings.logo | image_url: width: 400 }}" 
+                   alt="{{ block.settings.alt_text | escape | default: 'Brand logo' }}"
+                   loading="lazy">
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cvc-brands-carousel-section {
+    width: 100%;
+  }
+  
+  .cvc-brands-carousel {
+    width: 100%;
+    overflow: hidden;
+    padding: 3rem 0;
+    position: relative;
+  }
+  
+  .cvc-brands-carousel--light {
+    background-color: var(--cvc_cream, #f6f4e9);
+  }
+  
+  .cvc-brands-carousel--dark {
+    background-color: var(--cvc-black, #344945);
+  }
+  
+  .cvc-brands-carousel__container {
+    width: 100%;
+    position: relative;
+  }
+  
+  .cvc-brands-carousel__track {
+    display: flex;
+    gap: 3rem;
+    animation: scroll-carousel var(--carousel-speed, 120s) linear infinite;
+    width: max-content;
+  }
+  
+  .cvc-brands-carousel:hover .cvc-brands-carousel__track {
+    animation-play-state: paused;
+  }
+  
+  .cvc-brands-carousel__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    min-width: 150px;
+  }
+  
+  .cvc-brands-carousel__item img {
+    max-width: 150px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  
+  @keyframes scroll-carousel {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .cvc-brands-carousel__track {
+      gap: 2rem;
+    }
+    
+    .cvc-brands-carousel__item {
+      padding: 0.75rem 1.5rem;
+      min-width: 120px;
+    }
+    
+    .cvc-brands-carousel__item img {
+      max-width: 120px;
+      max-height: 80px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carousels = document.querySelectorAll('.cvc-brands-carousel');
+    
+    carousels.forEach(carousel => {
+      const speed = carousel.getAttribute('data-speed') || 120;
+      const track = carousel.querySelector('.cvc-brands-carousel__track');
+      
+      if (track) {
+        track.style.setProperty('--carousel-speed', speed + 's');
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "CVC Brands Carousel",
+  "tag": "section",
+  "class": "section-brands-carousel",
+  "blocks": [
+    {
+      "type": "carousel",
+      "name": "Carousel Settings",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "range",
+          "id": "speed",
+          "label": "Animation Speed (seconds)",
+          "min": 30,
+          "max": 240,
+          "step": 30,
+          "default": 120,
+          "info": "Lower values = faster scrolling"
+        }
+      ]
+    },
+    {
+      "type": "brand_logo",
+      "name": "Brand Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Describe the logo for accessibility"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brands Carousel (Block Based)",
+      "blocks": [
+        {
+          "type": "carousel"
+        },
+        {
+          "type": "brand_logo"
+        },
+        {
+          "type": "brand_logo"
+        },
+        {
+          "type": "brand_logo"
+        },
+        {
+          "type": "brand_logo"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

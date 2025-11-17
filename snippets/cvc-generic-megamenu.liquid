@@ -1,0 +1,87 @@
+{%- comment -%}
+  Generic Megamenu for non-custom menu items
+  
+  Usage: {% render 'cvc-generic-megamenu', menu_item: menu_item %}
+  
+  Displays:
+  - Simple dropdown for 1-3 child links
+  - Full megamenu grid for 4+ child links
+  - Supports 3 levels of nested menu items with indentation
+{%- endcomment -%}
+
+{% if menu_item.links.size > 0 %}
+  <div class="cvc-megamenu">
+    <div class="cvc-megamenu__container">
+      
+      {% if menu_item.links.size <= 3 %}
+        {%- comment -%} Simple dropdown for 1-3 items {%- endcomment -%}
+        <div class="cvc-megamenu__simple-list">
+          {% for child_link in menu_item.links %}
+            <div class="cvc-megamenu__simple-group">
+              <a href="{{ child_link.url }}" class="cvc-megamenu__simple-link">
+                {{ child_link.title }}
+              </a>
+              
+              {%- comment -%} Level 2: Grandchildren with indentation {%- endcomment -%}
+              {% if child_link.links.size > 0 %}
+                {% for grandchild_link in child_link.links %}
+                  <a href="{{ grandchild_link.url }}" class="cvc-megamenu__simple-link cvc-megamenu__simple-link--level2">
+                    {{ grandchild_link.title }}
+                  </a>
+                  
+                  {%- comment -%} Level 3: Great-grandchildren with more indentation {%- endcomment -%}
+                  {% if grandchild_link.links.size > 0 %}
+                    {% for great_grandchild_link in grandchild_link.links %}
+                      <a href="{{ great_grandchild_link.url }}" class="cvc-megamenu__simple-link cvc-megamenu__simple-link--level3">
+                        {{ great_grandchild_link.title }}
+                      </a>
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      
+      {% else %}
+        {%- comment -%} Full megamenu for 4+ items {%- endcomment -%}
+        <div class="cvc-megamenu__grid">
+          {% for child_link in menu_item.links %}
+            <div class="cvc-megamenu__grid-item">
+              <a href="{{ child_link.url }}" class="cvc-megamenu__grid-link">
+                {{ child_link.title }}
+              </a>
+              
+              {%- comment -%} Level 2: Grandchild links {%- endcomment -%}
+              {% if child_link.links.size > 0 %}
+                <ul class="cvc-megamenu__sublist">
+                  {% for grandchild_link in child_link.links %}
+                    <li>
+                      <a href="{{ grandchild_link.url }}" class="cvc-megamenu__sublink">
+                        {{ grandchild_link.title }}
+                      </a>
+                      
+                      {%- comment -%} Level 3: Great-grandchild links with indentation {%- endcomment -%}
+                      {% if grandchild_link.links.size > 0 %}
+                        <ul class="cvc-megamenu__sublist cvc-megamenu__sublist--level3">
+                          {% for great_grandchild_link in grandchild_link.links %}
+                            <li>
+                              <a href="{{ great_grandchild_link.url }}" class="cvc-megamenu__sublink cvc-megamenu__sublink--level3">
+                                {{ great_grandchild_link.title }}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+    </div>
+  </div>
+{% endif %}

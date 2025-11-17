@@ -1,0 +1,190 @@
+{% comment %}
+  Testimonial Row Block
+  Displays a single testimonial with:
+  - Profile Photo
+  - Name
+  - Date Posted
+  - Star Rating
+  - Testimonial Text (optional)
+{% endcomment %}
+
+<div class="testimonial-row" {{ block.shopify_attributes }}>
+  {% if block.settings.profile_photo != blank %}
+    <div class="testimonial-row__media{% if block.settings.circle_mask %} testimonial-row__media--circle{% endif %}">
+      {{ block.settings.profile_photo | image_url: width: 72 | image_tag: loading: 'lazy', class: 'testimonial-row__media-image' }}
+    </div>
+  {% endif %}
+
+  <div class="testimonial-row__content">
+    {% if block.settings.name != blank or block.settings.date != blank %}
+      <div class="testimonial-row__header">
+        {% if block.settings.name != blank %}
+          <div class="testimonial-row__name">{{ block.settings.name }}</div>
+        {% endif %}
+        {% if block.settings.date != blank %}
+          <div class="testimonial-row__date">{{ block.settings.date }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.star_rating != blank %}
+      <div class="testimonial-row__rating">
+        {{ block.settings.star_rating | image_url: width: 120 | image_tag: alt: 'Star rating', loading: 'lazy', class: 'testimonial-row__rating-image' }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.testimonial_text != blank %}
+      <div class="testimonial-row__text">{{ block.settings.testimonial_text }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .testimonial-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: clamp(1rem, 2vw, 1.5rem);
+    row-gap: var(--padding-sm, 1rem);
+    align-items: start;
+    width: 100%;
+    min-height: 4.5rem;
+  }
+
+  .testimonial-row__media {
+    inline-size: var(--testimonial-media-size, 4.5rem);
+    block-size: var(--testimonial-media-size, 4.5rem);
+    overflow: hidden;
+    border-radius: var(--testimonial-media-radius, 0.75rem);
+    flex-shrink: 0;
+  }
+
+  .testimonial-row__media--circle {
+    --testimonial-media-radius: 9999px;
+  }
+
+  .testimonial-row__media-image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .testimonial-row__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-xs, 0.75rem);
+    min-height: inherit;
+  }
+
+  .testimonial-row__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--padding-xs, 0.75rem);
+    align-items: baseline;
+  }
+
+  .testimonial-row__name {
+    margin: 0;
+    font-size: var(--font-size-base, 1rem);
+    font-weight: var(--font-weight-semibold, 600);
+    line-height: 1.5;
+  }
+
+  .testimonial-row__date {
+    margin: 0;
+    font-size: var(--font-size-75, 0.875rem);
+    color: var(--color-foreground-50, inherit);
+    line-height: 1.5;
+  }
+
+  .testimonial-row__rating {
+    display: flex;
+    align-items: center;
+    min-height: 1.5rem;
+  }
+
+  .testimonial-row__rating-image {
+    display: block;
+    inline-size: auto;
+    max-inline-size: 80px;
+    height: auto;
+  }
+
+  .testimonial-row__text {
+    color: inherit;
+    line-height: 1.6;
+  }
+
+  .testimonial-row__text p {
+    margin-block: 0.5em;
+    line-height: inherit;
+  }
+
+  .testimonial-row__text p:first-child {
+    margin-block-start: 0;
+  }
+
+  .testimonial-row__text p:last-child {
+    margin-block-end: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .testimonial-row {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonial-row__media {
+      inline-size: 4rem;
+      block-size: 4rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.cvc_homepage_testimonial_row",
+  "tag": null,
+  "class": "testimonial-row",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "profile_photo",
+      "label": "Profile Photo"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "default": "Customer Name"
+    },
+    {
+      "type": "text",
+      "id": "date",
+      "label": "Date Posted",
+      "default": "12 months ago"
+    },
+    {
+      "type": "image_picker",
+      "id": "star_rating",
+      "label": "Star Rating Image"
+    },
+    {
+      "type": "richtext",
+      "id": "testimonial_text",
+      "label": "Testimonial Text",
+      "default": "<p>Great product! Highly recommend.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "circle_mask",
+      "label": "Circular Profile Photo",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.cvc_homepage_testimonial_row"
+    }
+  ]
+}
+{% endschema %}

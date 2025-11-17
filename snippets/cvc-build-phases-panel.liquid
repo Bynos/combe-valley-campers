@@ -1,0 +1,64 @@
+{%- liquid
+  assign image = block.settings.image
+  assign title = block.settings.title
+  assign image_position = block.settings.image_position
+-%}
+
+<div class="cvc-build-phases-panel" {{ block.shopify_attributes }}>
+  <div class="cvc-build-phases-panel__top">
+    {%- if title != blank -%}
+      <div class="cvc-build-phases-panel__title">
+        {%- liquid
+          assign title_parts = title | split: ' '
+          assign phase_label = title_parts[0]
+          assign phase_number = title_parts[1]
+        -%}
+        <h4>
+          <span class="cvc-build-phases-panel__title-label">{{ phase_label }}</span>
+          <span class="cvc-build-phases-panel__title-number">{{ phase_number }}</span>
+        </h4>
+      </div>
+    {%- endif -%}
+    
+    <div class="cvc-build-phases-panel__image-wrapper">
+      {%- if image != blank -%}
+        <div 
+          class="cvc-build-phases-panel__image"
+          style="background-image: url('{{ image | image_url: width: 800 }}'); background-position: {{ image_position }};"
+          role="img"
+          aria-label="{{ image.alt | escape }}"
+        ></div>
+      {%- else -%}
+        <div class="cvc-build-phases-panel__image cvc-build-phases-panel__image--placeholder">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  <div class="cvc-build-phases-panel__links">
+      {%- if block.settings.link_1_url != blank and block.settings.link_1_text != blank -%}
+        <a href="{{ block.settings.link_1_url }}" class="cvc-build-phases-panel__link">
+          {{ block.settings.link_1_text }}
+        </a>
+      {%- endif -%}
+      
+      {%- if block.settings.link_2_url != blank and block.settings.link_2_text != blank -%}
+        <a href="{{ block.settings.link_2_url }}" class="cvc-build-phases-panel__link">
+          {{ block.settings.link_2_text }}
+        </a>
+      {%- endif -%}
+      
+      {%- if block.settings.link_3_url != blank and block.settings.link_3_text != blank -%}
+        <a href="{{ block.settings.link_3_url }}" class="cvc-build-phases-panel__link">
+          {{ block.settings.link_3_text }}
+        </a>
+      {%- endif -%}
+      
+      {%- if block.settings.link_4_url != blank and block.settings.link_4_text != blank -%}
+        <a href="{{ block.settings.link_4_url }}" class="cvc-build-phases-panel__link">
+          {{ block.settings.link_4_text }}
+        </a>
+      {%- endif -%}
+    </div>
+</div>

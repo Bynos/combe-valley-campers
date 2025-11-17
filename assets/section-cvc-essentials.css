@@ -1,0 +1,152 @@
+.cvc-essentials {
+  margin: 0 auto;
+  width: 100%;
+  grid-column: 1 / -1 !important;
+}
+
+.cvc-essentials .page-width {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: var(--spacing-inline, 16px);
+  padding-right: var(--spacing-inline, 16px);
+}
+
+.cvc-essentials__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.cvc-essentials__heading {
+  margin: 0 0 0.75rem;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-family: var(--font-h2--family);
+  font-weight: 700;
+}
+
+.cvc-essentials__description {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  font-family: var(--font-paragraph--family);
+}
+
+/* Adaptive Flex Grid System */
+.cvc-essentials__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  
+  /* Items will grow and shrink to fill space evenly */
+  justify-content: flex-start;
+}
+
+/* Panel Styles */
+.cvc-essentials-panel {
+  position: relative;
+  display: flex;
+  background-color: #fff;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+  color: inherit;
+  container-type: inline-size;
+  container-name: panel;
+  
+  /* Flex item properties for balanced rows */
+  flex: 1 1 300px; /* grow | shrink | base width */
+  min-width: 280px;
+  max-width: 100%;
+}
+
+.cvc-essentials-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Panel internal layout: row with wrap */
+.cvc-essentials-panel--horizontal,
+.cvc-essentials-panel--vertical {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.cvc-essentials-panel--horizontal .cvc-essentials-panel__image,
+.cvc-essentials-panel--vertical .cvc-essentials-panel__image {
+  flex: 1 1 250px; /* grow | shrink | min-width before wrap */
+  min-width: 250px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.cvc-essentials-panel--horizontal .cvc-essentials-panel__content,
+.cvc-essentials-panel--vertical .cvc-essentials-panel__content {
+  flex: 1 1 250px; /* grow | shrink | min-width before wrap */
+  min-width: 250px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Image styles */
+.cvc-essentials-panel__image {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.cvc-essentials-panel__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cvc-essentials-panel__image--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cvc-essentials-panel__image--placeholder svg {
+  width: 50%;
+  height: 50%;
+  opacity: 0.3;
+}
+
+/* Content styles */
+.cvc-essentials-panel__label {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: var(--font-paragraph--family);
+  line-height: 1.3;
+}
+
+/* Mobile: full-width panels */
+@media screen and (max-width: 749px) {
+  .cvc-essentials__heading {
+    font-size: 2rem;
+  }
+  
+  .cvc-essentials__grid {
+    gap: 1rem;
+  }
+  
+  .cvc-essentials-panel {
+    flex-basis: 100%;
+    min-width: 100%;
+  }
+}
+
+/* Section padding utility */
+.section-template--padding {
+  padding-top: 36px;
+  padding-bottom: 36px;
+}

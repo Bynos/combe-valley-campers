@@ -1,0 +1,387 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header_announcements_9jGBFp": {
+      "type": "header-announcements",
+      "blocks": {
+        "announcement_BxgCk9": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Our showroom is open <strong>Monday-Friday 10am-4pm</strong>",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_nW3Xnq": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "disabled": true,
+          "settings": {
+            "text": "Shop our latest arrivals!",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "announcement_BxgCk9",
+        "announcement_nW3Xnq"
+      ],
+      "name": "t:names.announcement_bar",
+      "settings": {
+        "youtube_url": "https://www.youtube.com/@CombeValleyCampers",
+        "instagram_url": "https://www.instagram.com/combe_valley_campers",
+        "tiktok_url": "https://www.tiktok.com/@combevalleycampers",
+        "facebook_url": "https://www.facebook.com/combevalleycampers",
+        "twitter_url": "",
+        "linkedin_url": "",
+        "speed": 5,
+        "section_width": "page-width",
+        "color_scheme": "scheme-5",
+        "divider_width": 1,
+        "padding-block-start": 15,
+        "padding-block-end": 15
+      }
+    },
+    "header_section": {
+      "type": "header",
+      "blocks": {
+        "header-logo": {
+          "type": "_header-logo",
+          "static": true,
+          "settings": {
+            "hide_logo_on_home_page": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "header-menu": {
+          "type": "_header-menu",
+          "static": true,
+          "settings": {
+            "menu": "header-menu",
+            "color_scheme": "",
+            "type_font_primary_size": "1rem",
+            "menu_font_style": "regular",
+            "type_font_primary_link": "body",
+            "type_case_primary_link": "uppercase",
+            "menu_style": "featured_products",
+            "featured_products_aspect_ratio": "4 / 5",
+            "featured_collections_aspect_ratio": "16 / 9",
+            "image_border_radius": 0,
+            "navigation_bar": false,
+            "color_scheme_navigation_bar": "",
+            "drawer_accordion": false,
+            "drawer_accordion_expand_first": false,
+            "drawer_dividers": false
+          },
+          "blocks": {}
+        }
+      },
+      "disabled": true,
+      "settings": {
+        "logo_position": "center",
+        "menu_position": "left",
+        "menu_row": "top",
+        "show_search": true,
+        "search_position": "right",
+        "search_row": "top",
+        "show_country": true,
+        "country_selector_style": false,
+        "show_language": true,
+        "localization_font": "heading",
+        "localization_font_size": "0.875rem",
+        "localization_position": "right",
+        "localization_row": "top",
+        "section_width": "page-width",
+        "section_height": "standard",
+        "enable_sticky_header": "always",
+        "divider_width": 0,
+        "divider_size": "page-width",
+        "border_width": 0,
+        "color_scheme_top": "scheme-1",
+        "color_scheme_bottom": "",
+        "color_scheme_transparent": "scheme-6",
+        "enable_transparent_header_home": false,
+        "home_color_scheme": "inverse",
+        "enable_transparent_header_product": false,
+        "product_color_scheme": "default",
+        "enable_transparent_header_collection": false,
+        "collection_color_scheme": "default"
+      }
+    },
+    "cvc_header_example_KFggR8": {
+      "type": "cvc_header_example",
+      "blocks": {
+        "cvc_van_model_menu_raVj3A": {
+          "type": "cvc_van_model_menu",
+          "settings": {
+            "match_type": "position",
+            "menu_position": 1,
+            "menu_handle": "shop",
+            "title": "Choose Your Van"
+          }
+        },
+        "van_model_rCTNKd": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T2 Split",
+            "van_image": "shopify://shop_images/VWT2Split.png"
+          }
+        },
+        "van_model_gxFPdm": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T2 Bay",
+            "van_image": "shopify://shop_images/VWT2Bay.png"
+          }
+        },
+        "van_model_zkqXCV": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T25",
+            "van_image": "shopify://shop_images/VWT25.png"
+          }
+        },
+        "van_model_kGWwJ4": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T4",
+            "van_image": "shopify://shop_images/VWT4.png"
+          }
+        },
+        "van_model_JMCPVG": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T5",
+            "van_image": "shopify://shop_images/VWT5.png"
+          }
+        },
+        "van_model_CQhJtp": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T6",
+            "van_image": "shopify://shop_images/VWT6.png"
+          }
+        },
+        "van_model_NtMtVp": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T6.1",
+            "van_image": "shopify://shop_images/VWT6.1.png"
+          }
+        },
+        "van_model_fBDNGr": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen T7",
+            "van_image": "shopify://shop_images/VW_T7.png"
+          }
+        },
+        "van_model_6dGdWh": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen Crafter",
+            "van_image": "shopify://shop_images/VWCrafter.png"
+          }
+        },
+        "van_model_gVTaPK": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen Caddy",
+            "van_image": "shopify://shop_images/VWCaddy.png"
+          }
+        },
+        "van_model_Ydzn3E": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Volkswagen Caddy Maxi",
+            "van_image": "shopify://shop_images/VWCaddyMaxi.png"
+          }
+        },
+        "van_model_yPPXqM": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Citreon Berlingo",
+            "van_image": "shopify://shop_images/Citreon_Berlingo.png"
+          }
+        },
+        "van_model_QYkFDr": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Citroen Relay",
+            "van_image": "shopify://shop_images/CitroenRelay.png"
+          }
+        },
+        "van_model_YxYVRN": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Fiat Ducato",
+            "van_image": "shopify://shop_images/FiatDucato.png"
+          }
+        },
+        "van_model_NMdbW4": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Connect",
+            "van_image": "shopify://shop_images/FordConnect.png"
+          }
+        },
+        "van_model_H4Ejpf": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit Custom",
+            "van_image": "shopify://shop_images/FordTransitCustom.png"
+          }
+        },
+        "van_model_8Fb6X7": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit MK7",
+            "van_image": "shopify://shop_images/FordTransitMk7.png"
+          }
+        },
+        "van_model_3fpNNL": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit MK8",
+            "van_image": "shopify://shop_images/TransitMk8.png"
+          }
+        },
+        "van_model_F7NLnq": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Mercedes Sprinter",
+            "van_image": "shopify://shop_images/MercedesSprinter.png"
+          }
+        },
+        "van_model_QAE4wR": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Nissan Primastar",
+            "van_image": "shopify://shop_images/NissanPrimastar.png"
+          }
+        },
+        "van_model_7GMLb4": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Peugeot Boxer",
+            "van_image": "shopify://shop_images/PeugeotBoxer.png"
+          }
+        },
+        "van_model_xGiR9x": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Renault Trafic",
+            "van_image": "shopify://shop_images/RenaultTraffic.png"
+          }
+        },
+        "van_model_gkxLNn": {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Vauxhall Vivaro",
+            "van_image": "shopify://shop_images/VauxhallVivaro.png"
+          }
+        },
+        "cvc_conversion_guides_VT87XM": {
+          "type": "cvc_conversion_guides",
+          "name": "Conversion Phases",
+          "settings": {
+            "match_type": "position",
+            "menu_position": 2,
+            "menu_handle": "conversion-guides",
+            "title": "Conversion Phases",
+            "phase_1_title": "Phase 1",
+            "phase_1_links": "Insure Your Van\nStrip & Clean\nWindows & Vents\nSwivel Seats & Bases",
+            "phase_2_title": "Phase 2",
+            "phase_2_links": "Sound Deadening & Insulation\nPly Panels & Trim Clips\nCarpeting\nFlooring & Headliners",
+            "phase_3_title": "Phase 3",
+            "phase_3_links": "Curtains & Shades\nElectrics\nDiesel Heaters\nLighting",
+            "phase_4_title": "Phase 4",
+            "phase_4_links": "Beds & Internal Furnishings\nAppliances\nCab Styling\nStorage",
+            "phase_5_title": "Phase 5",
+            "phase_5_links": "Awnings & Rails\nExterior Styling\nRoof Tents\nSecurity",
+            "phase_6_title": "Phase 6",
+            "phase_6_links": "Camping Essentials\nMerch",
+            "phase_7_title": "",
+            "phase_7_links": "",
+            "phase_8_title": "",
+            "phase_8_links": "",
+            "phase_9_title": "",
+            "phase_9_links": "",
+            "phase_10_title": "",
+            "phase_10_links": ""
+          }
+        }
+      },
+      "block_order": [
+        "cvc_van_model_menu_raVj3A",
+        "van_model_rCTNKd",
+        "van_model_gxFPdm",
+        "van_model_zkqXCV",
+        "van_model_kGWwJ4",
+        "van_model_JMCPVG",
+        "van_model_CQhJtp",
+        "van_model_NtMtVp",
+        "van_model_fBDNGr",
+        "van_model_6dGdWh",
+        "van_model_gVTaPK",
+        "van_model_Ydzn3E",
+        "van_model_yPPXqM",
+        "van_model_QYkFDr",
+        "van_model_YxYVRN",
+        "van_model_NMdbW4",
+        "van_model_H4Ejpf",
+        "van_model_8Fb6X7",
+        "van_model_3fpNNL",
+        "van_model_F7NLnq",
+        "van_model_QAE4wR",
+        "van_model_7GMLb4",
+        "van_model_xGiR9x",
+        "van_model_gkxLNn",
+        "cvc_conversion_guides_VT87XM"
+      ],
+      "name": "CVC Header",
+      "settings": {
+        "header_theme": "light",
+        "logo": "shopify://shop_images/cvc-Website_Header_Logo.svg",
+        "logo_dark": "shopify://shop_images/CVC-website-header-logo-dark.svg",
+        "logo_text": "CVC",
+        "search_icon": "shopify://shop_images/cvc-icon-search.svg",
+        "search_icon_dark": "shopify://shop_images/cvc-icon-search-dark.svg",
+        "account_icon": "shopify://shop_images/cvc-icon-account.svg",
+        "account_icon_dark": "shopify://shop_images/cvc-icon-account-dark.svg",
+        "cart_icon": "shopify://shop_images/cvc-icon-cart.svg",
+        "cart_icon_dark": "shopify://shop_images/cvc-icon-cart-dark.svg"
+      }
+    }
+  },
+  "order": [
+    "header_announcements_9jGBFp",
+    "header_section",
+    "cvc_header_example_KFggR8"
+  ]
+}

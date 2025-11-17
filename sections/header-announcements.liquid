@@ -1,0 +1,389 @@
+
+
+{% if section.blocks.size > 1 %}
+  <script
+    src="{{ 'announcement-bar.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+{% endif %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<aside
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
+>
+  {% liquid
+    assign autoplay = false
+    assign show_arrows = false
+    if section.blocks.size > 1
+      assign autoplay = true
+      assign show_arrows = true
+    endif
+  %}
+
+  <announcement-bar-component
+    class="announcement-bar__slider"
+    {% if autoplay == true %}
+      autoplay="{{ section.settings.speed }}" aria-live="polite"
+    {% endif %}
+  >
+    {% if show_arrows %}
+      {% render 'slideshow-arrows', icon_style: 'chevron' %}
+    {% endif %}
+
+    {% comment %}Render social icons based on section settings{% endcomment %}
+    {% liquid
+      assign social_links = 'youtube_url,instagram_url,tiktok_url,facebook_url,twitter_url,linkedin_url' | split: ','
+      assign has_social_links = false
+      for link_key in social_links
+        if section.settings[link_key] != blank
+          assign has_social_links = true
+          break
+        endif
+      endfor
+    %}
+
+    {% if has_social_links %}
+      <div class="announcement-social-icons">
+        {% for link_key in social_links %}
+          {% liquid
+            assign link_url = section.settings[link_key]
+            if link_url != blank
+              case link_key
+                when 'facebook_url'
+                  assign platform = 'facebook'
+                when 'instagram_url'
+                  assign platform = 'instagram'
+                when 'youtube_url'
+                  assign platform = 'youtube'
+                when 'tiktok_url'
+                  assign platform = 'tiktok'
+                when 'twitter_url'
+                  assign platform = 'twitter'
+                when 'linkedin_url'
+                  assign platform = 'linkedin'
+              endcase
+            endif
+          %}
+
+          {% if link_url != blank %}
+            <a
+              href="{{ link_url }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ platform | capitalize }}"
+              class="announcement-social-icons__link"
+            >
+              <span class="announcement-social-icons__label">{{ platform | capitalize }}</span>
+              <svg
+                class="announcement-social-icons__icon"
+                aria-hidden="true"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                {%- render 'icon', icon: platform -%}
+              </svg>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="announcement-bar__slides">
+      {% content_for 'blocks' %}
+    </div>
+  </announcement-bar-component>
+</aside>
+
+{% stylesheet %}
+  .announcement-bar {
+    border-block-end: var(--border-bottom-width) solid var(--color-border);
+    padding-block-start: 8px;
+    padding-block-end: 8px;
+    background-color: var(--cvc-green);
+    color: var(--cvc-yellow);
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    max-width: var(--page-width);
+  }
+
+  .announcement-bar__slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    @media screen and (max-width: 749px) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .announcement-bar__slides {
+    display: grid;
+    grid: [stack] auto / [stack] auto;
+    width: calc(100% - var(--button-size) * 2);
+    max-width: 680px;
+    margin-inline: auto;
+  }
+
+  .announcement-bar__slides > * {
+    grid-area: stack;
+  }
+
+  .announcement-bar__slide {
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+
+    &[aria-hidden='true'] {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .announcement-bar__slider slideshow-arrows {
+    padding: 0;
+    mix-blend-mode: normal;
+  }
+
+  .announcement-bar__slider slideshow-arrows .slideshow-control {
+    color: var(--cvc-yellow);
+  }
+
+  .announcement-bar__slider .slideshow-control {
+    display: flex;
+    padding: 0;
+    width: var(--button-size);
+    height: var(--button-size);
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    animation: none;
+
+    @media screen and (min-width: 750px) {
+      --slideshow-control-offset: calc((var(--button-size) - var(--icon-size-xs)) / 2);
+
+      .section--page-width &.slideshow-control--previous {
+        transform: translateX(var(--slideshow-control-offset));
+      }
+    }
+  }
+
+  /* Hide left arrow on desktop when social icons are present */
+  .announcement-bar__slider:has(.announcement-social-icons) .slideshow-control--previous {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  .announcement-bar__slider .slideshow-control .svg-wrapper {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+  }
+
+  .announcement-bar__slide {
+    place-content: center;
+  }
+
+  p.announcement-bar__text {
+    text-wrap: balance;
+    color: var(--cvc-yellow);
+  }
+  .announcement-bar__text:first-child {
+    margin: 0;
+  }
+    p.announcement-bar__text strong {
+      display: inline-block;
+      color: var(--cvc-yellow);
+    }
+
+  .announcement-bar__link {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Social Icons Styles */
+  .announcement-social-icons {
+    display: none;
+    gap: 10px;
+    align-items: center;
+    position: absolute;
+    left: var(--spacing-inline, 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+
+    @media screen and (min-width: 750px) {
+      display: flex;
+    }
+  }
+
+  .announcement-social-icons__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    color: var(--cvc-yellow);
+    transition: opacity 0.2s ease;
+  }
+
+  .announcement-social-icons__link:hover {
+    opacity: 0.7;
+  }
+
+  .announcement-social-icons__icon {
+    display: flex;
+    fill: currentColor;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .announcement-social-icons__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.announcement_bar",
+  "blocks": [
+    {
+      "type": "_announcement"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Social Media Links"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add social media profile URLs. Icons will appear on the left side of the announcement bar (hidden on mobile)."
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "t:options.youtube"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "t:options.instagram"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "t:options.tiktok"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "t:options.facebook"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "t:options.twitter"
+    },
+    {
+      "type": "url",
+      "id": "linkedin_url",
+      "label": "t:options.linkedin"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:settings.scroll_speed",
+      "min": 2,
+      "max": 10,
+      "default": 5,
+      "unit": "sec"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.section_width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "default": "scheme-4",
+      "label": "t:settings.color_scheme"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "t:settings.divider_thickness",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.announcement_bar",
+      "blocks": {
+        "announcement_1": {
+          "type": "_announcement"
+        }
+      },
+      "block_order": ["announcement_1"]
+    }
+  ]
+}
+{% endschema %}

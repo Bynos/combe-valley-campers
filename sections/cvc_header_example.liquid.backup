@@ -1,0 +1,1167 @@
+{% comment %}
+  CVC Header Section with Megamenu Blocks
+  This section demonstrates how to use the megamenu blocks
+{% endcomment %}
+
+<header class="cvc-header">
+  <div class="cvc-header__container">
+    {%- comment -%} Left Navigation Menu {%- endcomment -%}
+    <nav class="cvc-header__nav cvc-header__nav--left">
+      <ul class="cvc-header__menu">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'cvc_van_model_menu' %}
+              <li class="cvc-header__menu-item has-megamenu" {{ block.shopify_attributes }}>
+                <button class="cvc-header__menu-link">
+                  Shop
+                </button>
+                <div class="cvc-header__megamenu-panel">
+                  {% render 'cvc-van-model-menu', block: block %}
+                </div>
+              </li>
+
+            {% when 'cvc_conversion_guides' %}
+              <li class="cvc-header__menu-item has-megamenu" {{ block.shopify_attributes }}>
+                <button class="cvc-header__menu-link">
+                  Conversion Guides
+                </button>
+                <div class="cvc-header__megamenu-panel">
+                  {% render 'cvc-conversion-guides', block: block %}
+                </div>
+              </li>
+
+            {% when 'cvc_start_build_menu' %}
+              <li class="cvc-header__menu-item has-megamenu" {{ block.shopify_attributes }}>
+                <button class="cvc-header__menu-link">
+                  Start Your Build
+                </button>
+                <div class="cvc-header__megamenu-panel">
+                  {% render 'cvc-start-build-menu', block: block %}
+                </div>
+              </li>
+
+            {% when 'van_model' %}
+              {%- comment -%} Van model blocks are data-only and don't render as menu items {%- endcomment -%}
+          {% endcase %}
+        {% endfor %}
+      </ul>
+    </nav>
+
+    {%- comment -%} Center Logo {%- endcomment -%}
+    <div class="cvc-header__logo">
+      {% if section.settings.logo != blank %}
+        <a href="{{ routes.root_url }}" class="cvc-header__logo-link">
+          <img 
+            src="{{ section.settings.logo | image_url }}"
+            srcset="{{ section.settings.logo | image_url: width: 140 }} 140w,
+                    {{ section.settings.logo | image_url: width: 200 }} 200w,
+                    {{ section.settings.logo | image_url: width: 280 }} 280w,
+                    {{ section.settings.logo | image_url: width: 400 }} 400w"
+            sizes="(max-width: 768px) 200px, 280px"
+            alt="{{ shop.name | escape }}"
+            class="cvc-header__logo-image"
+            width="280"
+            height="80"
+            style="max-height: 80px; width: auto; height: auto; min-width: 180px;"
+          >
+        </a>
+      {% elsif section.settings.logo_text != blank %}
+        <a href="{{ routes.root_url }}" class="cvc-header__logo-text">
+          {{ section.settings.logo_text }}
+        </a>
+      {% else %}
+        <a href="{{ routes.root_url }}" class="cvc-header__logo-text">
+          {{ shop.name }}
+        </a>
+      {% endif %}
+      {%- comment -%} 
+        Debug info: 
+        logo_image: {{ logo_image }}
+        is blank: {% if logo_image == blank %}true{% else %}false{% endif %}
+        is empty: {% if logo_image == empty %}true{% else %}false{% endif %}
+      {%- endcomment -%}
+    </div>
+
+    {%- comment -%} Right Utility Menu {%- endcomment -%}
+    <div class="cvc-header__utilities">
+      {%- comment -%} Your Van {%- endcomment -%}
+      {% render 'header-your-van' %}
+
+      {%- comment -%} Search {%- endcomment -%}
+      <div class="cvc-header__search">
+        <button 
+          class="cvc-header__search-toggle" 
+          type="button" 
+          aria-label="Search"
+          on:click="#search-modal/showDialog"
+        >
+          {% if section.settings.search_icon != blank %}
+            <img 
+              class="cvc-header__search-icon" 
+              src="{{ section.settings.search_icon | image_url: width: 28, height: 28 }}"
+              alt="Search"
+              width="28"
+              height="28"
+              style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+            />
+          {% else %}
+            <svg class="cvc-header__search-icon" viewBox="0 0 24 24" width="28" height="28">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>
+            </svg>
+          {% endif %}
+        </button>
+      </div>
+
+      {%- comment -%} Account {%- endcomment -%}
+      <div class="cvc-header__account">
+        <a href="{{ routes.account_url }}" class="cvc-header__account-link" aria-label="Account">
+          {% if section.settings.account_icon != blank %}
+            <img 
+              class="cvc-header__account-icon" 
+              src="{{ section.settings.account_icon | image_url: width: 28, height: 28 }}"
+              alt="Account"
+              width="28"
+              height="28"
+              style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+            />
+          {% else %}
+            <svg class="cvc-header__account-icon" viewBox="0 0 24 24" width="28" height="28">
+              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1L9 7V9C9 10.1 9.9 11 11 11V16L7.5 21L9 22L12 18L15 22L16.5 21L13 16V11C14.1 11 15 10.1 15 9Z" fill="currentColor"/>
+            </svg>
+          {% endif %}
+        </a>
+      </div>
+
+      {%- comment -%} Cart {%- endcomment -%}
+      <div class="cvc-header__cart">
+        <a href="{{ routes.cart_url }}" class="cvc-header__cart-link" aria-label="Cart">
+          {% if section.settings.cart_icon != blank %}
+            <img 
+              class="cvc-header__cart-icon" 
+              src="{{ section.settings.cart_icon | image_url: width: 28, height: 28 }}"
+              alt="Cart"
+              width="28"
+              height="28"
+              style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+            />
+          {% else %}
+            <svg class="cvc-header__cart-icon" viewBox="0 0 24 24" width="28" height="28">
+              <path d="M7 18C5.9 18 5.01 18.9 5.01 20S5.9 22 7 22 9 21.1 9 20 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5H5.21L4.27 3H1ZM17 18C15.9 18 15.01 18.9 15.01 20S15.9 22 17 22 19 21.1 19 20 18.1 18 17 18Z" fill="currentColor"/>
+            </svg>
+          {% endif %}
+          {% if cart.item_count > 0 %}
+            <span class="cvc-header__cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Header height CSS variables */
+  body {
+    --cvc-header-height: 0px;
+  }
+
+  body:has(.cvc-header) {
+    --cvc-header-height: 80px;
+  }
+
+  /* Base header styles */
+  .cvc-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--cvc-light-grey);
+    border-bottom: 1px solid #e0e0e0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+    will-change: transform, top;
+    transform: translate3d(0, 0, 0); /* Enable hardware acceleration */
+  }
+
+  /* Section wrapper */
+  .section-header {
+    position: relative;
+    z-index: 1001;
+  }
+
+  /* Add shadow when sticky */
+  .cvc-header[data-scrolled='true'] {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .cvc-header__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    min-height: 80px;
+  }
+
+  /* Left Navigation */
+  .cvc-header__nav--left {
+    justify-self: start;
+  }
+
+  /* Center Logo */
+  .cvc-header__logo {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+  }
+
+  .cvc-header__logo-link {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .cvc-header__logo-image {
+    max-height: 80px !important;
+    max-width: 280px !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 180px !important;
+    min-height: 40px !important;
+    object-fit: contain !important;
+    display: block !important;
+    vertical-align: middle;
+  }
+
+  .cvc-header__logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cvc-header__logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Right Utilities */
+  .cvc-header__utilities {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cvc-header__search-toggle,
+  .cvc-header__account-link,
+  .cvc-header__cart-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: none;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+
+  .cvc-header__search-toggle:hover,
+  .cvc-header__account-link:hover,
+  .cvc-header__cart-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .cvc-header__cart-link {
+    position: relative;
+  }
+
+  .cvc-header__cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cvc-header__nav {
+    flex: 1;
+  }
+
+  .cvc-header__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    height: 100%;
+    align-items: stretch;
+  }
+
+  .cvc-header__menu-item {
+    position: relative;
+    z-index: 1001;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .cvc-header__menu-link {
+    padding: 0 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    transition: color 0.2s;
+    position: relative;
+    z-index: 1002;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+  }
+
+  .cvc-header__menu-link:hover {
+    color: #0066cc;
+  }
+
+  .cvc-header__megamenu-panel {
+    display: none;
+    position: fixed;
+    top: var(--cvc-header-height);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    z-index: 1000;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  /* Keep menu open when hovering over button OR panel */
+  .cvc-header__menu-item.has-megamenu:hover .cvc-header__megamenu-panel,
+  .cvc-header__megamenu-panel:hover {
+    display: block;
+  }
+
+  /* Megamenu Styles */
+  .cvc-megamenu {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .cvc-megamenu__container {
+    width: 100%;
+  }
+
+  .cvc-megamenu__content--two-column {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* Conversion Guides 5-Column Layout */
+  .cvc-megamenu__content--five-column {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .cvc-phase-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cvc-phase-column__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-foreground);
+    border-bottom: 2px solid var(--color-foreground);
+    padding-bottom: 0.5rem;
+  }
+
+  .cvc-phase-column__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cvc-phase-column__link-item {
+    margin: 0;
+  }
+
+  .cvc-phase-column__link {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease;
+    display: block;
+  }
+
+  .cvc-phase-column__link:hover {
+    color: #0066cc;
+    text-decoration: underline;
+  }
+
+  .cvc-megamenu__images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar styling */
+  .cvc-megamenu__images::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .cvc-megamenu__images::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .cvc-megamenu__images::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+  }
+
+  .cvc-megamenu__images::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Firefox scrollbar */
+  .cvc-megamenu__images {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  }
+
+  .cvc-megamenu__text-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Van Model Links - Use theme text color */
+  .cvc-van-model-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-foreground);
+    transition: all 0.2s ease;
+    padding: 0;
+    margin: 0;
+    border: none;
+    position: relative;
+  }
+
+  .cvc-van-model-link:hover {
+    color: var(--color-foreground);
+    transform: translateY(-2px);
+  }
+
+  .cvc-van-model-link--image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cvc-van-model-link--image img {
+    width: 100%;
+    height: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+
+  .cvc-van-model-link__placeholder {
+    width: 100%;
+    height: 80px;
+    background-color: rgb(var(--color-foreground-rgb) / 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: var(--color-foreground);
+    font-size: 0.875rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .cvc-van-model-link__label {
+    position: absolute;
+    top: calc(100% - 1rem);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    color: var(--color-foreground);
+    background: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .cvc-van-model-link--text {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    border-radius: 4px;
+  }
+
+  .cvc-van-model-link--text:hover {
+    background-color: rgb(var(--color-foreground-rgb) / 0.05);
+    transform: none;
+    padding-left: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .cvc-header__container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .cvc-header__nav--left {
+      justify-self: center;
+      order: 2;
+    }
+
+    .cvc-header__logo {
+      justify-self: center;
+      order: 1;
+    }
+
+    .cvc-header__utilities {
+      justify-self: center;
+      order: 3;
+    }
+
+    .cvc-header__logo-image {
+      max-height: 40px;
+    }
+
+    .cvc-header__menu {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cvc-header__megamenu-panel {
+      position: static;
+      transform: none;
+      min-width: 100%;
+      margin-top: 0;
+    }
+
+    .cvc-megamenu__content--two-column {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .cvc-megamenu__content--five-column {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .cvc-megamenu__images {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0;
+    }
+  }
+
+  /* Medium screens - 2-3 columns for conversion guides */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .cvc-megamenu__content--five-column {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* Large screens - full 5 columns */
+  @media (min-width: 1025px) {
+    .cvc-megamenu__content--five-column {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // Keep header always at top of viewport and add shadow after scrolling
+  (function() {
+    const header = document.querySelector('.cvc-header');
+    if (!header) return;
+
+    let ticking = false;
+    let lastScrollY = 0;
+
+    function updateHeaderState() {
+      const scrollY = window.scrollY;
+      
+      // Skip if scroll hasn't changed enough to warrant an update
+      if (Math.abs(scrollY - lastScrollY) < 1) {
+        ticking = false;
+        return;
+      }
+      
+      // Get announcement bar height
+      const announcementBar = document.querySelector('.announcement-bar');
+      const announcementBarHeight = announcementBar ? announcementBar.offsetHeight : 0;
+      
+      // Only stick header after scrolling past announcement bar height
+      const shouldStick = scrollY > announcementBarHeight;
+      const scrolled = scrollY > 100;
+      
+      if (shouldStick) {
+        // Make header sticky at top of viewport
+        header.style.position = 'fixed';
+        header.style.top = '0px';
+        header.style.transform = 'translate3d(0, 0, 0)';
+      } else {
+        // Let header behave normally
+        header.style.position = 'relative';
+        header.style.top = '0px';
+        header.style.transform = 'translate3d(0, 0, 0)';
+      }
+      
+      // Add shadow effect when scrolled
+      header.setAttribute('data-scrolled', scrolled);
+      
+      lastScrollY = scrollY;
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeaderState);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Set initial state
+    updateHeaderState();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "CVC Header with Megamenus",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Brand Logo",
+      "info": "Upload your brand logo image. This will be centered in the header."
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text (Fallback)",
+      "default": "CVC",
+      "info": "This text will display if no logo image is uploaded"
+    },
+    {
+      "type": "header",
+      "content": "Custom Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "search_icon",
+      "label": "Search Icon (SVG)",
+      "info": "Upload a custom SVG icon for search. If empty, default icon will be used."
+    },
+    {
+      "type": "image_picker",
+      "id": "account_icon",
+      "label": "Account Icon (SVG)",
+      "info": "Upload a custom SVG icon for account. If empty, default icon will be used."
+    },
+    {
+      "type": "image_picker",
+      "id": "cart_icon",
+      "label": "Cart Icon (SVG)",
+      "info": "Upload a custom SVG icon for cart. If empty, default icon will be used."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "cvc_van_model_menu",
+      "name": "Van Model Megamenu",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Title",
+          "default": "Shop"
+        },
+        {
+          "type": "paragraph",
+          "content": "Add individual 'Van Model' blocks to this section to create your van model menu. Each van will generate a 'model-[van-name]' slug automatically."
+        }
+      ]
+    },
+    {
+      "type": "van_model",
+      "name": "Van Model",
+      "settings": [
+        {
+          "type": "text",
+          "id": "van_name",
+          "label": "Van Name",
+          "info": "The model-[van name] slug will be automatically generated (e.g., 'VW Caddy' becomes 'model-vw-caddy')"
+        },
+        {
+          "type": "image_picker",
+          "id": "van_image",
+          "label": "Van Image"
+        }
+      ]
+    },
+    {
+      "type": "cvc_conversion_guides",
+      "name": "Conversion Guides",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Conversion Phases"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Conversion Guides"
+        },
+        {
+          "type": "text",
+          "id": "phase_1_title",
+          "label": "Phase 1 Title",
+          "default": "Phase 1"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_1_links",
+          "label": "Phase 1 Links (one per line)",
+          "default": "Insure Your Van\nStrip & Clean\nWindows\nCab Seating",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_2_title",
+          "label": "Phase 2 Title",
+          "default": "Phase 2"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_2_links",
+          "label": "Phase 2 Links (one per line)",
+          "default": "Sound Deadening\nPly Panels\nCarpeting\nFlooring",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_3_title",
+          "label": "Phase 3 Title",
+          "default": "Phase 3"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_3_links",
+          "label": "Phase 3 Links (one per line)",
+          "default": "Window Shades\nElectrics\nHeaters",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_4_title",
+          "label": "Phase 4 Title",
+          "default": "Phase 4"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_4_links",
+          "label": "Phase 4 Links (one per line)",
+          "default": "Beds\nAppliances\nAwnings\nWheels",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_5_title",
+          "label": "Phase 5 Title",
+          "default": "Phase 5"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_5_links",
+          "label": "Phase 5 Links (one per line)",
+          "default": "Storage\nCamping\nStyling\nAccessories",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_6_title",
+          "label": "Phase 6 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_6_links",
+          "label": "Phase 6 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_7_title",
+          "label": "Phase 7 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_7_links",
+          "label": "Phase 7 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_8_title",
+          "label": "Phase 8 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_8_links",
+          "label": "Phase 8 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_9_title",
+          "label": "Phase 9 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_9_links",
+          "label": "Phase 9 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_10_title",
+          "label": "Phase 10 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_10_links",
+          "label": "Phase 10 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        }
+      ]
+    },
+    {
+      "type": "cvc_start_build_menu",
+      "name": "Start Your Build",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Main Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Start Your Build"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+          "default": "Ready to start your van conversion journey? We have everything you need to turn your van into the perfect camper."
+        },
+        {
+          "type": "header",
+          "content": "Call to Action Button"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_cta",
+          "label": "Show CTA Button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "header",
+          "content": "Features"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_features",
+          "label": "Show Feature Cards",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "feature_1_icon",
+          "label": "Feature 1 Icon",
+          "default": "🚐",
+          "info": "Use an emoji or text"
+        },
+        {
+          "type": "text",
+          "id": "feature_1_title",
+          "label": "Feature 1 Title",
+          "default": "Quality Products"
+        },
+        {
+          "type": "textarea",
+          "id": "feature_1_description",
+          "label": "Feature 1 Description",
+          "default": "Premium parts and accessories for your van conversion"
+        },
+        {
+          "type": "url",
+          "id": "feature_1_link",
+          "label": "Feature 1 Link"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_icon",
+          "label": "Feature 2 Icon",
+          "default": "📚",
+          "info": "Use an emoji or text"
+        },
+        {
+          "type": "text",
+          "id": "feature_2_title",
+          "label": "Feature 2 Title",
+          "default": "Expert Guides"
+        },
+        {
+          "type": "textarea",
+          "id": "feature_2_description",
+          "label": "Feature 2 Description",
+          "default": "Step-by-step guides from experienced converters"
+        },
+        {
+          "type": "url",
+          "id": "feature_2_link",
+          "label": "Feature 2 Link"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_icon",
+          "label": "Feature 3 Icon",
+          "default": "💬",
+          "info": "Use an emoji or text"
+        },
+        {
+          "type": "text",
+          "id": "feature_3_title",
+          "label": "Feature 3 Title",
+          "default": "Community Support"
+        },
+        {
+          "type": "textarea",
+          "id": "feature_3_description",
+          "label": "Feature 3 Description",
+          "default": "Join our community of van conversion enthusiasts"
+        },
+        {
+          "type": "url",
+          "id": "feature_3_link",
+          "label": "Feature 3 Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CVC Header",
+      "blocks": [
+        {
+          "type": "cvc_van_model_menu"
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW Caddy"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW Caddy Maxi"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW Crafter"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T2 Bay"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T2 Split"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T4"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T5"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T6"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T25"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T7"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Citroen Relay"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Fiat Ducato"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit Custom"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit MK7"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Mercedes Sprinter"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Nissan Primastar"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Peugeot Boxer"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Renault Trafic"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Vauxhall Vivaro"
+          }
+        },
+        {
+          "type": "cvc_conversion_guides"
+        },
+        {
+          "type": "cvc_start_build_menu"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

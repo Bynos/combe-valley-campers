@@ -1,0 +1,21 @@
+Options button active is not showing as active
+- fixed
+
+Header dark option
+- COMPLETED: Added dark mode icon support for Brand Logo, Search Icon, Account Icon, and Cart Icon
+- Icons automatically switch based on user's device color scheme preference (prefers-color-scheme: dark)
+- See DARK_MODE_ICONS_IMPLEMENTATION.md for full documentation
+
+header-menu option not coming from menu system!
+- it is now
+
+A 6th conversion guide
+- done
+
+Add Phase labels as a clickbale link to #page
+- This should be working - but the collection has no products so wont work right now?
+
+Van filter label more precise
+- updated
+
+See about adding custom font to Jumbo text element

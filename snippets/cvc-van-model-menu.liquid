@@ -1,0 +1,231 @@
+{% comment %}
+  Van Model Megamenu Snippet
+  Renders the van model selection menu with image links
+  
+  Parameters:
+  - block: The block containing settings (optional, contains notification_message)
+{% endcomment %}
+
+{% assign notification_msg = 'We will only show you products that are for your van' %}
+{% if block and block.settings.notification_message != blank %}
+  {% assign notification_msg = block.settings.notification_message %}
+{% endif %}
+
+<div class="cvc-megamenu cvc-megamenu--van-models" data-notification-message="{{ notification_msg }}">
+  <div class="cvc-megamenu__container">
+
+    <div class="cvc-megamenu__content cvc-megamenu__content--two-column">
+      {%- comment -%} Left Column - Image Links {%- endcomment -%}
+      <div class="cvc-megamenu__column">
+        <h3 class="cvc-megamenu__column-title">Search by Van</h3>
+        <div class="cvc-megamenu__images">
+          {% comment %}
+            Van models are added via blocks in the section.
+            We need to loop through ALL section blocks to find van_model types
+          {% endcomment %}
+          {% for van_block in section.blocks %}
+            {% if van_block.type == 'van_model' %}
+              {% assign model_name = van_block.settings.van_name %}
+              {% assign model_image = van_block.settings.van_image %}
+              
+              {% if model_name != blank %}
+                {% liquid
+                  assign model_slug = model_name | handleize | prepend: 'model-'
+                %}
+                <a
+                  href="#"
+                  class="cvc-van-model-link cvc-van-model-link--image"
+                  data-model-id="{{ model_slug }}"
+                  data-model-name="{{ model_name }}"
+                  {{ van_block.shopify_attributes }}
+                >
+                  {% if model_image %}
+                    <img
+                      src="{{ model_image | image_url: width: 200 }}"
+                      alt="{{ model_name }}"
+                      loading="lazy"
+                      width="200"
+                      height="auto"
+                    >
+                  {% else %}
+                    <div class="cvc-van-model-link__placeholder">
+                      <span>{{ model_name }}</span>
+                    </div>
+                  {% endif %}
+                  <span class="cvc-van-model-link__label">{{ model_name }}</span>
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {%- comment -%} Right Column - Shop Menu Links {%- endcomment -%}
+      <div class="cvc-megamenu__column">
+        <h3 class="cvc-megamenu__column-title">Search by Category</h3>
+        <div class="cvc-megamenu__text-links">
+          {% for link in linklists.header-menu.links %}
+            {% if link.title == 'Shop' %}
+              {% if link.links.size > 0 %}
+                {% for child_link in link.links %}
+                  <a
+                    href="{{ child_link.url }}"
+                    class="cvc-van-model-link cvc-van-model-link--text"
+                  >
+                    {{ child_link.title }}
+                  </a>
+                {% endfor %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Handle van model selection
+  (function() {
+    const vanModelLinks = document.querySelectorAll('.cvc-van-model-link--image');
+    console.log('Found van model links:', vanModelLinks.length);
+    
+    /**
+     * Check if we're on a collection or product page
+     */
+    function isCollectionOrProductPage() {
+      const pathname = window.location.pathname;
+      return pathname.includes('/collections/') || pathname.includes('/products/');
+    }
+    
+    /**
+     * Update URL with filter parameter and optionally reload
+     */
+    function updateURLWithFilter(modelId) {
+      const url = new URL(window.location.href);
+      
+      // Remove any existing filter.p.tag parameters
+      const params = new URLSearchParams(url.search);
+      for (const key of Array.from(params.keys())) {
+        if (key.startsWith('filter.p.tag')) {
+          params.delete(key);
+        }
+      }
+      
+      // Add the new filter parameter
+      params.set('filter.p.tag', modelId);
+      
+      // Update the URL
+      url.search = params.toString();
+      
+      return url;
+    }
+    
+    /**
+     * Apply filter to current page or navigate
+     */
+    function applyFilterToPage(modelId, modelName) {
+      // If on collection or product page, update URL and reload to apply filter
+      if (isCollectionOrProductPage()) {
+        const newUrl = updateURLWithFilter(modelId);
+        console.log('Navigating to filtered URL:', newUrl.toString());
+        window.location.href = newUrl.toString();
+      } else {
+        // On other pages, just show a notification
+        showNotification(`Van filter set to: ${modelName}. Navigate to a collection to see filtered products.`);
+      }
+    }
+    
+    /**
+     * Show notification to user
+     */
+    function showNotification(message) {
+      const notification = document.getElementById('van-selector-notification');
+      const notificationText = document.getElementById('van-notification-message');
+      
+      if (!notification || !notificationText) {
+        console.warn('Notification element not found');
+        return;
+      }
+
+      // Clear any existing timeouts stored globally on the notification element
+      if (notification._hideTimeout) {
+        clearTimeout(notification._hideTimeout);
+        notification._hideTimeout = null;
+      }
+      if (notification._showTimeout) {
+        clearTimeout(notification._showTimeout);
+        notification._showTimeout = null;
+      }
+
+      // Get custom message from megamenu settings
+      const megamenu = document.querySelector('.cvc-megamenu--van-models');
+      const customMessage = megamenu ? megamenu.getAttribute('data-notification-message') : null;
+      
+      // Use custom message if available, otherwise use default
+      notificationText.textContent = customMessage || 'We will only show you products that are for your van';
+      
+      // Reset animation by setting to false first
+      notification.setAttribute('data-showing', 'false');
+      
+      // Use a small timeout to ensure the reset is processed
+      notification._showTimeout = setTimeout(() => {
+        // Show notification with bounce animation
+        notification.setAttribute('data-showing', 'true');
+
+        // Hide after 6 seconds (2x the original 3 seconds)
+        notification._hideTimeout = setTimeout(() => {
+          notification.setAttribute('data-showing', 'false');
+        }, 6000);
+      }, 50);
+    }
+    
+    vanModelLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const modelId = this.getAttribute('data-model-id');
+        const modelName = this.getAttribute('data-model-name');
+        
+        console.log('Van model link clicked:', { modelId, modelName });
+        
+        if (modelId) {
+          // Store the selected van model
+          sessionStorage.setItem('selectedVanModel', modelId);
+          console.log('Stored in sessionStorage:', modelId);
+          
+          // Remove active class from all links
+          vanModelLinks.forEach(l => l.classList.remove('active'));
+          
+          // Add active class to clicked link
+          this.classList.add('active');
+          
+          // Dispatch custom event
+          const event = new CustomEvent('vanModelSelected', {
+            detail: { modelId, modelName },
+            bubbles: true
+          });
+          document.dispatchEvent(event);
+          
+          console.log('Dispatched vanModelSelected event for:', modelName);
+          
+          // Apply filter to current page
+          applyFilterToPage(modelId, modelName);
+        } else {
+          console.warn('No modelId found on clicked link');
+        }
+      });
+    });
+    
+    // On page load, highlight the currently selected van
+    const selectedModelId = sessionStorage.getItem('selectedVanModel');
+    if (selectedModelId) {
+      console.log('Page loaded with selected van:', selectedModelId);
+      const selectedLink = document.querySelector(`.cvc-van-model-link--image[data-model-id="${selectedModelId}"]`);
+      if (selectedLink) {
+        selectedLink.classList.add('active');
+        console.log('Added active class to existing selection');
+      }
+    }
+  })();
+</script>

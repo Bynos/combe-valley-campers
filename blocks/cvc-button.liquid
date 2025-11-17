@@ -1,0 +1,112 @@
+{%- liquid
+  assign block_settings = block.settings
+  assign label = block_settings.label
+  assign link = block_settings.link
+  assign open_in_new_tab = block_settings.open_in_new_tab
+  assign button_style = block_settings.button_style
+-%}
+
+<a
+  {% if link == blank %}
+    role="link"
+    aria-disabled="true"
+  {% else %}
+    href="{{ link }}"
+  {% endif %}
+  class="cvc-button cvc-button--{{ button_style }} cvc-button--{{ block.id }}"
+  {%- if open_in_new_tab -%}
+    target="_blank"
+    rel="noopener noreferrer"
+  {%- endif -%}
+  {{ block.shopify_attributes }}
+>
+  {{ label }}
+</a>
+
+{% stylesheet %}
+  .cvc-button {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .cvc-button--solid {
+    background-color: var(--cvc-yellow);
+    color: var(--cvc_cream, #f2f2f0);
+    border-color: var(--cvc-yellow);
+  }
+
+  .cvc-button--solid:hover {
+    background-color: var(--cvc-black, #3b3237);
+    border-color: var(--cvc-black, #3b3237);
+    color: var(--cvc_cream, #f2f2f0);
+  }
+
+  .cvc-button--outline {
+    background-color: transparent;
+    color: var(--cvc-black, #3b3237);
+    border-color: var(--cvc-black, #3b3237);
+  }
+
+  .cvc-button--outline:hover {
+    background-color: var(--cvc-black, #3b3237);
+    color: var(--cvc_cream, #f2f2f0);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "CVC Button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button Label",
+      "default": "Click Here"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        }
+      ],
+      "default": "solid"
+    }
+  ],
+  "presets": [
+    {
+      "name": "CVC Button",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

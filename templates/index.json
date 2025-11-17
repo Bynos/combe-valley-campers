@@ -1,0 +1,1723 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "text_overlay_YFCxbk": {
+          "type": "text-overlay",
+          "name": "Text Overlay",
+          "settings": {
+            "heading": "BUILD YOUR ADVENTURE",
+            "heading_tag": "h2",
+            "heading_font": "var(--font-heading--family)",
+            "heading_size": "4rem",
+            "heading_weight": "700",
+            "heading_color": "#ffffff",
+            "text": "<p>Build Your Dream Camper with Our Expert Tutorials and Quality Supplies.</p>",
+            "text_font": "var(--font-body--family)",
+            "text_size": "1.25rem",
+            "text_weight": "400",
+            "text_color": "#ffffff",
+            "button_label": "Learn More",
+            "button_link": "",
+            "button_open_new_tab": false,
+            "button_style": "button",
+            "button_font": "var(--font-body--family)",
+            "button_size": "1rem",
+            "button_weight": "500",
+            "button_color": "#ffffff",
+            "text_alignment": "center",
+            "max_width": 900,
+            "margin": 32,
+            "gap": 16
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_overlay_YFCxbk"
+      ],
+      "settings": {
+        "media_type_1": "video",
+        "video_1": "shopify://files/videos/WEBSITE VIDEO.mp4",
+        "media_type_2": "video",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "full-width",
+        "section_height": "small",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "toggle_overlay": true,
+        "overlay_color": "#12121257",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "section_yXUFcU": {
+      "type": "section",
+      "blocks": {
+        "group_left_welcome": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fill",
+            "custom_height": 100,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-2",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 8,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 32,
+            "padding-block-end": 32,
+            "padding-inline-start": 32,
+            "padding-inline-end": 32
+          },
+          "blocks": {
+            "welcome_heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Welcome to </h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "2rem",
+                "line_height": "tight",
+                "letter_spacing": "loose",
+                "case": "none",
+                "wrap": "balance",
+                "color": "var(--color-foreground-heading)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "image_hCd9cR": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/cvc-Website_Header_Logo.svg",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "welcome_subtitle": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Your one stop shop for campervan conversions.</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "welcome_description": {
+              "type": "text",
+              "settings": {
+                "text": "<p>We have hundreds of guides and all the products you need to be able to convert your van into your dream camper.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "welcome_cta": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Start building your adventure today!</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "welcome_heading",
+            "image_hCd9cR",
+            "welcome_subtitle",
+            "welcome_description",
+            "welcome_cta"
+          ]
+        },
+        "group_right_reviews": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fill",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 8,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 20,
+            "padding-block-end": 20,
+            "padding-inline-start": 20,
+            "padding-inline-end": 20
+          },
+          "blocks": {
+            "google_reviews_list_widget_block_LyFMC6": {
+              "type": "shopify://apps/google-reviews/blocks/list-widget-block/8b378e9e-c56d-47ce-a754-feca5e0caf59",
+              "settings": {
+                "contentIndex": "1",
+                "font": "default",
+                "themeId": "light",
+                "cardColor": "#f3f6f9",
+                "starsColor": "#fbb000",
+                "textColor": "#404040",
+                "transparent": 1,
+                "showReviewPhotos": true,
+                "writeReview": false
+              }
+            }
+          },
+          "block_order": [
+            "google_reviews_list_widget_block_LyFMC6"
+          ]
+        }
+      },
+      "block_order": [
+        "group_left_welcome",
+        "group_right_reviews"
+      ],
+      "name": "Welcome and Reviews",
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "full-width",
+        "section_height": "small",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "section_tA3iRX": {
+      "type": "section",
+      "blocks": {
+        "group_HtbNzt": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "icon_8JtmwE": {
+              "type": "icon",
+              "settings": {
+                "icon": "eye",
+                "image_upload": "shopify://shop_images/YouTube.png",
+                "width": 200,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
+            },
+            "group_78jKp8": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_WCXEwm": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3><strong>HOW TO VIDEOS</strong></h3>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "h4",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_VXXFzW": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Watch over 200 how-to videos which guide you through the process of building your very own camper</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "button_4wgmnF": {
+                  "type": "cvc-button",
+                  "settings": {
+                    "label": "GO TO YOUTUBE",
+                    "link": "https://www.youtube.com/@CombeValleyCampers/featured",
+                    "open_in_new_tab": true,
+                    "button_style": "solid"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_WCXEwm",
+                "text_VXXFzW",
+                "button_4wgmnF"
+              ]
+            }
+          },
+          "block_order": [
+            "icon_8JtmwE",
+            "group_78jKp8"
+          ]
+        },
+        "group_GPBnET": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "icon_TgVmFD": {
+              "type": "icon",
+              "settings": {
+                "icon": "heart",
+                "image_upload": "shopify://shop_images/Build-Your-Camper.png",
+                "width": 200,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
+            },
+            "group_ibQJqC": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_7inzPh": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h2><strong>BUILD YOUR CAMPER</strong></h2>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "h4",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_RMGTVw": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>After watching our videos, you can buy the parts you need in our online shop to build your dream camper.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "button_QchwqY": {
+                  "type": "cvc-button",
+                  "settings": {
+                    "label": "SHOP NOW",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "button_style": "solid"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_7inzPh",
+                "text_RMGTVw",
+                "button_QchwqY"
+              ]
+            }
+          },
+          "block_order": [
+            "icon_TgVmFD",
+            "group_ibQJqC"
+          ]
+        },
+        "group_rejmPh": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "icon_gqERHF": {
+              "type": "icon",
+              "settings": {
+                "icon": "silhouette",
+                "image_upload": "shopify://shop_images/Visit-Workshop.png",
+                "width": 200,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
+            },
+            "group_NzjEH4": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_eCpXDM": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h2><strong>VISIT OUR SHOWROOM</strong></h2>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "h4",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_AR6eTT": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Seek inspiration, explore the products and purchase some needed items.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "center",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "button_HRKkUz": {
+                  "type": "cvc-button",
+                  "settings": {
+                    "label": "FIND US HERE",
+                    "link": "https://www.google.co.uk/maps/place/Combe+Valley+Campers/@50.8913378,0.2369904,17z/data=!3m1!4b1!4m6!3m5!1s0x47df6fb8dc0e0dbb:0x8f83e7ff188cdc2e!8m2!3d50.8913378!4d0.2395653!16s%2Fg%2F11h1z1dzfy?entry=ttu&g_ep=EgoyMDI1MTEwNC4xIKXMDSoASAFQAw%3D%3D",
+                    "open_in_new_tab": false,
+                    "button_style": "solid"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_eCpXDM",
+                "text_AR6eTT",
+                "button_HRKkUz"
+              ]
+            }
+          },
+          "block_order": [
+            "icon_gqERHF",
+            "group_NzjEH4"
+          ]
+        }
+      },
+      "block_order": [
+        "group_HtbNzt",
+        "group_GPBnET",
+        "group_rejmPh"
+      ],
+      "name": "Icons with Text and Button",
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-2",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 48
+      }
+    },
+    "cvc_build_phases_wzwTLU": {
+      "type": "cvc-build-phases",
+      "blocks": {
+        "cvc_build_phases_panel_Y7mgzy": {
+          "type": "cvc-build-phases-panel",
+          "settings": {
+            "title": "PHASE 01",
+            "image": "shopify://shop_images/VideoThumb001.jpg",
+            "image_position": "center center",
+            "link_1_text": "Insure Your Van",
+            "link_1_url": "shopify://pages/insure-your-van",
+            "link_2_text": "Strip & Clean Your Van",
+            "link_2_url": "https://youtube.com/playlist?list=PL1jZQ6iMpUnfdIvicJUdvuFyqY1RtqXV_&si=zTJwsB7WH-Uhko7t",
+            "link_3_text": "Windows & Vents",
+            "link_3_url": "shopify://collections/windows",
+            "link_4_text": "Sound Deadening & Insulation",
+            "link_4_url": "shopify://collections/sound-deadening"
+          }
+        },
+        "cvc_build_phases_panel_HQTigy": {
+          "type": "cvc-build-phases-panel",
+          "settings": {
+            "title": "PHASE 02",
+            "image": "shopify://shop_images/ply_panels_edited.jpg",
+            "image_position": "center center",
+            "link_1_text": "Electrics",
+            "link_1_url": "shopify://collections/electrics",
+            "link_2_text": "Ply Panels & Trim Clips",
+            "link_2_url": "shopify://collections/ply-lining",
+            "link_3_text": "Carpeting",
+            "link_3_url": "shopify://collections/carpet-lining",
+            "link_4_text": "Flooring & Headliners",
+            "link_4_url": "shopify://collections/flooring-headliners"
+          }
+        },
+        "cvc_build_phases_panel_RRUNJF": {
+          "type": "cvc-build-phases-panel",
+          "settings": {
+            "title": "PHASE 03",
+            "image": "shopify://shop_images/heritsge_curtains.jpg",
+            "image_position": "center center",
+            "link_1_text": "Curtains & Shades",
+            "link_1_url": "shopify://collections/curtians-blinds",
+            "link_2_text": "Diesel Heaters",
+            "link_2_url": "shopify://collections/diesel-heaters",
+            "link_3_text": "Beds & Internal Furnishings",
+            "link_3_url": "shopify://collections/beds",
+            "link_4_text": "Appliances",
+            "link_4_url": "shopify://collections/appliances"
+          }
+        },
+        "cvc_build_phases_panel_z8HFYP": {
+          "type": "cvc-build-phases-panel",
+          "settings": {
+            "title": "PHASE 04",
+            "image": "shopify://shop_images/interior_edited.jpg",
+            "image_position": "center center",
+            "link_1_text": "Swivel Seats & Bases",
+            "link_1_url": "shopify://collections/swivel-seats",
+            "link_2_text": "Cab Styling",
+            "link_2_url": "shopify://collections/cab-styling",
+            "link_3_text": "Storage",
+            "link_3_url": "shopify://collections/storage",
+            "link_4_text": "Security",
+            "link_4_url": "shopify://collections/security"
+          }
+        },
+        "cvc_build_phases_panel_birGUP": {
+          "type": "cvc-build-phases-panel",
+          "settings": {
+            "title": "PHASE 05",
+            "image": "shopify://shop_images/Fiamma_Moonlight.jpg",
+            "image_position": "center center",
+            "link_1_text": "Awning & Rails",
+            "link_1_url": "shopify://collections/awnings-rails",
+            "link_2_text": "Exterior Styling",
+            "link_2_url": "shopify://collections/exterior",
+            "link_3_text": "Roof Tents",
+            "link_3_url": "shopify://collections/roof-tents",
+            "link_4_text": "",
+            "link_4_url": ""
+          }
+        },
+        "cvc_build_phases_panel_CfTQjK": {
+          "type": "cvc-build-phases-panel",
+          "settings": {
+            "title": "PHASE 06",
+            "image": "shopify://shop_images/IMG_2610.heic",
+            "image_position": "center center",
+            "link_1_text": "Camping Essentials",
+            "link_1_url": "shopify://collections/camping-essentials",
+            "link_2_text": "Merch",
+            "link_2_url": "shopify://collections/merch",
+            "link_3_text": "",
+            "link_3_url": "",
+            "link_4_text": "",
+            "link_4_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "cvc_build_phases_panel_Y7mgzy",
+        "cvc_build_phases_panel_HQTigy",
+        "cvc_build_phases_panel_RRUNJF",
+        "cvc_build_phases_panel_z8HFYP",
+        "cvc_build_phases_panel_birGUP",
+        "cvc_build_phases_panel_CfTQjK"
+      ],
+      "name": "CVC Build Phases",
+      "settings": {
+        "heading": "BUILD PHASE",
+        "description": "Purchase our products based on which phase of your build you are on.",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "cvc_essentials_VCzHfD": {
+      "type": "cvc-essentials",
+      "blocks": {
+        "essential_panel_BxNPLg": {
+          "type": "essential_panel",
+          "settings": {
+            "image": "shopify://shop_images/Fiamma_Moonlight.jpg",
+            "label": "Sound Deadening & Insulation",
+            "link": "#"
+          }
+        },
+        "essential_panel_JRyCXL": {
+          "type": "essential_panel",
+          "settings": {
+            "image": "shopify://shop_images/f80s.jpg",
+            "label": "Carpet Lining & Adhesive",
+            "link": "#"
+          }
+        },
+        "essential_panel_xPymdk": {
+          "type": "essential_panel",
+          "settings": {
+            "image": "shopify://shop_images/1926d7_d90224931dda4cf5b44313fe0bdd469c_mv2.jpg",
+            "label": "Swivel Seat Bases",
+            "link": "#"
+          }
+        },
+        "essential_panel_etDp3G": {
+          "type": "essential_panel",
+          "settings": {
+            "image": "shopify://shop_images/1926d7_814f4fb567b3457f9061d825a690d9c3_mv2_8685b045-a5c2-4427-89d4-fef20363fcca.jpg",
+            "label": "Leisure Electrics",
+            "link": "#"
+          }
+        },
+        "essential_panel_7zgTrE": {
+          "type": "essential_panel",
+          "settings": {
+            "image": "shopify://shop_images/PeugeotBoxer.png",
+            "label": "Storage",
+            "link": ""
+          }
+        },
+        "essential_panel_9Kf3m8": {
+          "type": "essential_panel",
+          "settings": {
+            "image": "shopify://shop_images/Product_Image_1_1.png",
+            "label": "Windows",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "essential_panel_BxNPLg",
+        "essential_panel_JRyCXL",
+        "essential_panel_xPymdk",
+        "essential_panel_etDp3G",
+        "essential_panel_7zgTrE",
+        "essential_panel_9Kf3m8"
+      ],
+      "disabled": true,
+      "name": "t:names.cvc_essentials",
+      "settings": {
+        "heading": "Leisure Electrics",
+        "description": "Everything you need for your camper van conversion",
+        "columns": 4,
+        "color_scheme": "scheme-3",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "media_with_content_nTVz6U": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/CAMPERS_CHRISTMAS-87.jpg",
+            "link": "shopify://collections/xmas-gifts",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-end",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 0
+          },
+          "blocks": {
+            "jumbo_text_FyzUMV": {
+              "type": "jumbo-text",
+              "name": "t:names.jumbo_text",
+              "settings": {
+                "text": "SHOP\nXMAS\nGIFTS",
+                "use_custom_font": true,
+                "custom_font": "caprasimo_n4",
+                "font": "heading",
+                "min_font_size": 120,
+                "max_font_size": 500,
+                "font_style": "normal",
+                "font_weight": "500",
+                "text_color": "#c52727",
+                "alignment": "center",
+                "line_height": "0.8",
+                "letter_spacing": "-0.03em",
+                "case": "uppercase",
+                "text_effect": "none",
+                "animation_repeat": false
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "jumbo_text_FyzUMV"
+          ]
+        }
+      },
+      "name": "t:names.editorial_jumbo_text",
+      "settings": {
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "auto",
+        "section_width": "full-width",
+        "extend_media": true,
+        "color_scheme": "scheme-4",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "featured_products": {
+      "type": "product-list",
+      "blocks": {
+        "static-header": {
+          "type": "_product-list-content",
+          "static": true,
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_heading": {
+              "type": "text",
+              "name": "Featured Products",
+              "settings": {
+                "text": "<h2><strong>POPULAR PRODUCTS</strong></h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_description": {
+              "type": "text",
+              "name": "Description",
+              "settings": {
+                "text": "<p>Discover our most popular products</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "rte",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_heading",
+            "text_description"
+          ]
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "Product Card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery": {
+              "type": "_product-card-gallery",
+              "name": "Product Media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title": {
+              "type": "product-title",
+              "name": "Product Title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price": {
+              "type": "price",
+              "name": "Product Price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery",
+            "product_title",
+            "price"
+          ]
+        }
+      },
+      "name": "Popular Products",
+      "settings": {
+        "collection": "appliances",
+        "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "max_products": 6,
+        "columns": 4,
+        "mobile_columns": "2",
+        "mobile_card_size": "44cqw",
+        "columns_gap": 12,
+        "rows_gap": 24,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "horizontal_alignment": "center",
+        "gap": 36,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "cvc_two_images_plus_text_inqd6P": {
+      "type": "cvc_two_images_plus_text",
+      "name": "Two Stacked Images + Text",
+      "settings": {
+        "image_top": "shopify://shop_images/Fiamma_Moonlight.jpg",
+        "image_bottom": "shopify://shop_images/f80s.jpg",
+        "subtitle": "New Arrival",
+        "heading": "Fiamma awnings to maximise your living space",
+        "text": "<p>Leigh and Ross Show you how to Maximise your Campervan living space with a Fiamma F80s. It is being fitted to Ross' self built, Medium wheel base, VW Crafter camper van.</p>",
+        "button_label_1": "Watch Video",
+        "button_link_1": "https://www.youtube.com/watch?v=YlGvfCTj-SI",
+        "button_label_2": "Shop Now",
+        "button_link_2": "",
+        "inherit_color_scheme": false,
+        "color_scheme": "scheme-4",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding_block_start": 40,
+        "padding_block_end": 40,
+        "padding_inline_start": 20,
+        "padding_inline_end": 20
+      }
+    },
+    "cvc_youtube_playlist_grid_3KcHNj": {
+      "type": "cvc_youtube_playlist_grid",
+      "blocks": {
+        "video_QnxmPA": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://youtu.be/PiVGp6NVf7I",
+            "thumbnail": "shopify://shop_images/VideoThumb001.jpg",
+            "title": "VAN CONVERSION FOR BEGINNERS - NO EXPERIENCE REQUIRED!",
+            "published_date": "1 week ago",
+            "description": "We have started a brand new series to help you convert your van into a campervan. My wife, Dominika, has zero experience in van conversion so Leigh will be teaching her, and YOU, how to convert a van into a full camper \n\nCombe Valley Campers can supply you with lessons and parts to build your dream camper.\n\nIf this is your first time on the channel, please make sure to check out our 'How To' playlist, and our 'Podcast' where we have over 170 videos to help you build your dream campervan.",
+            "duration": "28:05",
+            "view_count": "94.9K",
+            "like_count": "768",
+            "comment_count": "58"
+          }
+        },
+        "video_cryTD4": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://www.youtube.com/watch?v=D2nfeQebFdc",
+            "thumbnail": "shopify://shop_images/YT_vid_2.jpg",
+            "title": "This Camper Interior Changes Everything – U-Shaped, Off-Grid & Toilet!",
+            "published_date": "2 weeks ago",
+            "description": "We’ve done something no one has ever done before.\nIntroducing the world’s first U-shaped VW Transporter camper conversion — with seatbelts, off-grid power, and a built-in toilet!",
+            "duration": "23:33",
+            "view_count": "21K",
+            "like_count": "553",
+            "comment_count": "67"
+          }
+        },
+        "video_EiwATL": {
+          "type": "video",
+          "settings": {
+            "video_url": "https://www.youtube.com/watch?v=RxBLXy-ymdQ",
+            "title": "Sample Video 3",
+            "published_date": "1 month ago",
+            "description": "A third sample video to demonstrate the grid layout.",
+            "duration": "8:20",
+            "view_count": "850",
+            "like_count": "90",
+            "comment_count": "12"
+          }
+        }
+      },
+      "block_order": [
+        "video_QnxmPA",
+        "video_cryTD4",
+        "video_EiwATL"
+      ],
+      "disabled": true,
+      "name": "YouTube Playlist Grid",
+      "settings": {
+        "playlist_url": "https://www.youtube.com/playlist?list=PL1jZQ6iMpUneKFB6OB2W5TAdOhWkqE1Gu",
+        "channel_name": "Combe Valley Campers",
+        "channel_image": "shopify://shop_images/YouTube.png",
+        "subscriber_count": "",
+        "grid_columns": 3
+      }
+    },
+    "1761565617354a2578": {
+      "type": "_blocks",
+      "blocks": {
+        "youtube_gallery_carousel_widget_block_n8Ai7h": {
+          "type": "shopify://apps/youtube-gallery/blocks/carousel-widget-block/20730f6a-6b3e-4beb-9cbf-452a9ade13e3",
+          "settings": {
+            "contentIndex": "1",
+            "themeId": "light",
+            "autoscroll": false
+          }
+        }
+      },
+      "block_order": [
+        "youtube_gallery_carousel_widget_block_n8Ai7h"
+      ],
+      "name": "YouTube Link",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "cvc_brands_carousel_blocks_VK3ezX": {
+      "type": "cvc_brands_carousel_blocks",
+      "blocks": {
+        "carousel_rL3w39": {
+          "type": "carousel",
+          "settings": {
+            "style": "dark",
+            "speed": 60
+          }
+        },
+        "brand_logo_EDe7M4": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Cymru-Camper-Light_81efaec6-e08b-4b4f-bb36-a9ce7fdbf54e.png",
+            "alt_text": "Cymru Campers"
+          }
+        },
+        "brand_logo_pgGyyf": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-EVO-Design-Light_e1e61418-0e8e-489c-a1a0-63fbb628c3ef.png",
+            "alt_text": "Evo Designs"
+          }
+        },
+        "brand_logo_WBim4f": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Forty-Winks-Light_77940443-0b5c-485b-bc51-4aacb14e0ae3.png",
+            "alt_text": "Forty Winks"
+          }
+        },
+        "brand_logo_QnCcUF": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Heritage-Parts-Centre-Light_046fd8a1-5652-41d9-975f-98b1cb9b63cc.png",
+            "alt_text": "Heritage Parts"
+          }
+        },
+        "brand_logo_g6a4zj": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Latitude-Light_c590dbae-4bdc-4c95-8eaa-38002849088a.png",
+            "alt_text": "Latitude"
+          }
+        },
+        "brand_logo_NCUKTz": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Nu-Texa-Light_0824decc-86c0-4e9a-9a62-79de13bdd487.png",
+            "alt_text": "Nutexa"
+          }
+        },
+        "brand_logo_w98GtP": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Ovano-Light_4bdf7cc2-b5cf-40b4-9437-74489ec6d229.png",
+            "alt_text": "Ovano"
+          }
+        },
+        "brand_logo_iw9Hmc": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Rayne-Automotive-Light_ca3e91e7-e60f-4f27-8c3d-31abfefc6ea4.png",
+            "alt_text": "Rayne Automotive"
+          }
+        },
+        "brand_logo_UigVPh": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Triflow-Concepts-Light_0f4b2d89-c87f-404f-8ce2-dbf3cb6640c2.png",
+            "alt_text": "Tri-Flow"
+          }
+        },
+        "brand_logo_BaWEGR": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-UAO-Light_fc4b4765-36bb-499d-b6e9-da8882d297d7.png",
+            "alt_text": "UAO"
+          }
+        },
+        "brand_logo_yHA8nX": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Coolwhip-Light_0cc5c704-e6ec-4101-8d70-a8aa3600b8a1.png",
+            "alt_text": "Coolwhip"
+          }
+        },
+        "brand_logo_iBDQJB": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Campervan-Culture-Light.png",
+            "alt_text": "Campervan Culture"
+          }
+        },
+        "brand_logo_8DKkLN": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Autoterm-Light_993ce376-cf7a-4a94-81ac-8c98e5b7a48b.png",
+            "alt_text": "Autoterm"
+          }
+        },
+        "brand_logo_7DEjJG": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Rusty-Lees-Light.png",
+            "alt_text": "Rusty Lees"
+          }
+        },
+        "brand_logo_FVw8rj": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Van-Gear-Light.png",
+            "alt_text": "Van Gear"
+          }
+        },
+        "brand_logo_NFtQAY": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Vamoose-Light.png",
+            "alt_text": "Vamoose"
+          }
+        },
+        "brand_logo_YrEXDq": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Van_Pocket-Designs-Light.png",
+            "alt_text": "Van Pocket Design"
+          }
+        },
+        "brand_logo_FqBD8b": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Van-Shades-Light.png",
+            "alt_text": "Van Shades"
+          }
+        },
+        "brand_logo_d7pGrR": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Supplier-Logo-Transporter-HQ-Light.png",
+            "alt_text": "Transporter HQ"
+          }
+        },
+        "brand_logo_qPDKb6": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Dodo_-_Edited_-_light.png",
+            "alt_text": "Dodo"
+          }
+        },
+        "brand_logo_iJckdD": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/ridgemonkey_-_Light.png",
+            "alt_text": "RidgeMonkey"
+          }
+        },
+        "brand_logo_yNHQkA": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/FIAMMA-Brand-500x95_-_light.png",
+            "alt_text": "Fiamma"
+          }
+        },
+        "brand_logo_Tm4TQN": {
+          "type": "brand_logo",
+          "settings": {
+            "logo": "shopify://shop_images/RIB_-_Edited.png",
+            "alt_text": "RIB"
+          }
+        }
+      },
+      "block_order": [
+        "carousel_rL3w39",
+        "brand_logo_EDe7M4",
+        "brand_logo_pgGyyf",
+        "brand_logo_WBim4f",
+        "brand_logo_QnCcUF",
+        "brand_logo_g6a4zj",
+        "brand_logo_NCUKTz",
+        "brand_logo_w98GtP",
+        "brand_logo_iw9Hmc",
+        "brand_logo_UigVPh",
+        "brand_logo_BaWEGR",
+        "brand_logo_yHA8nX",
+        "brand_logo_iBDQJB",
+        "brand_logo_8DKkLN",
+        "brand_logo_7DEjJG",
+        "brand_logo_FVw8rj",
+        "brand_logo_NFtQAY",
+        "brand_logo_YrEXDq",
+        "brand_logo_FqBD8b",
+        "brand_logo_d7pGrR",
+        "brand_logo_qPDKb6",
+        "brand_logo_iJckdD",
+        "brand_logo_yNHQkA",
+        "brand_logo_Tm4TQN"
+      ],
+      "name": "Brands Carousel (Block Based)",
+      "settings": {}
+    },
+    "17616453653a42797e": {
+      "type": "_blocks",
+      "blocks": {
+        "instafeed_app_block_EkEDMR": {
+          "type": "shopify://apps/instafeed/blocks/app-block/c447db20-095d-4a10-9725-b5977662c9d5",
+          "settings": {
+            "title": "FOLLOW US ON INSTAGRAM",
+            "title_color": "#fbb000",
+            "title_size_v2": 0,
+            "alignment": "left",
+            "instafeed_margin_top": 0,
+            "instafeed_margin_bottom": 0,
+            "instafeed_margin_sides": 0,
+            "show_instagram_link": true,
+            "link_alignment": "left",
+            "link_color": "#fbb000",
+            "background_color": "",
+            "feed_id": "",
+            "html_area": ""
+          }
+        }
+      },
+      "block_order": [
+        "instafeed_app_block_EkEDMR"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "section_yXUFcU",
+    "section_tA3iRX",
+    "cvc_build_phases_wzwTLU",
+    "cvc_essentials_VCzHfD",
+    "media_with_content_nTVz6U",
+    "featured_products",
+    "cvc_two_images_plus_text_inqd6P",
+    "cvc_youtube_playlist_grid_3KcHNj",
+    "1761565617354a2578",
+    "cvc_brands_carousel_blocks_VK3ezX",
+    "17616453653a42797e"
+  ]
+}

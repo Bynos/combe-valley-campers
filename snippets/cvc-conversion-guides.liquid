@@ -1,0 +1,47 @@
+{% comment %}
+  Conversion Guides Megamenu Block
+  This dynamically pulls Phase columns from the menu_item's child links
+  
+  Usage in section schema:
+  {
+    "type": "cvc_conversion_guides",
+    "name": "Conversion Guides",
+    "settings": [...]
+  }
+{% endcomment %}
+
+<div class="cvc-megamenu cvc-megamenu--conversion-guides">
+  <div class="cvc-megamenu__container">
+    <h2 class="cvc-megamenu__title">
+      {{ menu_item.title | default: "Conversion Guides" }}
+    </h2>
+
+    {% if block.settings.show_description and block.settings.description != blank %}
+      <div class="cvc-megamenu__description">
+        {{ block.settings.description }}
+      </div>
+    {% endif %}
+
+    <div class="cvc-megamenu__content cvc-megamenu__content--phase-columns">
+      {% if menu_item.links.size > 0 %}
+        {%- comment -%} Pull phases dynamically from menu children {%- endcomment -%}
+        {% for phase in menu_item.links %}
+          <div class="cvc-phase-column">
+            <a href="{{ phase.url }}" class="cvc-phase-column__title">{{ phase.title }}</a>
+            <ul class="cvc-phase-column__links">
+              {% if phase.links.size > 0 %}
+                {% for link in phase.links %}
+                  <li class="cvc-phase-column__link-item">
+                    <a href="{{ link.url }}" class="cvc-phase-column__link">
+                      {{ link.title }}
+                    </a>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>

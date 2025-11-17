@@ -1,0 +1,221 @@
+{% comment %}
+  Your Van Component - Displays selected van model from sessionStorage
+  Shows between Brand Logo and Search in the header
+  
+  This component fetches van model data directly from the DOM
+  (populated by the van model menu blocks)
+{% endcomment %}
+
+<script
+  type="module"
+  src="{{ 'header-your-van.js' | asset_url }}"
+  fetchpriority="low"
+></script>
+
+<div class="header-your-van" id="header-your-van">
+  <div class="header-your-van__content" id="your-van-content" style="display: none;">
+    <div class="header-your-van__trigger">
+      <button 
+        type="button" 
+        class="header-your-van__button"
+        id="your-van-button"
+        aria-label="Your selected van"
+      >
+        <div class="header-your-van__image-wrapper">
+          <img 
+            id="your-van-image" 
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3C/svg%3E" 
+            alt="Your Van" 
+            width="80"
+            height="40"
+            class="header-your-van__image"
+          />
+        </div>
+        <span class="header-your-van__label">
+          <span class="header-your-van__label-text">Your Van:</span>
+          <span id="your-van-name" class="header-your-van__model-name"></span>
+        </span>
+      </button>
+    </div>
+
+    <div class="header-your-van__popover" id="your-van-popover" style="display: none;">
+      <div class="header-your-van__popover-content">
+        <p class="header-your-van__popover-text">
+          Clear your selected van model?
+        </p>
+        <button 
+          type="button" 
+          class="header-your-van__clear-button"
+          id="clear-van-button"
+        >
+          Clear Your Van
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Van Selection Notification {%- endcomment -%}
+  <div class="header-your-van__notification" id="van-selector-notification" data-showing="false">
+    <p class="header-your-van__notification-text" id="van-notification-message"></p>
+  </div>
+</div>
+
+{% stylesheet %}
+  .header-your-van {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .header-your-van__content {
+    position: relative;
+  }
+
+  .header-your-van__button {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    background: transparent;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.2);
+    padding: var(--padding-2xs) var(--padding-sm);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--animation-speed) var(--animation-easing);
+  }
+
+  .header-your-van__button:hover {
+    border-color: var(--cvc-green, rgb(var(--color-foreground-rgb) / 0.4));
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+  }
+
+  .header-your-van__image-wrapper {
+    width: 80px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .header-your-van__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .header-your-van__label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .header-your-van__label-text {
+    font-size: var(--font-size--2xs);
+    color: rgb(var(--color-foreground-rgb) / 0.7);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .header-your-van__model-name {
+    font-size: var(--font-size--sm);
+    font-weight: 600;
+    color: var(--color-foreground);
+    line-height: 1;
+  }
+
+  /* Dark header theme styling */
+  .cvc-header--dark .header-your-van__label-text,
+  .cvc-header--dark .header-your-van__model-name {
+    color: var(--cvc-yellow);
+  }
+
+  .header-your-van__popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+    border-radius: 8px;
+    padding: var(--padding-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    min-width: 200px;
+  }
+
+  .header-your-van__popover-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+
+  .header-your-van__popover-text {
+    margin: 0;
+    font-size: var(--font-size--sm);
+    color: var(--color-foreground);
+    text-align: center;
+  }
+
+  .header-your-van__clear-button {
+    background: rgb(var(--color-foreground-rgb) / 0.1);
+    color: var(--color-foreground);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.2);
+    padding: var(--padding-xs) var(--padding-md);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: var(--font-size--sm);
+    font-weight: 600;
+    transition: all var(--animation-speed) var(--animation-easing);
+  }
+
+  .header-your-van__clear-button:hover {
+    background: rgb(221, 51, 51, 0.1);
+    border-color: rgb(221, 51, 51);
+    color: rgb(221, 51, 51);
+  }
+
+  /* Hide on mobile */
+  @media screen and (max-width: 989px) {
+    .header-your-van {
+      display: none;
+    }
+  }
+
+  /* Van Selection Notification */
+  .header-your-van__notification {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background: var(--cvc-green, #2d5016);
+    color: white;
+    padding: var(--padding-sm) var(--padding-md);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 10100;
+    min-width: 280px;
+    max-width: 350px;
+    transform: scale(0);
+    transform-origin: top left;
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: none;
+  }
+
+  .header-your-van__notification[data-showing="true"] {
+    display: block;
+    transform: scale(1);
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+
+  .header-your-van__notification-text {
+    margin: 0;
+    font-size: var(--font-size--sm);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+{% endstylesheet %}

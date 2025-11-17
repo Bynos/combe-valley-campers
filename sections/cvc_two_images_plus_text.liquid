@@ -1,0 +1,514 @@
+{% comment %}
+  CVC Two Images Plus Text Section
+  
+  A full-width section with two columns:
+  - Left: Two vertically stacked images with slight overlay
+  - Right: Subtitle, heading, text, and two buttons
+{% endcomment %}
+
+<section
+  id="cvc-two-images-text-{{ section.id }}"
+  class="cvc-two-images-text-section{% if section.settings.inherit_color_scheme == false %} color-{{ section.settings.color_scheme }}{% endif %}"
+  style="
+    --padding-block-start: {{ section.settings.padding_block_start }}px;
+    --padding-block-end: {{ section.settings.padding_block_end }}px;
+    --padding-inline-start: {{ section.settings.padding_inline_start }}px;
+    --padding-inline-end: {{ section.settings.padding_inline_end }}px;
+  "
+>
+  <div class="cvc-two-images-text__container">
+    {%- comment -%} Left Column - Images {%- endcomment -%}
+    <div class="cvc-two-images-text__images">
+      <div class="cvc-two-images-text__images-wrapper">
+        <div class="cvc-two-images-text__image cvc-two-images-text__image--top">
+          {% if section.settings.image_top != blank %}
+            {{
+              section.settings.image_top
+              | image_url: width: 800
+              | image_tag: loading: 'lazy', alt: section.settings.image_top.alt
+            }}
+          {% else %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        
+        <div class="cvc-two-images-text__image cvc-two-images-text__image--bottom">
+          {% if section.settings.image_bottom != blank %}
+            {{
+              section.settings.image_bottom
+              | image_url: width: 800
+              | image_tag: loading: 'lazy', alt: section.settings.image_bottom.alt
+            }}
+          {% else %}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Right Column - Content {%- endcomment -%}
+    <div class="cvc-two-images-text__content">
+      {% if section.settings.subtitle != blank %}
+        <p class="cvc-two-images-text__subtitle">{{ section.settings.subtitle }}</p>
+      {% else %}
+        <p class="cvc-two-images-text__subtitle">New Arrival</p>
+      {% endif %}
+      
+      {% if section.settings.heading != blank %}
+        <h2 class="cvc-two-images-text__heading">{{ section.settings.heading }}</h2>
+      {% else %}
+        <h2 class="cvc-two-images-text__heading">Fiamma awnings to maximise your living space</h2>
+      {% endif %}
+      
+      {% if section.settings.text != blank %}
+        <div class="cvc-two-images-text__text">
+          {{ section.settings.text }}
+        </div>
+      {% else %}
+        <div class="cvc-two-images-text__text">
+          <p>Leigh and Ross Show you how to Maximise your Campervan living space with a Fiamma F80s. It is being fitted to Ross' self built, Medium wheel base, VW Crafter camper van.</p>
+        </div>
+      {% endif %}
+      
+      <div class="cvc-two-images-text__buttons">
+        {% if section.settings.button_label_1 != blank %}
+          <a
+            href="{{ section.settings.button_link_1 | default: '#' }}"
+            class="cvc-two-images-text__button cvc-two-images-text__button--outline"
+          >
+            {{ section.settings.button_label_1 }}
+          </a>
+        {% else %}
+          <a
+            href="#"
+            class="cvc-two-images-text__button cvc-two-images-text__button--outline"
+          >
+            Watch Video
+          </a>
+        {% endif %}
+        
+        {% if section.settings.button_label_2 != blank %}
+          <a
+            href="{{ section.settings.button_link_2 | default: '#' }}"
+            class="cvc-two-images-text__button cvc-two-images-text__button--solid"
+          >
+            {{ section.settings.button_label_2 }}
+          </a>
+        {% else %}
+          <a
+            href="#"
+            class="cvc-two-images-text__button cvc-two-images-text__button--solid"
+          >
+            Shop Now
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .cvc-two-images-text-section {
+    width: 100%;
+    padding: var(--padding-block-start, 2rem) var(--padding-inline-start, 1rem) var(--padding-block-end, 2rem) var(--padding-inline-end, 1rem);
+  }
+
+  .cvc-two-images-text__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  /* Left Column - Images */
+  .cvc-two-images-text__images {
+    position: relative;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cvc-two-images-text__images-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    min-height: 500px;
+  }
+
+  .cvc-two-images-text__image {
+    position: absolute;
+    width: 70%;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .cvc-two-images-text__image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .cvc-two-images-text__image .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background-color: #f0f0f0;
+  }
+
+  .cvc-two-images-text__image--top {
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    /* Center the image, then offset it to top-right */
+    /* -50% centers the image, then add offset: +35% right, -35% up */
+    transform: translate(calc(-50% + 35%), calc(-50% - 35%));
+  }
+
+  .cvc-two-images-text__image--bottom {
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    /* Center the image, then offset it to bottom-left */
+    /* -50% centers the image, then add offset: -35% left, +35% down */
+    transform: translate(calc(-50% - 35%), calc(-50% + 35%));
+  }
+
+  /* Right Column - Content */
+  .cvc-two-images-text__content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cvc-two-images-text__subtitle {
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--cvc_red, #d12852);
+    margin: 0;
+  }
+
+  .cvc-two-images-text__heading {
+    text-transform: uppercase;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    font-family: var(--heading_font, 'Open Sans', sans-serif);
+  }
+
+  .cvc-two-images-text__text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--cvc-black, #3b3237);
+  }
+
+  .cvc-two-images-text__text p {
+    margin: 0;
+  }
+
+  .cvc-two-images-text__buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .cvc-two-images-text__button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .cvc-two-images-text__button--outline {
+    background-color: transparent;
+    color: var(--cvc-black, #3b3237);
+    border: 2px solid var(--cvc-black, #3b3237);
+  }
+
+  .cvc-two-images-text__button--outline:hover {
+    background-color: var(--cvc-black, #3b3237);
+    color: var(--cvc_cream, #f2f2f0);
+  }
+
+  .cvc-two-images-text__button--solid {
+    background-color: var(--cvc_red, #d12852);
+    color: var(--cvc_cream, #f2f2f0);
+    border: 2px solid var(--cvc_red, #d12852);
+  }
+
+  .cvc-two-images-text__button--solid:hover {
+    background-color: var(--cvc-black, #3b3237);
+    border-color: var(--cvc-black, #3b3237);
+  }
+
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .cvc-two-images-text__container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .cvc-two-images-text__images-wrapper {
+      min-height: 200px;
+      max-width: 400px;
+    }
+
+    .cvc-two-images-text__image {
+      width: 75%;
+    }
+
+    .cvc-two-images-text__image--top {
+      transform: translate(calc(-50% + 30%), calc(-50% - 30%));
+    }
+
+    .cvc-two-images-text__image--bottom {
+      transform: translate(calc(-50% - 30%), calc(-50% + 30%));
+    }
+
+    .cvc-two-images-text__content {
+      padding: 1rem;
+    }
+
+    .cvc-two-images-text__heading {
+      font-size: 1.75rem;
+    }
+
+    .cvc-two-images-text__buttons {
+      flex-direction: column;
+    }
+
+    .cvc-two-images-text__button {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .cvc-two-images-text-section {
+      padding: 1rem 0.5rem;
+    }
+
+    .cvc-two-images-text__images {
+      padding: 1rem;
+    }
+
+    .cvc-two-images-text__images-wrapper {
+      min-height: 300px;
+      max-width: 300px;
+    }
+
+    .cvc-two-images-text__image {
+      width: 80%;
+    }
+
+    .cvc-two-images-text__image--top {
+      transform: translate(calc(-50% + 25%), calc(-50% - 25%));
+    }
+
+    .cvc-two-images-text__image--bottom {
+      transform: translate(calc(-50% - 25%), calc(-50% + 25%));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.cvc_two_images_plus_text",
+  "tag": "section",
+  "class": "cvc-two-images-text-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_top",
+      "label": "Top Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_bottom",
+      "label": "Bottom Image"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "New Arrival"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Fiamma awnings to maximise your living space"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Leigh and Ross Show you how to Maximise your Campervan living space with a Fiamma F80s. It is being fitted to Ross' self built, Medium wheel base, VW Crafter camper van.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Button 1 Label",
+      "default": "Watch Video"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Button 2 Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "inherit_color_scheme",
+      "label": "Inherit Color Scheme",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Borders"
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "Style",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "solid",
+          "label": "Solid"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Thickness",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Opacity",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Stacked Images + Text",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

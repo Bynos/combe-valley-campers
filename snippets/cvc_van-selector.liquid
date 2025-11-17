@@ -1,0 +1,84 @@
+{% comment %}
+  Van Model Selector Dropdown
+  This snippet creates a dropdown for users to select their van model.
+  The selection is stored in sessionStorage and used to filter products site-wide.
+{% endcomment %}
+
+<div class="van-selector">
+  <label for="van-select" class="van-selector__label">
+    {{ 'van_selector.label' | t | default: 'Select Your Van Model' }}
+  </label>
+  <select id="van-select" class="van-selector__dropdown">
+    <option value="">{{ 'van_selector.placeholder' | t | default: 'All Van Models' }}</option>
+    <option value="model-vw-caddy">VW Caddy</option>
+    <option value="model-vw-caddy-maxi">VW Caddy Maxi</option>
+    <option value="model-vw-crafter">VW Crafter</option>
+    <option value="model-vw-t2-bay">VW T2 Bay</option>
+    <option value="model-vw-t2-split">VW T2 Split</option>
+    <option value="model-vw-t4">VW T4</option>
+    <option value="model-vw-t5">VW T5</option>
+    <option value="model-vw-t6">VW T6</option>
+    <option value="model-vw-t25">VW T25</option>
+    <option value="model-vw-t7">VW T7</option>
+    <option value="model-citroen-relay">Citroen Relay</option>
+    <option value="model-fiat-ducato">Fiat Ducato</option>
+    <option value="model-ford-transit-custom">Ford Transit Custom</option>
+    <option value="model-ford-transit-mk7">Ford Transit MK7</option>
+    <option value="model-mercedes-sprinter">Mercedes Sprinter</option>
+    <option value="model-nissan-primastar">Nissan Primastar</option>
+    <option value="model-peugeot-boxer">Peugeot Boxer</option>
+    <option value="model-renault-trafic">Renault Trafic</option>
+    <option value="model-vauxhall-vivaro">Vauxhall Vivaro</option>
+  </select>
+  <button type="button" id="clear-van-selection" class="van-selector__clear" style="display: none;">
+    {{ 'van_selector.clear' | t | default: 'Clear Selection' }}
+  </button>
+</div>
+
+<style>
+  .van-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .van-selector__label {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .van-selector__dropdown {
+    flex: 1;
+    max-width: 300px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .van-selector__clear {
+    padding: 0.5rem 1rem;
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+
+  .van-selector__clear:hover {
+    background: #e0e0e0;
+  }
+
+  @media (max-width: 768px) {
+    .van-selector {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .van-selector__dropdown {
+      max-width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,2437 @@
+{% comment %}
+  CVC Header Section with Megamenu Blocks
+  This section demonstrates how to use the megamenu blocks
+{% endcomment %}
+
+<header class="cvc-header cvc-header--{{ section.settings.header_theme }}" data-header-theme="{{ section.settings.header_theme }}">
+  <div class="cvc-header__container">
+    {%- comment -%} Mobile Hamburger Menu {%- endcomment -%}
+    <button class="cvc-header__hamburger" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-icon">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </span>
+    </button>
+
+    {%- comment -%} Left Navigation Menu {%- endcomment -%}
+    <nav class="cvc-header__nav cvc-header__nav--left">
+      <ul class="cvc-header__menu">
+        {%- comment -%} Loop through Shopify header menu {%- endcomment -%}
+        {% for menu_item in linklists.header-menu.links %}
+          
+          {%- comment -%} Find matching custom block by position or handle {%- endcomment -%}
+          {% assign custom_block = null %}
+          {% assign current_position = forloop.index %}
+          {% for block in section.blocks %}
+            {% if block.settings.match_type == 'position' %}
+              {%- comment -%} Match by position {%- endcomment -%}
+              {% if block.settings.menu_position == current_position %}
+                {% assign custom_block = block %}
+                {% break %}
+              {% endif %}
+            {% else %}
+              {%- comment -%} Match by handle (default/fallback) {%- endcomment -%}
+              {% if block.settings.menu_handle == menu_item.handle %}
+                {% assign custom_block = block %}
+                {% break %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {%- comment -%} Render menu item {%- endcomment -%}
+          <li class="cvc-header__menu-item has-megamenu"{% if custom_block %} {{ custom_block.shopify_attributes }}{% endif %}>
+            <button class="cvc-header__menu-link">
+              {{ menu_item.title }}
+            </button>
+            
+            <div class="cvc-header__megamenu-panel">
+              {% if custom_block %}
+                {%- comment -%} Render custom megamenu {%- endcomment -%}
+                {% case custom_block.type %}
+                  {% when 'cvc_van_model_menu' %}
+                    {% render 'cvc-van-model-menu', block: custom_block %}
+                  {% when 'cvc_conversion_guides' %}
+                    {% render 'cvc-conversion-guides', block: custom_block, menu_item: menu_item %}
+                {% endcase %}
+              {% else %}
+                {%- comment -%} Render generic megamenu for non-custom items {%- endcomment -%}
+                {% render 'cvc-generic-megamenu', menu_item: menu_item %}
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    {%- comment -%} Center Logo {%- endcomment -%}
+    <div class="cvc-header__logo">
+      {% if section.settings.logo != blank %}
+        <a href="{{ routes.root_url }}" class="cvc-header__logo-link">
+          <img 
+            src="{{ section.settings.logo | image_url }}"
+            srcset="{{ section.settings.logo | image_url: width: 140 }} 140w,
+                    {{ section.settings.logo | image_url: width: 200 }} 200w,
+                    {{ section.settings.logo | image_url: width: 280 }} 280w,
+                    {{ section.settings.logo | image_url: width: 400 }} 400w"
+            sizes="(max-width: 768px) 200px, 280px"
+            alt="{{ shop.name | escape }}"
+            class="cvc-header__logo-image cvc-header__logo-image--light"
+            width="280"
+            height="80"
+            style="max-height: 80px; width: auto; height: auto; min-width: 180px;"
+          >
+          {% if section.settings.logo_dark != blank %}
+            <img 
+              src="{{ section.settings.logo_dark | image_url }}"
+              srcset="{{ section.settings.logo_dark | image_url: width: 140 }} 140w,
+                      {{ section.settings.logo_dark | image_url: width: 200 }} 200w,
+                      {{ section.settings.logo_dark | image_url: width: 280 }} 280w,
+                      {{ section.settings.logo_dark | image_url: width: 400 }} 400w"
+              sizes="(max-width: 768px) 200px, 280px"
+              alt="{{ shop.name | escape }}"
+              class="cvc-header__logo-image cvc-header__logo-image--dark"
+              width="280"
+              height="80"
+              style="max-height: 80px; width: auto; height: auto; min-width: 180px;"
+            >
+          {% endif %}
+        </a>
+      {% elsif section.settings.logo_text != blank %}
+        <a href="{{ routes.root_url }}" class="cvc-header__logo-text">
+          {{ section.settings.logo_text }}
+        </a>
+      {% else %}
+        <a href="{{ routes.root_url }}" class="cvc-header__logo-text">
+          {{ shop.name }}
+        </a>
+      {% endif %}
+    </div>
+
+    {%- comment -%} Right Utility Menu {%- endcomment -%}
+    <div class="cvc-header__utilities">
+      {%- comment -%} Your Van {%- endcomment -%}
+      {% render 'header-your-van' %}
+
+      {%- comment -%} Search {%- endcomment -%}
+      <div class="cvc-header__search">
+        <button 
+          class="cvc-header__search-toggle" 
+          type="button" 
+          aria-label="Search"
+          on:click="#search-modal/showDialog"
+        >
+          {% if section.settings.search_icon != blank %}
+            <img 
+              class="cvc-header__search-icon cvc-header__search-icon--light" 
+              src="{{ section.settings.search_icon | image_url: width: 28, height: 28 }}"
+              alt="Search"
+              width="28"
+              height="28"
+              style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+            />
+            {% if section.settings.search_icon_dark != blank %}
+              <img 
+                class="cvc-header__search-icon cvc-header__search-icon--dark" 
+                src="{{ section.settings.search_icon_dark | image_url: width: 28, height: 28 }}"
+                alt="Search"
+                width="28"
+                height="28"
+                style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+              />
+            {% endif %}
+          {% else %}
+            <svg class="cvc-header__search-icon" viewBox="0 0 24 24" width="28" height="28">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>
+            </svg>
+          {% endif %}
+        </button>
+      </div>
+
+      {%- comment -%} Account {%- endcomment -%}
+      <div class="cvc-header__account">
+        <a href="{{ routes.account_url }}" class="cvc-header__account-link" aria-label="Account">
+          {% if section.settings.account_icon != blank %}
+            <img 
+              class="cvc-header__account-icon cvc-header__account-icon--light" 
+              src="{{ section.settings.account_icon | image_url: width: 28, height: 28 }}"
+              alt="Account"
+              width="28"
+              height="28"
+              style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+            />
+            {% if section.settings.account_icon_dark != blank %}
+              <img 
+                class="cvc-header__account-icon cvc-header__account-icon--dark" 
+                src="{{ section.settings.account_icon_dark | image_url: width: 28, height: 28 }}"
+                alt="Account"
+                width="28"
+                height="28"
+                style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+              />
+            {% endif %}
+          {% else %}
+            <svg class="cvc-header__account-icon" viewBox="0 0 24 24" width="28" height="28">
+              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1L9 7V9C9 10.1 9.9 11 11 11V16L7.5 21L9 22L12 18L15 22L16.5 21L13 16V11C14.1 11 15 10.1 15 9Z" fill="currentColor"/>
+            </svg>
+          {% endif %}
+        </a>
+      </div>
+
+      {%- comment -%} Cart {%- endcomment -%}
+      <div class="cvc-header__cart">
+        <a href="{{ routes.cart_url }}" class="cvc-header__cart-link" aria-label="Cart">
+          {% if section.settings.cart_icon != blank %}
+            <img 
+              class="cvc-header__cart-icon cvc-header__cart-icon--light" 
+              src="{{ section.settings.cart_icon | image_url: width: 28, height: 28 }}"
+              alt="Cart"
+              width="28"
+              height="28"
+              style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+            />
+            {% if section.settings.cart_icon_dark != blank %}
+              <img 
+                class="cvc-header__cart-icon cvc-header__cart-icon--dark" 
+                src="{{ section.settings.cart_icon_dark | image_url: width: 28, height: 28 }}"
+                alt="Cart"
+                width="28"
+                height="28"
+                style="width: 28px !important; height: 28px !important; min-width: 28px; min-height: 28px;"
+              />
+            {% endif %}
+          {% else %}
+            <svg class="cvc-header__cart-icon" viewBox="0 0 24 24" width="28" height="28">
+              <path d="M7 18C5.9 18 5.01 18.9 5.01 20S5.9 22 7 22 9 21.1 9 20 8.1 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5H5.21L4.27 3H1ZM17 18C15.9 18 15.01 18.9 15.01 20S15.9 22 17 22 19 21.1 19 20 18.1 18 17 18Z" fill="currentColor"/>
+            </svg>
+          {% endif %}
+          {% if cart.item_count > 0 %}
+            <span class="cvc-header__cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+{%- comment -%} Mobile Menu Drawer {%- endcomment -%}
+<div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+  <div class="mobile-drawer__backdrop"></div>
+  
+  <div class="mobile-drawer__panel">
+    <div class="mobile-drawer__header">
+      <h2 class="mobile-drawer__title">Menu</h2>
+      <button class="mobile-drawer__close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="mobile-drawer__nav">
+      <ul class="mobile-drawer__menu">
+        {%- comment -%} Loop through Shopify header menu {%- endcomment -%}
+        {% for menu_item in linklists.header-menu.links %}
+          
+          {%- comment -%} Find matching custom block by position or handle {%- endcomment -%}
+          {% assign custom_block = null %}
+          {% assign current_position = forloop.index %}
+          {% for block in section.blocks %}
+            {% if block.settings.match_type == 'position' %}
+              {%- comment -%} Match by position {%- endcomment -%}
+              {% if block.settings.menu_position == current_position %}
+                {% assign custom_block = block %}
+                {% break %}
+              {% endif %}
+            {% else %}
+              {%- comment -%} Match by handle (default/fallback) {%- endcomment -%}
+              {% if block.settings.menu_handle == menu_item.handle %}
+                {% assign custom_block = block %}
+                {% break %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          <li class="mobile-drawer__menu-item">
+            <button class="mobile-drawer__menu-link mobile-drawer__menu-link--parent" 
+                    data-submenu="{{ menu_item.handle }}">
+              {{ menu_item.title }}
+              <span class="mobile-drawer__arrow">›</span>
+            </button>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    {%- comment -%} Generate submenus dynamically for each menu item {%- endcomment -%}
+    {% for menu_item in linklists.header-menu.links %}
+      
+      {%- comment -%} Find matching custom block by position or handle {%- endcomment -%}
+      {% assign custom_block = null %}
+      {% assign current_position = forloop.index %}
+      {% for block in section.blocks %}
+        {% if block.settings.match_type == 'position' %}
+          {%- comment -%} Match by position {%- endcomment -%}
+          {% if block.settings.menu_position == current_position %}
+            {% assign custom_block = block %}
+            {% break %}
+          {% endif %}
+        {% else %}
+          {%- comment -%} Match by handle (default/fallback) {%- endcomment -%}
+          {% if block.settings.menu_handle == menu_item.handle %}
+            {% assign custom_block = block %}
+            {% break %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      <div class="mobile-drawer__submenu" id="submenu-{{ menu_item.handle }}" aria-hidden="true">
+        <div class="mobile-drawer__submenu-header">
+          <button class="mobile-drawer__back" data-back>
+            <span class="mobile-drawer__back-arrow">‹</span>
+            Back
+          </button>
+          <h3 class="mobile-drawer__submenu-title">{{ menu_item.title }}</h3>
+        </div>
+
+        <div class="mobile-drawer__submenu-content">
+          {% if custom_block %}
+            {%- comment -%} Custom submenu content {%- endcomment -%}
+            {% case custom_block.type %}
+              
+              {% when 'cvc_van_model_menu' %}
+                {%- comment -%} Shop Submenu: Tabs and van grid {%- endcomment -%}
+                <div class="mobile-drawer__tabs">
+                  <button class="mobile-drawer__tab mobile-drawer__tab--active" data-tab="categories">
+                    Categories
+                  </button>
+                  <button class="mobile-drawer__tab" data-tab="vans">
+                    Van Models
+                  </button>
+                </div>
+
+                {%- comment -%} Tab Content: Categories (Active by default) {%- endcomment -%}
+                <div class="mobile-drawer__tab-panel mobile-drawer__tab-panel--active" id="tab-categories">
+                  <div class="mobile-drawer__links">
+                    {% if menu_item.links.size > 0 %}
+                      {% for child_link in menu_item.links %}
+                        <a href="{{ child_link.url }}" class="mobile-drawer__link">
+                          {{ child_link.title }}
+                        </a>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+
+                {%- comment -%} Tab Content: Van Models {%- endcomment -%}
+                <div class="mobile-drawer__tab-panel" id="tab-vans">
+                  <div class="mobile-drawer__van-grid">
+                    {% for van_block in section.blocks %}
+                      {% if van_block.type == 'van_model' %}
+                        {% assign model_name = van_block.settings.van_name %}
+                        {% assign model_image = van_block.settings.van_image %}
+                        
+                        {% if model_name != blank %}
+                          {% liquid
+                            assign model_slug = model_name | handleize | prepend: 'model-'
+                          %}
+                          <a
+                            href="#"
+                            class="mobile-drawer__van-item"
+                            data-model-id="{{ model_slug }}"
+                            data-model-name="{{ model_name }}"
+                          >
+                            {% if model_image %}
+                              <img
+                                src="{{ model_image | image_url: width: 120 }}"
+                                alt="{{ model_name }}"
+                                loading="lazy"
+                                width="120"
+                                height="auto"
+                                class="mobile-drawer__van-image"
+                              >
+                            {% else %}
+                              <div class="mobile-drawer__van-placeholder">
+                                <span>{{ model_name }}</span>
+                              </div>
+                            {% endif %}
+                            <span class="mobile-drawer__van-label">{{ model_name }}</span>
+                          </a>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              
+              {% when 'cvc_conversion_guides' %}
+                {%- comment -%} Conversion Guides: Phase list from menu {%- endcomment -%}
+                <div class="mobile-drawer__simple-list">
+                  {% if menu_item.links.size > 0 %}
+                    {% for phase in menu_item.links %}
+                      <div class="mobile-drawer__phase">
+                        <a href="{{ phase.url }}" class="mobile-drawer__phase-title">{{ phase.title }}</a>
+                        <div class="mobile-drawer__phase-links">
+                          {% if phase.links.size > 0 %}
+                            {% for link in phase.links %}
+                              <a href="{{ link.url }}" class="mobile-drawer__link">
+                                {{ link.title }}
+                              </a>
+                            {% endfor %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+            {% endcase %}
+          {% else %}
+            {%- comment -%} Generic submenu for non-custom items {%- endcomment -%}
+            <div class="mobile-drawer__simple-list">
+              {% if menu_item.links.size > 0 %}
+                {% for child_link in menu_item.links %}
+                  <a href="{{ child_link.url }}" class="mobile-drawer__link">
+                    {{ child_link.title }}
+                  </a>
+                  
+                  {%- comment -%} Level 2: Grandchildren with indentation {%- endcomment -%}
+                  {% if child_link.links.size > 0 %}
+                    {% for grandchild_link in child_link.links %}
+                      <a href="{{ grandchild_link.url }}" class="mobile-drawer__link mobile-drawer__link--level2">
+                        {{ grandchild_link.title }}
+                      </a>
+                      
+                      {%- comment -%} Level 3: Great-grandchildren with more indentation {%- endcomment -%}
+                      {% if grandchild_link.links.size > 0 %}
+                        {% for great_grandchild_link in grandchild_link.links %}
+                          <a href="{{ great_grandchild_link.url }}" class="mobile-drawer__link mobile-drawer__link--level3">
+                            {{ great_grandchild_link.title }}
+                          </a>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  /* Header height CSS variables */
+  body {
+    --cvc-header-height: 0px;
+  }
+
+  body:has(.cvc-header) {
+    --cvc-header-height: 80px;
+  }
+
+  /* Base header styles */
+  .cvc-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--cvc-light-grey);
+    border-bottom: 1px solid #e0e0e0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+    will-change: transform, top;
+    transform: translate3d(0, 0, 0); /* Enable hardware acceleration */
+  }
+
+  /* Dark Header Theme */
+  .cvc-header--dark {
+    background: var(--cvc-green);
+    border-bottom: 1px solid var(--cvc-green);
+  }
+
+  .cvc-header--dark,
+  .cvc-header--dark .cvc-header__menu-link,
+  .cvc-header--dark .cvc-header__logo-text {
+    color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark .cvc-header__menu-link:hover {
+    color: var(--cvc-yellow);
+    opacity: 0.8;
+  }
+
+  /* Section wrapper */
+  .section-header {
+    position: relative;
+    z-index: 1001;
+  }
+
+  /* Add shadow when sticky */
+  .cvc-header[data-scrolled='true'] {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .cvc-header__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    min-height: 110px;
+  }
+
+  /* Left Navigation */
+  .cvc-header__nav--left {
+    justify-self: start;
+  }
+
+  /* Center Logo */
+  .cvc-header__logo {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+  }
+
+  .cvc-header__logo-link {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .cvc-header__logo-image {
+    max-height: 80px !important;
+    max-width: 280px !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 180px !important;
+    min-height: 40px !important;
+    object-fit: contain !important;
+    display: block !important;
+    vertical-align: middle;
+  }
+
+  /* Dark Mode Icon Visibility */
+  /* By default (light theme), hide dark icons and show light icons */
+  .cvc-header__logo-image--dark,
+  .cvc-header__search-icon--dark,
+  .cvc-header__account-icon--dark,
+  .cvc-header__cart-icon--dark {
+    display: none !important;
+  }
+
+  .cvc-header__logo-image--light,
+  .cvc-header__search-icon--light,
+  .cvc-header__account-icon--light,
+  .cvc-header__cart-icon--light {
+    display: block !important;
+  }
+
+  /* When dark theme is selected, reverse the visibility */
+  .cvc-header--dark .cvc-header__logo-image--light,
+  .cvc-header--dark .cvc-header__search-icon--light,
+  .cvc-header--dark .cvc-header__account-icon--light,
+  .cvc-header--dark .cvc-header__cart-icon--light {
+    display: none !important;
+  }
+
+  .cvc-header--dark .cvc-header__logo-image--dark,
+  .cvc-header--dark .cvc-header__search-icon--dark,
+  .cvc-header--dark .cvc-header__account-icon--dark,
+  .cvc-header--dark .cvc-header__cart-icon--dark {
+    display: block !important;
+  }
+
+  .cvc-header__logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Right Utilities */
+  .cvc-header__utilities {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cvc-header__search-toggle,
+  .cvc-header__account-link,
+  .cvc-header__cart-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: none;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+
+  .cvc-header__search-toggle:hover,
+  .cvc-header__account-link:hover,
+  .cvc-header__cart-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  /* Dark theme utility buttons */
+  .cvc-header--dark .cvc-header__search-toggle,
+  .cvc-header--dark .cvc-header__account-link,
+  .cvc-header--dark .cvc-header__cart-link {
+    color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark .cvc-header__search-toggle:hover,
+  .cvc-header--dark .cvc-header__account-link:hover,
+  .cvc-header--dark .cvc-header__cart-link:hover {
+    background-color: rgba(251, 176, 0, 0.1);
+  }
+
+  .cvc-header__cart-link {
+    position: relative;
+  }
+
+  .cvc-header__cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Dark theme cart count */
+  .cvc-header--dark .cvc-header__cart-count {
+    background: var(--cvc-yellow);
+    color: var(--cvc-green);
+  }
+
+  .cvc-header__nav {
+    flex: 1;
+  }
+
+  .cvc-header__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    height: 100%;
+    align-items: stretch;
+  }
+
+  .cvc-header__menu-item {
+    position: relative;
+    z-index: 1001;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .cvc-header__menu-link {
+    padding: 0 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    transition: color 0.2s;
+    position: relative;
+    z-index: 1002;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+  }
+
+  .cvc-header__menu-link:hover {
+    color: #0066cc;
+  }
+
+  .cvc-header__megamenu-panel {
+    display: none;
+    position: fixed;
+    top: var(--cvc-header-height);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    z-index: 1000;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  /* Dark theme megamenu panel */
+  .cvc-header--dark .cvc-header__megamenu-panel {
+    background: var(--cvc-green);
+  }
+
+  .cvc-header--dark .cvc-megamenu,
+  .cvc-header--dark .cvc-megamenu__simple-link,
+  .cvc-header--dark .cvc-megamenu__grid-link,
+  .cvc-header--dark .cvc-megamenu__sublink,
+  .cvc-header--dark .cvc-phase-column__title,
+  .cvc-header--dark .cvc-phase-column__link,
+  .cvc-header--dark .cvc-van-model-link {
+    color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark .cvc-megamenu__simple-link:hover,
+  .cvc-header--dark .cvc-megamenu__grid-link:hover,
+  .cvc-header--dark .cvc-megamenu__sublink:hover,
+  .cvc-header--dark .cvc-phase-column__title:hover,
+  .cvc-header--dark .cvc-phase-column__link:hover {
+    color: var(--cvc-yellow);
+    opacity: 0.8;
+  }
+
+  .cvc-header--dark .cvc-phase-column__title {
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark .cvc-phase-column__title:hover {
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  /* Keep menu open when hovering over button OR panel */
+  .cvc-header__menu-item.has-megamenu:hover .cvc-header__megamenu-panel,
+  .cvc-header__megamenu-panel:hover {
+    display: block;
+  }
+
+  /* Megamenu Styles */
+  .cvc-megamenu {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .cvc-megamenu__container {
+    width: 100%;
+  }
+
+  .cvc-megamenu__content--two-column {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* Column wrapper for titles */
+  .cvc-megamenu__column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cvc-megamenu__column-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-foreground);
+    color: var(--color-foreground);
+  }
+
+  /* Dark theme column title */
+  .cvc-header--dark .cvc-megamenu__column-title {
+    color: var(--cvc-yellow);
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  /* Conversion Guides Phase Column Layout - Balanced multi-row */
+  .cvc-megamenu__content--phase-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Default: up to 5 items, equal width */
+  .cvc-phase-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 calc(20% - 1.6rem); /* 5 columns */
+    min-width: 180px;
+  }
+
+  /* When 6+ items, force 3 per row */
+  .cvc-megamenu__content--phase-columns:has(.cvc-phase-column:nth-child(6)) .cvc-phase-column {
+    flex: 1 1 calc(33.333% - 1.4rem); /* 3 columns */
+  }
+
+  .cvc-phase-column__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--color-foreground);
+    border-bottom: 2px solid var(--color-foreground);
+    padding-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    display: block;
+    text-decoration: none;
+  }
+
+  .cvc-phase-column__title:hover {
+    color: #0066cc;
+    border-bottom-color: #0066cc;
+  }
+
+  .cvc-phase-column__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cvc-phase-column__link-item {
+    margin: 0;
+  }
+
+  .cvc-phase-column__link {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease;
+    display: block;
+  }
+
+  .cvc-phase-column__link:hover {
+    color: #0066cc;
+    text-decoration: underline;
+  }
+
+  .cvc-megamenu__images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar styling */
+  .cvc-megamenu__images::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .cvc-megamenu__images::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .cvc-megamenu__images::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+  }
+
+  .cvc-megamenu__images::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Firefox scrollbar */
+  .cvc-megamenu__images {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  }
+
+  .cvc-megamenu__text-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Van Model Links - Use theme text color */
+  .cvc-van-model-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-foreground);
+    transition: all 0.2s ease;
+    padding: 0;
+    margin: 0;
+    border: none;
+    position: relative;
+  }
+
+  .cvc-van-model-link:hover {
+    color: var(--color-foreground);
+    transform: translateY(-2px);
+  }
+
+  .cvc-van-model-link--image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cvc-van-model-link--image img {
+    width: 100%;
+    height: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+
+  .cvc-van-model-link__placeholder {
+    width: 100%;
+    height: 80px;
+    background-color: rgb(var(--color-foreground-rgb) / 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: var(--color-foreground);
+    font-size: 0.875rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .cvc-van-model-link__label {
+    position: absolute;
+    top: calc(100% - 1rem);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    color: var(--color-foreground);
+    background: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .cvc-van-model-link--text {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    border-radius: 4px;
+  }
+
+  .cvc-van-model-link--text:hover {
+    background-color: rgb(var(--color-foreground-rgb) / 0.05);
+    transform: none;
+    padding-left: 0.75rem;
+  }
+
+  /* Generic Megamenu Styles */
+  /* Simple List (1-3 items) */
+  .cvc-megamenu__simple-list {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 1.5rem;
+    min-width: 200px;
+  }
+
+  .cvc-megamenu__simple-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .cvc-megamenu__simple-link {
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--color-foreground);
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
+
+  .cvc-megamenu__simple-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #0066cc;
+  }
+
+  /* Level 2 indentation for simple list */
+  .cvc-megamenu__simple-link--level2 {
+    margin-left: 1.5rem;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Level 3 indentation for simple list */
+  .cvc-megamenu__simple-link--level3 {
+    margin-left: 3rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    opacity: 0.85;
+  }
+
+  /* Grid (4+ items) */
+  .cvc-megamenu__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .cvc-megamenu__grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cvc-megamenu__grid-link {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-foreground);
+    transition: color 0.2s ease;
+  }
+
+  .cvc-megamenu__grid-link:hover {
+    color: #0066cc;
+  }
+
+  .cvc-megamenu__sublist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cvc-megamenu__sublink {
+    padding: 0.25rem 0;
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+  }
+
+  .cvc-megamenu__sublink:hover {
+    color: #0066cc;
+    text-decoration: underline;
+  }
+
+  /* Level 3 nested list with indentation */
+  .cvc-megamenu__sublist--level3 {
+    margin-left: 1rem;
+    margin-top: 0.25rem;
+  }
+
+  .cvc-megamenu__sublink--level3 {
+    font-size: 0.875rem;
+    opacity: 0.85;
+    padding-left: 0.5rem;
+  }
+
+  /* Hamburger Menu Button */
+  .cvc-header__hamburger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 10001;
+  }
+
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    margin: auto;
+  }
+
+  .hamburger-line {
+    width: 24px;
+    height: 2px;
+    background-color: #333;
+    display: block;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+  }
+
+  /* Dark theme hamburger */
+  .cvc-header--dark .hamburger-line {
+    background-color: var(--cvc-yellow);
+  }
+
+  /* Animated hamburger to X */
+  .cvc-header__hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .cvc-header__hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .cvc-header__hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Mobile Drawer - Base Styles */
+  .mobile-drawer {
+    display: none; /* Hidden by default, shown on mobile */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    pointer-events: none;
+  }
+
+  .mobile-drawer[aria-hidden="false"] {
+    pointer-events: auto;
+  }
+
+  .mobile-drawer__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-drawer[aria-hidden="false"] .mobile-drawer__backdrop {
+    opacity: 1;
+  }
+
+  .mobile-drawer__panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85%;
+    max-width: 320px;
+    height: 100vh;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Dark theme mobile drawer */
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__panel {
+    background: var(--cvc-green);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__header {
+    background: var(--cvc-green);
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__title,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__menu-link,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__link,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__phase-title,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__submenu-title,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__back,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__close,
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__van-label {
+    color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__submenu {
+    background: var(--cvc-green);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__submenu-header {
+    background: var(--cvc-green);
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__tabs {
+    background: var(--cvc-green);
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__tab {
+    color: var(--cvc-yellow);
+    opacity: 0.7;
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__tab--active {
+    opacity: 1;
+    border-bottom-color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__menu-item {
+    border-bottom-color: rgba(251, 176, 0, 0.2);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__arrow {
+    color: var(--cvc-yellow);
+  }
+
+  .cvc-header--dark ~ .mobile-drawer .mobile-drawer__van-item {
+    border-color: var(--cvc-yellow);
+  }
+
+  .mobile-drawer[aria-hidden="false"] .mobile-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .mobile-drawer__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+  }
+
+  .mobile-drawer__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .mobile-drawer__close {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+  }
+
+  .mobile-drawer__close:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .mobile-drawer__nav {
+    padding: 0;
+  }
+
+  .mobile-drawer__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-drawer__menu-item {
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .mobile-drawer__menu-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-drawer__menu-link:hover,
+  .mobile-drawer__menu-link:active {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .mobile-drawer__arrow {
+    font-size: 1.5rem;
+    color: #999;
+  }
+
+  /* Mobile Drawer Submenu */
+  .mobile-drawer__submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-drawer__submenu[aria-hidden="false"] {
+    left: 0;
+  }
+
+  .mobile-drawer__submenu-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    gap: 1rem;
+  }
+
+  .mobile-drawer__back {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0066cc;
+    cursor: pointer;
+  }
+
+  .mobile-drawer__back-arrow {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .mobile-drawer__submenu-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+  }
+
+  .mobile-drawer__submenu-content {
+    padding: 0;
+  }
+
+  /* Tabs */
+  .mobile-drawer__tabs {
+    display: flex;
+    border-bottom: 2px solid #e0e0e0;
+    position: sticky;
+    top: 57px; /* Height of submenu header */
+    background: white;
+    z-index: 9;
+  }
+
+  .mobile-drawer__tab {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    border: none;
+    background: transparent;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-drawer__tab--active {
+    color: #0066cc;
+    border-bottom-color: #0066cc;
+  }
+
+  .mobile-drawer__tab-panel {
+    display: none;
+    padding: 1rem;
+  }
+
+  .mobile-drawer__tab-panel--active {
+    display: block;
+  }
+
+  /* Categories Links */
+  .mobile-drawer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mobile-drawer__link {
+    padding: 0.875rem 0.5rem;
+    border-bottom: 1px solid #f5f5f5;
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-drawer__link:hover,
+  .mobile-drawer__link:active {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  /* Level 2 indentation for mobile drawer */
+  .mobile-drawer__link--level2 {
+    padding-left: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* Level 3 indentation for mobile drawer */
+  .mobile-drawer__link--level3 {
+    padding-left: 3rem;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  /* Van Grid */
+  .mobile-drawer__van-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .mobile-drawer__van-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-drawer__van-item:hover,
+  .mobile-drawer__van-item:active {
+    border-color: #0066cc;
+    background-color: rgba(0, 102, 204, 0.02);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-drawer__van-image {
+    width: 100%;
+    height: auto;
+    max-height: 80px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-drawer__van-placeholder {
+    width: 100%;
+    height: 80px;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+
+  .mobile-drawer__van-placeholder span {
+    font-size: 0.75rem;
+    color: #999;
+    text-align: center;
+    padding: 0.5rem;
+  }
+
+  .mobile-drawer__van-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* Conversion Guides Simple List */
+  .mobile-drawer__simple-list {
+    padding: 0.5rem 0;
+  }
+
+  .mobile-drawer__phase {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .mobile-drawer__phase:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-drawer__phase-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+    padding: 0;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s ease;
+  }
+
+  .mobile-drawer__phase-title:hover {
+    color: #0066cc;
+  }
+
+  .mobile-drawer__phase-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mobile-drawer__phase-links .mobile-drawer__link {
+    padding: 0.5rem 0;
+    border-bottom: none;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #555;
+  }
+
+  .mobile-drawer__phase-links .mobile-drawer__link:last-child {
+    padding-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    /* Mobile: Single row layout */
+    .cvc-header__container {
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      min-height: 56px;
+    }
+    
+    body:has(.cvc-header) {
+      --cvc-header-height: 56px;
+    }
+
+    /* Hide desktop navigation on mobile */
+    .cvc-header__nav--left {
+      display: none;
+    }
+
+    /* Show hamburger on mobile */
+    .cvc-header__hamburger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mobile layout order: hamburger, logo, utilities */
+    .cvc-header__hamburger {
+      order: 1;
+      justify-self: start;
+    }
+
+    .cvc-header__logo {
+      order: 2;
+      justify-self: center;
+      min-height: 50px;
+      padding: 0.25rem 0;
+    }
+
+    .cvc-header__logo-image {
+      max-height: 35px !important;
+      max-width: 160px !important;
+      min-width: 100px !important;
+      min-height: 28px !important;
+    }
+
+    .cvc-header__logo-image--light,
+    .cvc-header__logo-image--dark {
+      max-height: 35px !important;
+      max-width: 160px !important;
+      min-width: 100px !important;
+      min-height: 28px !important;
+    }
+
+    .cvc-header__utilities {
+      order: 3;
+      justify-self: end;
+      gap: 0.5rem;
+    }
+
+    .cvc-header__search-toggle,
+    .cvc-header__account-link,
+    .cvc-header__cart-link {
+      width: 40px;
+      height: 40px;
+    }
+
+    .cvc-header__search-icon,
+    .cvc-header__account-icon,
+    .cvc-header__cart-icon,
+    .cvc-header__search-toggle img,
+    .cvc-header__account-link img,
+    .cvc-header__cart-link img {
+      width: 22px !important;
+      height: 22px !important;
+      min-width: 22px !important;
+      min-height: 22px !important;
+    }
+
+    .cvc-header__menu-link {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.95rem;
+      min-height: 44px;
+    }
+
+    .mobile-drawer {
+      display: block;
+    }
+
+    .cvc-megamenu__simple-list {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cvc-megamenu__simple-group {
+      min-width: auto;
+    }
+
+    .cvc-megamenu__content--two-column {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .cvc-megamenu__content--phase-columns {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .cvc-megamenu__content--phase-columns .cvc-phase-column {
+      flex: 1 1 100%;
+      min-width: 100%;
+    }
+
+    .cvc-megamenu__images {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0;
+    }
+
+    .cvc-megamenu__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem;
+    }
+  }
+
+  /* Medium screens - 2 columns for conversion guides */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .cvc-megamenu__content--phase-columns .cvc-phase-column {
+      flex: 1 1 calc(50% - 1rem); /* 2 columns */
+      min-width: 200px;
+    }
+  }
+
+  /* Large screens - balanced 3-column layout for 6+ items */
+  @media (min-width: 1025px) {
+    /* Already defined in main styles above */
+  }
+
+  /* Hide mobile elements on desktop */
+  @media (min-width: 769px) {
+    .cvc-header__hamburger {
+      display: none !important;
+    }
+
+    .mobile-drawer {
+      display: none !important;
+    }
+  }
+
+  /* Extra small phones */
+  @media (max-width: 390px) {
+    .cvc-header__container {
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    .cvc-header__logo-image {
+      max-width: 120px !important;
+      max-height: 30px !important;
+    }
+
+    .cvc-header__utilities {
+      gap: 0.25rem;
+    }
+
+    .cvc-header__search-toggle,
+    .cvc-header__account-link,
+    .cvc-header__cart-link {
+      width: 36px;
+      height: 36px;
+    }
+
+    .mobile-drawer__van-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .mobile-drawer__van-item {
+      padding: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Keep header always at top of viewport and add shadow after scrolling
+  (function() {
+    const header = document.querySelector('.cvc-header');
+    if (!header) return;
+
+    let ticking = false;
+    let lastScrollY = 0;
+
+    function updateHeaderState() {
+      const scrollY = window.scrollY;
+      
+      // Skip if scroll hasn't changed enough to warrant an update
+      if (Math.abs(scrollY - lastScrollY) < 1) {
+        ticking = false;
+        return;
+      }
+      
+      // Get announcement bar height
+      const announcementBar = document.querySelector('.announcement-bar');
+      const announcementBarHeight = announcementBar ? announcementBar.offsetHeight : 0;
+      
+      // Only stick header after scrolling past announcement bar height
+      const shouldStick = scrollY > announcementBarHeight;
+      const scrolled = scrollY > 100;
+      
+      if (shouldStick) {
+        // Make header sticky at top of viewport
+        header.style.position = 'fixed';
+        header.style.top = '0px';
+        header.style.transform = 'translate3d(0, 0, 0)';
+      } else {
+        // Let header behave normally
+        header.style.position = 'relative';
+        header.style.top = '0px';
+        header.style.transform = 'translate3d(0, 0, 0)';
+      }
+      
+      // Add shadow effect when scrolled
+      header.setAttribute('data-scrolled', scrolled);
+      
+      lastScrollY = scrollY;
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateHeaderState);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Set initial state
+    updateHeaderState();
+  })();
+
+  // Mobile Drawer Navigation
+  (function() {
+    const hamburger = document.querySelector('.cvc-header__hamburger');
+    const drawer = document.querySelector('.mobile-drawer');
+    const drawerBackdrop = document.querySelector('.mobile-drawer__backdrop');
+    const closeBtn = document.querySelector('.mobile-drawer__close');
+    const menuLinks = document.querySelectorAll('.mobile-drawer__menu-link--parent');
+    const backButtons = document.querySelectorAll('.mobile-drawer__back');
+    const body = document.body;
+
+    if (!hamburger || !drawer) return;
+
+    // Open drawer
+    function openDrawer() {
+      drawer.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      body.style.overflow = 'hidden';
+    }
+
+    // Close drawer
+    function closeDrawer() {
+      drawer.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+      
+      // Close all submenus when drawer closes
+      setTimeout(() => {
+        const allSubmenus = document.querySelectorAll('.mobile-drawer__submenu');
+        allSubmenus.forEach(submenu => {
+          submenu.setAttribute('aria-hidden', 'true');
+        });
+      }, 300);
+    }
+
+    // Open submenu
+    function openSubmenu(submenuId) {
+      const submenu = document.getElementById(submenuId);
+      if (submenu) {
+        submenu.setAttribute('aria-hidden', 'false');
+      }
+    }
+
+    // Close submenu
+    function closeSubmenu(submenu) {
+      submenu.setAttribute('aria-hidden', 'true');
+    }
+
+    // Event listeners
+    hamburger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    // Menu item clicks - open submenus
+    menuLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const submenuId = 'submenu-' + link.dataset.submenu;
+        openSubmenu(submenuId);
+      });
+    });
+
+    // Back button clicks - close submenus
+    backButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const submenu = btn.closest('.mobile-drawer__submenu');
+        if (submenu) {
+          closeSubmenu(submenu);
+        }
+      });
+    });
+
+    // Tab switching in Shop submenu
+    const tabs = document.querySelectorAll('.mobile-drawer__tab');
+    const tabPanels = document.querySelectorAll('.mobile-drawer__tab-panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.dataset.tab;
+        
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('mobile-drawer__tab--active'));
+        
+        // Add active class to clicked tab
+        tab.classList.add('mobile-drawer__tab--active');
+        
+        // Hide all panels
+        tabPanels.forEach(panel => panel.classList.remove('mobile-drawer__tab-panel--active'));
+        
+        // Show target panel
+        const targetPanel = document.getElementById('tab-' + targetTab);
+        if (targetPanel) {
+          targetPanel.classList.add('mobile-drawer__tab-panel--active');
+        }
+      });
+    });
+
+    // Van model selection (keep existing functionality)
+    const vanModelLinks = document.querySelectorAll('.mobile-drawer__van-item');
+    
+    vanModelLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const modelId = this.getAttribute('data-model-id');
+        const modelName = this.getAttribute('data-model-name');
+        
+        if (modelId) {
+          // Store the selected van model
+          sessionStorage.setItem('selectedVanModel', modelId);
+          
+          // Close drawer
+          closeDrawer();
+          
+          // Apply filter to current page
+          const url = new URL(window.location.href);
+          const params = new URLSearchParams(url.search);
+          
+          // Remove any existing filter.p.tag parameters
+          for (const key of Array.from(params.keys())) {
+            if (key.startsWith('filter.p.tag')) {
+              params.delete(key);
+            }
+          }
+          
+          // Add the new filter parameter
+          params.set('filter.p.tag', modelId);
+          url.search = params.toString();
+          
+          // Navigate if on collection/product page
+          const pathname = window.location.pathname;
+          if (pathname.includes('/collections/') || pathname.includes('/products/')) {
+            window.location.href = url.toString();
+          } else {
+            // Show notification
+            showNotification(`Van filter set to: ${modelName}`);
+          }
+        }
+      });
+    });
+
+    // Notification helper
+    function showNotification(message) {
+      const notification = document.getElementById('van-selector-notification');
+      const notificationText = document.getElementById('van-notification-message');
+      
+      if (!notification || !notificationText) {
+        console.warn('Notification element not found');
+        return;
+      }
+
+      // Clear any existing timeouts stored globally on the notification element
+      if (notification._hideTimeout) {
+        clearTimeout(notification._hideTimeout);
+        notification._hideTimeout = null;
+      }
+      if (notification._showTimeout) {
+        clearTimeout(notification._showTimeout);
+        notification._showTimeout = null;
+      }
+
+      // Get custom message from megamenu settings or use default
+      const megamenu = document.querySelector('.cvc-megamenu--van-models');
+      const customMessage = megamenu ? megamenu.getAttribute('data-notification-message') : null;
+      
+      // Use custom message if available, otherwise use default
+      notificationText.textContent = customMessage || 'We will only show you products that are for your van';
+      
+      // Reset animation by setting to false first
+      notification.setAttribute('data-showing', 'false');
+      
+      // Use a small timeout to ensure the reset is processed
+      notification._showTimeout = setTimeout(() => {
+        // Show notification with bounce animation
+        notification.setAttribute('data-showing', 'true');
+
+        // Hide after 6 seconds (2x the original 3 seconds)
+        notification._hideTimeout = setTimeout(() => {
+          notification.setAttribute('data-showing', 'false');
+        }, 6000);
+      }, 50);
+    }
+
+    // ESC key to close drawer
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
+        closeDrawer();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "CVC Header with Megamenus",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Theme"
+    },
+    {
+      "type": "radio",
+      "id": "header_theme",
+      "label": "Header Style",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light Header"
+        },
+        {
+          "value": "dark",
+          "label": "Dark Header"
+        }
+      ],
+      "default": "light",
+      "info": "Choose between light or dark header theme. Dark theme uses green background with yellow text."
+    },
+    {
+      "type": "header",
+      "content": "Header Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Brand Logo",
+      "info": "Upload your brand logo image for Light Header theme."
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_dark",
+      "label": "Brand Logo (Dark Header)",
+      "info": "Upload a logo for Dark Header theme. Will display when Dark Header is selected above."
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text (Fallback)",
+      "default": "CVC",
+      "info": "This text will display if no logo image is uploaded"
+    },
+    {
+      "type": "header",
+      "content": "Custom Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "search_icon",
+      "label": "Search Icon (SVG)",
+      "info": "Upload a custom SVG icon for search (Light Header). If empty, default icon will be used."
+    },
+    {
+      "type": "image_picker",
+      "id": "search_icon_dark",
+      "label": "Search Icon (Dark Header)",
+      "info": "Upload icon for Dark Header theme. Will display when Dark Header is selected."
+    },
+    {
+      "type": "image_picker",
+      "id": "account_icon",
+      "label": "Account Icon (SVG)",
+      "info": "Upload a custom SVG icon for account (Light Header). If empty, default icon will be used."
+    },
+    {
+      "type": "image_picker",
+      "id": "account_icon_dark",
+      "label": "Account Icon (Dark Header)",
+      "info": "Upload icon for Dark Header theme. Will display when Dark Header is selected."
+    },
+    {
+      "type": "image_picker",
+      "id": "cart_icon",
+      "label": "Cart Icon (SVG)",
+      "info": "Upload a custom SVG icon for cart (Light Header). If empty, default icon will be used."
+    },
+    {
+      "type": "image_picker",
+      "id": "cart_icon_dark",
+      "label": "Cart Icon (Dark Header)",
+      "info": "Upload icon for Dark Header theme. Will display when Dark Header is selected."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "cvc_van_model_menu",
+      "name": "Van Model Megamenu",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "radio",
+          "id": "match_type",
+          "label": "Match Menu Item By",
+          "options": [
+            {
+              "value": "position",
+              "label": "Position (1st menu item)"
+            },
+            {
+              "value": "handle",
+              "label": "Handle (match specific handle)"
+            }
+          ],
+          "default": "position",
+          "info": "Choose how this megamenu should match to a menu item. Position is recommended - it will always display under the first menu item regardless of its name."
+        },
+        {
+          "type": "range",
+          "id": "menu_position",
+          "label": "Menu Position",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 1,
+          "info": "Which position in the menu (1 = first item, 2 = second item, etc.)"
+        },
+        {
+          "type": "text",
+          "id": "menu_handle",
+          "label": "Menu Handle (if matching by handle)",
+          "default": "shop",
+          "info": "Only used if 'Match by Handle' is selected. The handle of the menu item (e.g., 'shop')."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Title",
+          "default": "Shop"
+        },
+        {
+          "type": "paragraph",
+          "content": "Add individual 'Van Model' blocks to this section to create your van model menu. Each van will generate a 'model-[van-name]' slug automatically."
+        }
+      ]
+    },
+    {
+      "type": "van_model",
+      "name": "Van Model",
+      "settings": [
+        {
+          "type": "text",
+          "id": "van_name",
+          "label": "Van Name",
+          "info": "The model-[van name] slug will be automatically generated (e.g., 'VW Caddy' becomes 'model-vw-caddy')"
+        },
+        {
+          "type": "image_picker",
+          "id": "van_image",
+          "label": "Van Image"
+        }
+      ]
+    },
+    {
+      "type": "cvc_conversion_guides",
+      "name": "Conversion Guides",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "radio",
+          "id": "match_type",
+          "label": "Match Menu Item By",
+          "options": [
+            {
+              "value": "position",
+              "label": "Position (2nd menu item)"
+            },
+            {
+              "value": "handle",
+              "label": "Handle (match specific handle)"
+            }
+          ],
+          "default": "position",
+          "info": "Choose how this megamenu should match to a menu item. Position is recommended - it will always display under the second menu item regardless of its name."
+        },
+        {
+          "type": "range",
+          "id": "menu_position",
+          "label": "Menu Position",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 2,
+          "info": "Which position in the menu (1 = first item, 2 = second item, etc.)"
+        },
+        {
+          "type": "text",
+          "id": "menu_handle",
+          "label": "Menu Handle (if matching by handle)",
+          "default": "conversion-guides",
+          "info": "Only used if 'Match by Handle' is selected. The handle of the menu item (e.g., 'conversion-guides')."
+        },
+        {
+          "type": "header",
+          "content": "Conversion Phases"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Conversion Guides"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Show description",
+          "default": false
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "phase_1_title",
+          "label": "Phase 1 Title",
+          "default": "Phase 1"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_1_links",
+          "label": "Phase 1 Links (one per line)",
+          "default": "Insure Your Van\nStrip & Clean\nWindows\nCab Seating",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_2_title",
+          "label": "Phase 2 Title",
+          "default": "Phase 2"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_2_links",
+          "label": "Phase 2 Links (one per line)",
+          "default": "Sound Deadening\nPly Panels\nCarpeting\nFlooring",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_3_title",
+          "label": "Phase 3 Title",
+          "default": "Phase 3"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_3_links",
+          "label": "Phase 3 Links (one per line)",
+          "default": "Window Shades\nElectrics\nHeaters",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_4_title",
+          "label": "Phase 4 Title",
+          "default": "Phase 4"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_4_links",
+          "label": "Phase 4 Links (one per line)",
+          "default": "Beds\nAppliances\nAwnings\nWheels",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_5_title",
+          "label": "Phase 5 Title",
+          "default": "Phase 5"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_5_links",
+          "label": "Phase 5 Links (one per line)",
+          "default": "Storage\nCamping\nStyling\nAccessories",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_6_title",
+          "label": "Phase 6 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_6_links",
+          "label": "Phase 6 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_7_title",
+          "label": "Phase 7 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_7_links",
+          "label": "Phase 7 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_8_title",
+          "label": "Phase 8 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_8_links",
+          "label": "Phase 8 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_9_title",
+          "label": "Phase 9 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_9_links",
+          "label": "Phase 9 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        },
+        {
+          "type": "text",
+          "id": "phase_10_title",
+          "label": "Phase 10 Title"
+        },
+        {
+          "type": "textarea",
+          "id": "phase_10_links",
+          "label": "Phase 10 Links (one per line)",
+          "info": "Enter links one per line. Format: 'Link Text' or 'Link Text | /url'"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CVC Header",
+      "blocks": [
+        {
+          "type": "cvc_van_model_menu"
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW Caddy"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW Caddy Maxi"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW Crafter"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T2 Bay"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T2 Split"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T4"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T5"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T6"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T25"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "VW T7"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Citroen Relay"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Fiat Ducato"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit Custom"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Ford Transit MK7"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Mercedes Sprinter"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Nissan Primastar"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Peugeot Boxer"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Renault Trafic"
+          }
+        },
+        {
+          "type": "van_model",
+          "settings": {
+            "van_name": "Vauxhall Vivaro"
+          }
+        },
+        {
+          "type": "cvc_conversion_guides"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
