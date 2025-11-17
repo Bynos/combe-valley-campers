@@ -638,33 +638,62 @@
     }
 
     showNotification(message) {
-      let notification = document.getElementById('van-selector-notification');
+      const notification = document.getElementById('van-selector-notification');
+      const notificationTitle = document.getElementById('van-notification-title');
+      const notificationText = document.getElementById('van-notification-message');
+      const backdrop = document.getElementById('van-notification-backdrop');
       
-      if (!notification) {
-        notification = document.createElement('div');
-        notification.id = 'van-selector-notification';
-        notification.style.cssText = `
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: #0066cc;
-          color: white;
-          padding: 1rem 1.5rem;
-          border-radius: 6px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-          z-index: 10000;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        `;
-        document.body.appendChild(notification);
+      if (!notification || !notificationTitle || !notificationText) {
+        console.warn('Van notification elements not found');
+        return;
       }
 
-      notification.textContent = message;
-      notification.style.opacity = '1';
+      // Clear any existing timeouts
+      if (notification._hideTimeout) {
+        clearTimeout(notification._hideTimeout);
+        notification._hideTimeout = null;
+      }
+      if (notification._showTimeout) {
+        clearTimeout(notification._showTimeout);
+        notification._showTimeout = null;
+      }
 
-      setTimeout(() => {
-        notification.style.opacity = '0';
-      }, 3000);
+      // Set the message as title (for compatibility with old code)
+      notificationTitle.textContent = message;
+      notificationText.textContent = '';
+
+      // Reset animation
+      notification.setAttribute('data-showing', 'false');
+      if (backdrop) backdrop.setAttribute('data-showing', 'false');
+
+      // Show with animation
+      notification._showTimeout = setTimeout(() => {
+        notification.setAttribute('data-showing', 'true');
+        if (backdrop) backdrop.setAttribute('data-showing', 'true');
+
+        // Function to hide notification
+        const hideNotification = () => {
+          notification.setAttribute('data-showing', 'false');
+          if (backdrop) backdrop.setAttribute('data-showing', 'false');
+          
+          // Remove click handlers
+          if (backdrop) backdrop.removeEventListener('click', hideNotification);
+          notification.removeEventListener('click', hideNotification);
+          
+          // Clear timeout
+          if (notification._hideTimeout) {
+            clearTimeout(notification._hideTimeout);
+            notification._hideTimeout = null;
+          }
+        };
+
+        // Add click handlers to close on click
+        if (backdrop) backdrop.addEventListener('click', hideNotification);
+        notification.addEventListener('click', hideNotification);
+
+        // Hide after 6 seconds
+        notification._hideTimeout = setTimeout(hideNotification, 6000);
+      }, 50);
     }
   }
 

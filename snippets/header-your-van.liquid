@@ -54,10 +54,6 @@
     </div>
   </div>
 
-  {%- comment -%} Van Selection Notification {%- endcomment -%}
-  <div class="header-your-van__notification" id="van-selector-notification" data-showing="false">
-    <p class="header-your-van__notification-text" id="van-notification-message"></p>
-  </div>
 </div>
 
 {% stylesheet %}
@@ -182,40 +178,5 @@
     .header-your-van {
       display: none;
     }
-  }
-
-  /* Van Selection Notification */
-  .header-your-van__notification {
-    position: absolute;
-    top: calc(100% + 12px);
-    left: 0;
-    background: var(--cvc-green, #2d5016);
-    color: white;
-    padding: var(--padding-sm) var(--padding-md);
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    z-index: 10100;
-    min-width: 280px;
-    max-width: 350px;
-    transform: scale(0);
-    transform-origin: top left;
-    opacity: 0 !important;
-    pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    display: none;
-  }
-
-  .header-your-van__notification[data-showing="true"] {
-    display: block;
-    transform: scale(1);
-    opacity: 1 !important;
-    pointer-events: auto;
-  }
-
-  .header-your-van__notification-text {
-    margin: 0;
-    font-size: var(--font-size--sm);
-    line-height: 1.4;
-    font-weight: 500;
   }
 {% endstylesheet %}

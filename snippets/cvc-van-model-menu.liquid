@@ -132,18 +132,20 @@
         window.location.href = newUrl.toString();
       } else {
         // On other pages, just show a notification
-        showNotification(`Van filter set to: ${modelName}. Navigate to a collection to see filtered products.`);
+        showNotification(`Van filter set to: ${modelName}. Navigate to a collection to see filtered products.`, modelName);
       }
     }
     
     /**
      * Show notification to user
      */
-    function showNotification(message) {
+    function showNotification(message, modelName = '') {
       const notification = document.getElementById('van-selector-notification');
+      const notificationTitle = document.getElementById('van-notification-title');
       const notificationText = document.getElementById('van-notification-message');
+      const backdrop = document.getElementById('van-notification-backdrop');
       
-      if (!notification || !notificationText) {
+      if (!notification || !notificationText || !notificationTitle) {
         console.warn('Notification element not found');
         return;
       }
@@ -158,6 +160,11 @@
         notification._showTimeout = null;
       }
 
+      // Set the van model name as the title
+      if (modelName) {
+        notificationTitle.innerHTML = `Van model set to: <span class="van-model-name">${modelName}</span>`;
+      }
+
       // Get custom message from megamenu settings
       const megamenu = document.querySelector('.cvc-megamenu--van-models');
       const customMessage = megamenu ? megamenu.getAttribute('data-notification-message') : null;
@@ -167,16 +174,36 @@
       
       // Reset animation by setting to false first
       notification.setAttribute('data-showing', 'false');
+      if (backdrop) backdrop.setAttribute('data-showing', 'false');
       
       // Use a small timeout to ensure the reset is processed
       notification._showTimeout = setTimeout(() => {
-        // Show notification with bounce animation
+        // Show notification with bounce animation and backdrop
         notification.setAttribute('data-showing', 'true');
+        if (backdrop) backdrop.setAttribute('data-showing', 'true');
 
-        // Hide after 6 seconds (2x the original 3 seconds)
-        notification._hideTimeout = setTimeout(() => {
+        // Function to hide notification
+        const hideNotification = () => {
           notification.setAttribute('data-showing', 'false');
-        }, 6000);
+          if (backdrop) backdrop.setAttribute('data-showing', 'false');
+          
+          // Remove click handlers
+          if (backdrop) backdrop.removeEventListener('click', hideNotification);
+          notification.removeEventListener('click', hideNotification);
+          
+          // Clear timeout
+          if (notification._hideTimeout) {
+            clearTimeout(notification._hideTimeout);
+            notification._hideTimeout = null;
+          }
+        };
+
+        // Add click handlers to close on click
+        if (backdrop) backdrop.addEventListener('click', hideNotification);
+        notification.addEventListener('click', hideNotification);
+
+        // Hide after 6 seconds
+        notification._hideTimeout = setTimeout(hideNotification, 6000);
       }, 50);
     }
     

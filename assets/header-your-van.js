@@ -262,56 +262,49 @@ class HeaderYourVan {
   /**
    * Show the notification when a van is selected
    */
-  showNotification() {
+  showNotification(retryCount = 0) {
     try {
-      console.log('=== showNotification START ===');
-      
-      console.log('Step 1: Getting notification element');
+      // Wait a bit for DOM to be fully ready if elements don't exist yet
       const notification = document.getElementById('van-selector-notification');
-      console.log('notification element:', notification);
+      const notificationTitle = document.getElementById('van-notification-title');
+      const notificationText = document.getElementById('van-notification-message');
+      const backdrop = document.getElementById('van-notification-backdrop');
       
-      if (!notification) {
-        console.error('CRITICAL: van-selector-notification element not found in DOM!');
-        console.log('Container exists?', document.getElementById('header-your-van'));
+      if (!notification || !notificationTitle || !notificationText) {
+        if (retryCount < 10) {
+          console.log(`Notification elements not immediately available, retrying (${retryCount + 1}/10)...`);
+          setTimeout(() => this.showNotification(retryCount + 1), 100);
+        } else {
+          console.error('Notification elements not found after 10 retries');
+        }
         return;
       }
-      
-      console.log('Step 2: Getting or creating notificationText element');
-      let notificationText = document.getElementById('van-notification-message');
-      console.log('notificationText element:', notificationText);
-      
-      // If the text element doesn't exist, create it
-      if (!notificationText) {
-        console.warn('van-notification-message not found, creating it');
-        notificationText = document.createElement('p');
-        notificationText.id = 'van-notification-message';
-        notificationText.className = 'header-your-van__notification-text';
-        notification.appendChild(notificationText);
-        console.log('Created notificationText element:', notificationText);
-      }
 
-      console.log('Step 3: Elements ready! Current data-showing:', notification.getAttribute('data-showing'));
-
-      // Clear ALL existing timeouts - both class instance and global element properties
+      // Clear ALL existing timeouts
       if (this.notificationTimeout) {
-        console.log('Step 4a: Clearing class hide timeout:', this.notificationTimeout);
         clearTimeout(this.notificationTimeout);
         this.notificationTimeout = null;
       }
       if (this.notificationShowTimeout) {
-        console.log('Step 4b: Clearing class show timeout:', this.notificationShowTimeout);
         clearTimeout(this.notificationShowTimeout);
         this.notificationShowTimeout = null;
       }
       if (notification._hideTimeout) {
-        console.log('Step 4c: Clearing global hide timeout:', notification._hideTimeout);
         clearTimeout(notification._hideTimeout);
         notification._hideTimeout = null;
       }
       if (notification._showTimeout) {
-        console.log('Step 4d: Clearing global show timeout:', notification._showTimeout);
         clearTimeout(notification._showTimeout);
         notification._showTimeout = null;
+      }
+
+      // Get the selected van model
+      const selectedModelId = sessionStorage.getItem(this.storageKey);
+      const vanModel = this.vanModels.models.find(model => model.id === selectedModelId);
+      
+      // Set the van model name as the title
+      if (vanModel) {
+        notificationTitle.innerHTML = `Van model set to: <span class="van-model-name">${vanModel.name}</span>`;
       }
 
       // Get custom message from megamenu settings
@@ -320,29 +313,39 @@ class HeaderYourVan {
       
       // Use custom message if available, otherwise use default
       notificationText.textContent = customMessage || 'We will only show you products that are for your van';
-      console.log('Step 5: Set notification text to:', notificationText.textContent);
       
       // Reset to hidden state
-      console.log('Step 6: Setting data-showing to FALSE');
       notification.setAttribute('data-showing', 'false');
-      console.log('After setting false, data-showing is:', notification.getAttribute('data-showing'));
+      if (backdrop) backdrop.setAttribute('data-showing', 'false');
       
-      console.log('Step 7: Setting timeout for 50ms');
       // Use a small timeout to ensure the reset is processed
       notification._showTimeout = setTimeout(() => {
-        console.log('Step 8: Timeout callback - NOW setting to TRUE');
-        
         // Show notification with bounce animation
         notification.setAttribute('data-showing', 'true');
-        
-        console.log('Step 9: After setting true, data-showing is:', notification.getAttribute('data-showing'));
-        console.log('=== showNotification should now be VISIBLE ===');
+        if (backdrop) backdrop.setAttribute('data-showing', 'true');
 
-        // Hide after 6 seconds (2x the original 3 seconds)
-        notification._hideTimeout = setTimeout(() => {
-          console.log('Timeout fired - hiding notification after 6 seconds');
+        // Function to hide notification
+        const hideNotification = () => {
           notification.setAttribute('data-showing', 'false');
-        }, 6000);
+          if (backdrop) backdrop.setAttribute('data-showing', 'false');
+          
+          // Remove click handlers
+          if (backdrop) backdrop.removeEventListener('click', hideNotification);
+          notification.removeEventListener('click', hideNotification);
+          
+          // Clear timeout
+          if (notification._hideTimeout) {
+            clearTimeout(notification._hideTimeout);
+            notification._hideTimeout = null;
+          }
+        };
+
+        // Add click handlers to close on click
+        if (backdrop) backdrop.addEventListener('click', hideNotification);
+        notification.addEventListener('click', hideNotification);
+
+        // Hide after 6 seconds
+        notification._hideTimeout = setTimeout(hideNotification, 6000);
         
         console.log('Step 10: Set new hide timeout ID:', notification._hideTimeout);
       }, 50);

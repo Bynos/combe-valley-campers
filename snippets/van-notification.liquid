@@ -1,0 +1,74 @@
+{%- comment -%}
+  Van Selection Notification
+  Rendered at body level for full viewport centering
+{%- endcomment -%}
+
+<div class="header-your-van__notification-backdrop" id="van-notification-backdrop" data-showing="false"></div>
+<div class="header-your-van__notification" id="van-selector-notification" data-showing="false">
+  <h3 class="header-your-van__notification-title" id="van-notification-title"></h3>
+  <p class="header-your-van__notification-text" id="van-notification-message"></p>
+</div>
+
+{% stylesheet %}
+  /* Van Selection Notification Backdrop */
+  .header-your-van__notification-backdrop {
+    position: fixed !important;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .header-your-van__notification-backdrop[data-showing="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Van Selection Notification */
+  .header-your-van__notification {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+    background: var(--cvc-green, #2d5016);
+    color: white;
+    padding: calc(var(--padding-lg) + 1rem) calc(var(--padding-xl) + 1rem);
+    border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+    z-index: 1000000;
+    min-width: 380px;
+    max-width: 500px;
+    opacity: 0 !important;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    text-align: center;
+  }
+
+  .header-your-van__notification[data-showing="true"] {
+    transform: translate(-50%, -50%) scale(1) !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+
+  .header-your-van__notification-title {
+    margin: 0 0 0.75rem 0;
+    font-size: var(--font-size--xl, 1.5rem);
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--cvc-yellow, #ffd700);
+  }
+
+  .header-your-van__notification-title .van-model-name {
+    color: white;
+  }
+
+  .header-your-van__notification-text {
+    margin: 0;
+    font-size: var(--font-size--base, 1rem);
+    line-height: 1.5;
+    font-weight: 500;
+    color: white;
+  }
+{% endstylesheet %}

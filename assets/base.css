@@ -4013,6 +4013,26 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
   .resource-list__carousel .resource-list__slide {
     --slide-width: clamp(150px, var(--mobile-card-size, 60cqw), var(--slide-width-max));
   }
+
+  /* Ensure product-media in carousel has proper dimensions on mobile */
+  .resource-list__carousel .card-gallery {
+    width: 100%;
+    display: block;
+    min-width: 150px; /* Fallback minimum */
+  }
+
+  .resource-list__carousel .product-media-container {
+    width: 100%;
+    min-width: 150px; /* Fallback minimum */
+    display: flex;
+  }
+
+  .resource-list__carousel .product-media {
+    width: 100%;
+    min-width: 150px; /* Ensure minimum width */
+    min-height: 150px; /* Ensure minimum height for aspect-ratio to work */
+    height: auto;
+  }
 }
 
 @container resource-list-carousel (min-width: 750px) {
@@ -4531,6 +4551,12 @@ text-component {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
+  }
+
+  /* Exception for product card gallery links - use display: contents to avoid collapsing */
+  .card-gallery a:not(.button),
+  .product-card a:not(.button) {
+    display: contents;
   }
   
   input[type="text"],
