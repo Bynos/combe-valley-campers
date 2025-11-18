@@ -71,42 +71,76 @@
     endif
   endif
 %}
-<ul
-  data-menu-list-id="{{ id }}"
-  class="mega-menu__list list-unstyled"
-  style="--menu-image-border-radius: {{ image_border_radius }}px;"
->
-  {% for link in parent_link.links %}
-    {% liquid
-      # Decide whether to open a column span, and how many columns of the grid to span
-      if forloop.first or open_column_span == false
-        assign open_column_span = true
+{% comment %} Use CVC-style phases layout for text menus OR specifically for Shop menu {% endcomment %}
+{% assign use_cvc_layout = false %}
+{% if menu_content_type == 'text' %}
+  {% assign use_cvc_layout = true %}
+{% elsif parent_link.title == 'Shop' or parent_link.title == 'shop' %}
+  {% assign use_cvc_layout = true %}
+{% endif %}
 
-        # Don't allow orphan links in a column
-        assign break_after_modulo = link.links.size | modulo: links_before_wrap
-        if break_after_modulo == 1
-          assign links_before_wrap = links_before_wrap | minus: 1
-        endif
-        assign break_after_float = links_before_wrap | times: 1.0
-        assign column_span = link.links.size | divided_by: break_after_float | ceil | at_least: 1
-        assign column_count = column_count | plus: column_span
-        assign should_break_columns = true
+{% if use_cvc_layout %}
+  <div class="cvc-megamenu__phases" data-menu-list-id="{{ id }}">
+    {% for link in parent_link.links %}
+      <div class="cvc-phase-column">
+        <h3 class="cvc-phase-column__title">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        </h3>
+        
+        {% if link.links.size > 0 %}
+          <ul class="cvc-phase-column__links">
+            {% for childLink in link.links %}
+              <li>
+                <a href="{{ childLink.url }}">{{ childLink.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  
+  {% comment %} Set column_count for subsequent logic {% endcomment %}
+  {% assign column_count = parent_link.links.size %}
+  
+{% else %}
+  {% comment %} Original Shopify mega-menu layout for featured collections/products/images {% endcomment %}
+  <ul
+    data-menu-list-id="{{ id }}"
+    class="mega-menu__list list-unstyled"
+    style="--menu-image-border-radius: {{ image_border_radius }}px;"
+  >
+    {% for link in parent_link.links %}
+      {% liquid
+        # Decide whether to open a column span, and how many columns of the grid to span
+        if forloop.first or open_column_span == false
+          assign open_column_span = true
 
-        if menu_content_type == 'collection_images'
-          assign should_break_columns = false
-          # For collection image mode, we have an 8-column grid when 4 or fewer parent links are used. Set column span to 2 in that case, otherwise use 1 column
-          if parent_link.links.size <= 4
-            assign span_class = 'mega-menu__column--wide-collection-image'
-          else
-            assign span_class = 'mega-menu__column--span-1'
+          # Don't allow orphan links in a column
+          assign break_after_modulo = link.links.size | modulo: links_before_wrap
+          if break_after_modulo == 1
+            assign links_before_wrap = links_before_wrap | minus: 1
           endif
-        else
-          # For all other modes, column span is determined by the number of links in the parent link
-          assign span_class = 'mega-menu__column--span-' | append: column_span
+          assign break_after_float = links_before_wrap | times: 1.0
+          assign column_span = link.links.size | divided_by: break_after_float | ceil | at_least: 1
+          assign column_count = column_count | plus: column_span
+          assign should_break_columns = true
+
+          if menu_content_type == 'collection_images'
+            assign should_break_columns = false
+            # For collection image mode, we have an 8-column grid when 4 or fewer parent links are used. Set column span to 2 in that case, otherwise use 1 column
+            if parent_link.links.size <= 4
+              assign span_class = 'mega-menu__column--wide-collection-image'
+            else
+              assign span_class = 'mega-menu__column--span-1'
+            endif
+          else
+            # For all other modes, column span is determined by the number of links in the parent link
+            assign span_class = 'mega-menu__column--span-' | append: column_span
+          endif
+          echo '<li class="mega-menu__column ' | append: span_class | append: '">'
         endif
-        echo '<li class="mega-menu__column ' | append: span_class | append: '">'
-      endif
-    %}
+      %}
     <div>
       <a
         href="{{ link.url }}"
@@ -184,6 +218,7 @@
     %}
   {% endfor %}
 </ul>
+{% endif %}
 
 {% liquid
   # decide how many grid columns are needed for the menu list, and how many columns are needed for the featured content

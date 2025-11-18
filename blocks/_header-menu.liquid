@@ -857,13 +857,15 @@
     margin-bottom: 1rem;
   }
 
-  .cvc-megamenu--conversion-guides .cvc-megamenu__phases {
+  /* Phases grid layout - applies to all megamenus using this structure */
+  .cvc-megamenu__phases {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--gap-xl);
     margin-top: var(--margin-lg);
   }
 
+  /* Phase column title styling */
   .cvc-phase-column__title {
     font-family: var(--menu-parent-font-family);
     font-size: var(--font-size--lg);
@@ -872,6 +874,18 @@
     margin-bottom: var(--margin-md);
     padding-bottom: var(--padding-xs);
     border-bottom: 2px solid var(--cvc-yellow);
+  }
+
+  /* Style the title link itself */
+  .cvc-phase-column__title a {
+    color: var(--cvc-green);
+    text-decoration: none;
+    transition: color var(--animation-speed) var(--animation-easing);
+  }
+
+  .cvc-phase-column__title a:hover,
+  .cvc-phase-column__title a:focus {
+    color: var(--cvc-yellow);
   }
 
   .cvc-phase-column__links {
@@ -912,6 +926,13 @@
   }
 
   /* Responsive Design for CVC Megamenus */
+  @media screen and (max-width: 1024px) {
+    .cvc-megamenu__phases {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--gap-lg);
+    }
+  }
+
   @media screen and (max-width: 768px) {
     .cvc-megamenu__content--two-column {
       grid-template-columns: 1fr;
@@ -926,14 +947,14 @@
       grid-template-columns: 1fr;
     }
 
-    .cvc-megamenu--conversion-guides .cvc-megamenu__phases {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: var(--gap-lg);
+    .cvc-megamenu__phases {
+      grid-template-columns: 1fr;
+      gap: var(--gap-md);
     }
   }
 
   @media screen and (max-width: 480px) {
-    .cvc-megamenu--conversion-guides .cvc-megamenu__phases {
+    .cvc-megamenu__phases {
       grid-template-columns: 1fr;
       gap: var(--gap-md);
     }

@@ -44,35 +44,22 @@
         </div>
       
       {% else %}
-        {%- comment -%} Full megamenu for 4+ items {%- endcomment -%}
-        <div class="cvc-megamenu__grid">
+        {%- comment -%} Full megamenu for 4+ items - 3 layer structure like Conversion Guides {%- endcomment -%}
+        <div class="cvc-megamenu__phases">
           {% for child_link in menu_item.links %}
-            <div class="cvc-megamenu__grid-item">
-              <a href="{{ child_link.url }}" class="cvc-megamenu__grid-link">
-                {{ child_link.title }}
-              </a>
+            <div class="cvc-phase-column">
+              <h3 class="cvc-phase-column__title">
+                <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+              </h3>
               
-              {%- comment -%} Level 2: Grandchild links {%- endcomment -%}
+              {%- comment -%} Level 2: Grandchild links displayed as list items {%- endcomment -%}
               {% if child_link.links.size > 0 %}
-                <ul class="cvc-megamenu__sublist">
+                <ul class="cvc-phase-column__links">
                   {% for grandchild_link in child_link.links %}
                     <li>
-                      <a href="{{ grandchild_link.url }}" class="cvc-megamenu__sublink">
+                      <a href="{{ grandchild_link.url }}">
                         {{ grandchild_link.title }}
                       </a>
-                      
-                      {%- comment -%} Level 3: Great-grandchild links with indentation {%- endcomment -%}
-                      {% if grandchild_link.links.size > 0 %}
-                        <ul class="cvc-megamenu__sublist cvc-megamenu__sublist--level3">
-                          {% for great_grandchild_link in grandchild_link.links %}
-                            <li>
-                              <a href="{{ great_grandchild_link.url }}" class="cvc-megamenu__sublink cvc-megamenu__sublink--level3">
-                                {{ great_grandchild_link.title }}
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
                     </li>
                   {% endfor %}
                 </ul>

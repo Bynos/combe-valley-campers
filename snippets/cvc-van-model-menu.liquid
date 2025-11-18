@@ -60,25 +60,34 @@
         </div>
       </div>
 
-      {%- comment -%} Right Column - Shop Menu Links {%- endcomment -%}
+      {%- comment -%} Right Column - Shop Menu Links with nested structure {%- endcomment -%}
       <div class="cvc-megamenu__column">
         <h3 class="cvc-megamenu__column-title">Search by Category</h3>
-        <div class="cvc-megamenu__text-links">
-          {% for link in linklists.header-menu.links %}
-            {% if link.title == 'Shop' %}
-              {% if link.links.size > 0 %}
+        {% for link in linklists.header-menu.links %}
+          {% if link.title == 'Shop' %}
+            {% if link.links.size > 0 %}
+              <div class="cvc-megamenu__phases">
                 {% for child_link in link.links %}
-                  <a
-                    href="{{ child_link.url }}"
-                    class="cvc-van-model-link cvc-van-model-link--text"
-                  >
-                    {{ child_link.title }}
-                  </a>
+                  <div class="cvc-phase-column">
+                    <h3 class="cvc-phase-column__title">
+                      <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                    </h3>
+                    
+                    {% if child_link.links.size > 0 %}
+                      <ul class="cvc-phase-column__links">
+                        {% for grandchild_link in child_link.links %}
+                          <li>
+                            <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
                 {% endfor %}
-              {% endif %}
+              </div>
             {% endif %}
-          {% endfor %}
-        </div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
