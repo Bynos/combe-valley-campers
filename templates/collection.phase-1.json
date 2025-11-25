@@ -16,7 +16,7 @@
           "type": "text",
           "name": "Title",
           "settings": {
-            "text": "<p><strong>SECURITY</strong></p>",
+            "text": "<p><strong>PHASE 1</strong></p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -42,9 +42,9 @@
           "type": "text",
           "name": "Description",
           "settings": {
-            "text": "{{ closest.collection.description }}",
-            "width": "fit-content",
-            "max_width": "normal",
+            "text": "<p><em>Get Started on Your Van Conversion Journey with Top-Quality Windows, Sound Deadening, and Insulation Materials.</em></p>",
+            "width": "100%",
+            "max_width": "none",
             "alignment": "left",
             "type_preset": "rte",
             "font": "var(--font-primary--family)",
@@ -85,6 +85,7 @@
         "color_scheme": "scheme-1",
         "background_media": "image",
         "video_position": "cover",
+        "background_image": "shopify://shop_images/1926d7_31108662c9ef4d83a2dbf5e73bbec060_mv2.avif",
         "background_image_position": "cover",
         "border": "none",
         "border_width": 1,
@@ -131,7 +132,7 @@
             "product_card_gap": 4,
             "inherit_color_scheme": true,
             "color_scheme": "",
-            "border": "solid",
+            "border": "none",
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
@@ -203,7 +204,7 @@
               },
               "blocks": {}
             },
-            "buy_buttons_A6zCXj": {
+            "buy_buttons_xA8rVf": {
               "type": "buy-buttons",
               "name": "t:names.product_buy_buttons",
               "settings": {
@@ -245,7 +246,7 @@
             "card-gallery",
             "product_title_4nY4eT",
             "price_EzJzMm",
-            "buy_buttons_A6zCXj"
+            "buy_buttons_xA8rVf"
           ]
         }
       },

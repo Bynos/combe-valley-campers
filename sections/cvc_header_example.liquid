@@ -40,26 +40,36 @@
           {% endfor %}
 
           {%- comment -%} Render menu item {%- endcomment -%}
-          <li class="cvc-header__menu-item has-megamenu"{% if custom_block %} {{ custom_block.shopify_attributes }}{% endif %}>
-            <button class="cvc-header__menu-link">
-              {{ menu_item.title }}
-            </button>
-            
-            <div class="cvc-header__megamenu-panel">
-              {% if custom_block %}
-                {%- comment -%} Render custom megamenu {%- endcomment -%}
-                {% case custom_block.type %}
-                  {% when 'cvc_van_model_menu' %}
-                    {% render 'cvc-van-model-menu', block: custom_block %}
-                  {% when 'cvc_conversion_guides' %}
-                    {% render 'cvc-conversion-guides', block: custom_block, menu_item: menu_item %}
-                {% endcase %}
-              {% else %}
-                {%- comment -%} Render generic megamenu for non-custom items {%- endcomment -%}
-                {% render 'cvc-generic-megamenu', menu_item: menu_item %}
-              {% endif %}
-            </div>
-          </li>
+          {% if menu_item.links.size > 0 %}
+            {%- comment -%} Has children: use button with megamenu {%- endcomment -%}
+            <li class="cvc-header__menu-item has-megamenu"{% if custom_block %} {{ custom_block.shopify_attributes }}{% endif %}>
+              <button class="cvc-header__menu-link">
+                {{ menu_item.title }}
+              </button>
+              
+              <div class="cvc-header__megamenu-panel">
+                {% if custom_block %}
+                  {%- comment -%} Render custom megamenu {%- endcomment -%}
+                  {% case custom_block.type %}
+                    {% when 'cvc_van_model_menu' %}
+                      {% render 'cvc-van-model-menu', block: custom_block %}
+                    {% when 'cvc_conversion_guides' %}
+                      {% render 'cvc-conversion-guides', block: custom_block, menu_item: menu_item %}
+                  {% endcase %}
+                {% else %}
+                  {%- comment -%} Render generic megamenu for non-custom items {%- endcomment -%}
+                  {% render 'cvc-generic-megamenu', menu_item: menu_item %}
+                {% endif %}
+              </div>
+            </li>
+          {% else %}
+            {%- comment -%} No children: use direct link {%- endcomment -%}
+            <li class="cvc-header__menu-item"{% if custom_block %} {{ custom_block.shopify_attributes }}{% endif %}>
+              <a href="{{ menu_item.url }}" class="cvc-header__menu-link">
+                {{ menu_item.title }}
+              </a>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     </nav>
@@ -252,13 +262,23 @@
             {% endif %}
           {% endfor %}
 
-          <li class="mobile-drawer__menu-item">
-            <button class="mobile-drawer__menu-link mobile-drawer__menu-link--parent" 
-                    data-submenu="{{ menu_item.handle }}">
-              {{ menu_item.title }}
-              <span class="mobile-drawer__arrow">›</span>
-            </button>
-          </li>
+          {% if menu_item.links.size > 0 %}
+            {%- comment -%} Has children: show button to open submenu {%- endcomment -%}
+            <li class="mobile-drawer__menu-item">
+              <button class="mobile-drawer__menu-link mobile-drawer__menu-link--parent" 
+                      data-submenu="{{ menu_item.handle }}">
+                {{ menu_item.title }}
+                <span class="mobile-drawer__arrow">›</span>
+              </button>
+            </li>
+          {% else %}
+            {%- comment -%} No children: direct link {%- endcomment -%}
+            <li class="mobile-drawer__menu-item">
+              <a href="{{ menu_item.url }}" class="mobile-drawer__menu-link">
+                {{ menu_item.title }}
+              </a>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     </nav>
@@ -660,6 +680,7 @@
     display: flex;
     align-items: center;
     min-height: 80px;
+    text-decoration: none;
   }
 
   .cvc-header__menu-link:hover {

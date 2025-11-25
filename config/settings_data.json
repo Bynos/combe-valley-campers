@@ -682,9 +682,9 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "input[type=\"radio\"]:checked + label,input:checked + label,.product-form__input input:checked + label,fieldset input:checked + label,.variant-input input:checked + label,button.selected,.button--selected,label.active,[aria-checked=\"true\"] {background-color: #FBB000 !important; border: 2px solid #FBB000 !important;}",
-      "/* Hover state */input[type=\"radio\"] + label:hover,.product-form__input label:hover,fieldset label:hover {border: 2px solid #FBB000 !important;}",
-      "/* Base styling */input[type=\"radio\"] + label {display: inline-block; padding: 10px 20px; border: 2px solid transparent !important;}"
+      "input[type=\"radio\"]:checked + label,input:checked + label,.product-form__input input:checked + label,fieldset input:checked + label,.variant-input input:checked + label,button.selected,.button--selected,label.active,[aria-checked=\"true\"] {background-color: #fbb000 !important; border: 2px solid #fbb000 !important;}",
+      " /* Hover state */input[type=\"radio\"] + label:hover,.product-form__input label:hover,fieldset label:hover {border: 2px solid #fbb000 !important;}",
+      " /* Base styling */input[type=\"radio\"] + label {display: inline-block; padding: 10px 20px; border: 2px solid transparent !important;}"
     ]
   }
 }

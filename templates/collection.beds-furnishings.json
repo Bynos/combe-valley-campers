@@ -145,7 +145,7 @@
             "card-gallery": {
               "type": "_product-card-gallery",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -189,8 +189,8 @@
                 "show_installments": false,
                 "show_tax_info": false,
                 "type_preset": "h6",
-                "width": "fit-content",
-                "alignment": "left",
+                "width": "100%",
+                "alignment": "right",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -203,18 +203,56 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "buy_buttons_Gx4rjP": {
+              "type": "buy-buttons",
+              "name": "t:names.product_buy_buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "disabled": true,
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button-secondary"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
             }
           },
           "block_order": [
             "card-gallery",
             "product_title_4nY4eT",
-            "price_EzJzMm"
+            "price_EzJzMm",
+            "buy_buttons_Gx4rjP"
           ]
         }
       },
       "custom_css": [],
       "settings": {
-        "layout_type": "organic",
+        "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
         "product_grid_width": "full-width",

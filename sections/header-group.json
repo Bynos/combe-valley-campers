@@ -314,6 +314,8 @@
             "menu_position": 2,
             "menu_handle": "conversion-guides",
             "title": "Conversion Phases",
+            "show_description": true,
+            "description": "<p>Discover expert tutorials on our YouTube channel. Select your topic of interest and solve any struggles with ease.</p><p>Or watch our <a href=\"https://youtube.com/playlist?list=PL1jZQ6iMpUnfiAl4lOUjBzL8qLqXKtKpk&si=mCObxV5u-ZXEP025\" target=\"_blank\" title=\"https://youtube.com/playlist?list=PL1jZQ6iMpUnfiAl4lOUjBzL8qLqXKtKpk&si=mCObxV5u-ZXEP025\">complete guided</a> playlist from start to finish.</p>",
             "phase_1_title": "Phase 1",
             "phase_1_links": "Insure Your Van\nStrip & Clean\nWindows & Vents\nSwivel Seats & Bases",
             "phase_2_title": "Phase 2",
