@@ -148,48 +148,55 @@
         "van_model_rCTNKd": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T2 Split",
+            "van_display_name": "Volkswagen T2 Split",
+            "van_name": "VW T2 Split",
             "van_image": "shopify://shop_images/VWT2Split.png"
           }
         },
         "van_model_gxFPdm": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T2 Bay",
+            "van_display_name": "Volkswagen T2 Bay",
+            "van_name": "VW T2 Bay",
             "van_image": "shopify://shop_images/VWT2Bay.png"
           }
         },
         "van_model_zkqXCV": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T25",
+            "van_display_name": "Volkswagen T25",
+            "van_name": "VW T25",
             "van_image": "shopify://shop_images/VWT25.png"
           }
         },
         "van_model_kGWwJ4": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T4",
+            "van_display_name": "Volkswagen T4",
+            "van_name": "VW T4",
             "van_image": "shopify://shop_images/VWT4.png"
           }
         },
         "van_model_JMCPVG": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T5",
+            "van_display_name": "Volkswagen T5",
+            "van_name": "VW T5",
             "van_image": "shopify://shop_images/VWT5.png"
           }
         },
         "van_model_CQhJtp": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T6",
+            "van_display_name": "Volkswagen T6",
+            "van_name": "VW T6",
             "van_image": "shopify://shop_images/VWT6.png"
           }
         },
         "van_model_NtMtVp": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Volkswagon T6.1",
             "van_name": "VW T6.1",
             "van_image": "shopify://shop_images/VWT6.1.png"
           }
@@ -197,34 +204,39 @@
         "van_model_fBDNGr": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen T7",
+            "van_display_name": "Volkswagen T7",
+            "van_name": "VW T7",
             "van_image": "shopify://shop_images/VW_T7.png"
           }
         },
         "van_model_6dGdWh": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen Crafter",
+            "van_display_name": "Volkswagen Crafter",
+            "van_name": "VW Crafter",
             "van_image": "shopify://shop_images/VWCrafter.png"
           }
         },
         "van_model_gVTaPK": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen Caddy",
+            "van_display_name": "Volkswagen Caddy",
+            "van_name": "VW Caddy",
             "van_image": "shopify://shop_images/VWCaddy.png"
           }
         },
         "van_model_Ydzn3E": {
           "type": "van_model",
           "settings": {
-            "van_name": "Volkswagen Caddy Maxi",
+            "van_display_name": "Volkswagen Caddy Maxi",
+            "van_name": "VW Caddy Maxi",
             "van_image": "shopify://shop_images/VWCaddyMaxi.png"
           }
         },
         "van_model_yPPXqM": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Citreon Berlingo",
             "van_name": "Citreon Berlingo",
             "van_image": "shopify://shop_images/Citreon_Berlingo.png"
           }
@@ -232,6 +244,7 @@
         "van_model_QYkFDr": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Citroen Relay",
             "van_name": "Citroen Relay",
             "van_image": "shopify://shop_images/CitroenRelay.png"
           }
@@ -239,6 +252,7 @@
         "van_model_YxYVRN": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Fiat Ducato",
             "van_name": "Fiat Ducato",
             "van_image": "shopify://shop_images/FiatDucato.png"
           }
@@ -246,6 +260,7 @@
         "van_model_NMdbW4": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Ford Connect",
             "van_name": "Ford Connect",
             "van_image": "shopify://shop_images/FordConnect.png"
           }
@@ -253,6 +268,7 @@
         "van_model_H4Ejpf": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Ford Transit Custom",
             "van_name": "Ford Transit Custom",
             "van_image": "shopify://shop_images/FordTransitCustom.png"
           }
@@ -260,6 +276,7 @@
         "van_model_8Fb6X7": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Ford Transit MK7",
             "van_name": "Ford Transit MK7",
             "van_image": "shopify://shop_images/FordTransitMk7.png"
           }
@@ -267,6 +284,7 @@
         "van_model_3fpNNL": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Ford Transit MK8",
             "van_name": "Ford Transit MK8",
             "van_image": "shopify://shop_images/TransitMk8.png"
           }
@@ -274,6 +292,7 @@
         "van_model_F7NLnq": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Mercedes Sprinter",
             "van_name": "Mercedes Sprinter",
             "van_image": "shopify://shop_images/MercedesSprinter.png"
           }
@@ -281,6 +300,7 @@
         "van_model_QAE4wR": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Nissan Primastar",
             "van_name": "Nissan Primastar",
             "van_image": "shopify://shop_images/NissanPrimastar.png"
           }
@@ -288,6 +308,7 @@
         "van_model_7GMLb4": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Peugeot Boxer",
             "van_name": "Peugeot Boxer",
             "van_image": "shopify://shop_images/PeugeotBoxer.png"
           }
@@ -295,6 +316,7 @@
         "van_model_xGiR9x": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Renault Trafic",
             "van_name": "Renault Trafic",
             "van_image": "shopify://shop_images/RenaultTraffic.png"
           }
@@ -302,6 +324,7 @@
         "van_model_gkxLNn": {
           "type": "van_model",
           "settings": {
+            "van_display_name": "Vauxhall Vivaro",
             "van_name": "Vauxhall Vivaro",
             "van_image": "shopify://shop_images/VauxhallVivaro.png"
           }

@@ -85,6 +85,20 @@
   endif
 %}
 
+{%- liquid
+  # Get Van Model metafield values (assuming custom.van_model is a list metafield)
+  assign van_models = product.metafields.custom.van_model.value
+  assign van_models_string = ''
+  
+  if van_models
+    for model in van_models
+      assign model_slug = model | handleize | prepend: 'model-'
+      assign van_models_string = van_models_string | append: model_slug | append: ' '
+    endfor
+    assign van_models_string = van_models_string | strip
+  endif
+-%}
+
 {%- if settings.transition_to_main_product -%}
   <product-card-link
     data-product-id="{{ product.id }}"
@@ -99,7 +113,8 @@
   class="product-card"
   data-product-id="{{ product.id }}"
   data-product-variants-size="{{ product.variants.size }}"
-  data-product-models="{{ product.tags | join: ' ' }}"
+  data-product-models="{{ van_models_string }}"
+  data-product-van-models-raw="{{ van_models | join: '|' }}"
   id="product-card-{{ block.id }}"
   data-product-transition="{{ settings.transition_to_main_product }}"
   {{ block.shopify_attributes }}

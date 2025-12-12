@@ -26,6 +26,7 @@
           {% for van_block in section.blocks %}
             {% if van_block.type == 'van_model' %}
               {% assign model_name = van_block.settings.van_name %}
+              {% assign display_name = van_block.settings.van_display_name | default: model_name %}
               {% assign model_image = van_block.settings.van_image %}
               
               {% if model_name != blank %}
@@ -37,22 +38,23 @@
                   class="cvc-van-model-link cvc-van-model-link--image"
                   data-model-id="{{ model_slug }}"
                   data-model-name="{{ model_name }}"
+                  data-display-name="{{ display_name }}"
                   {{ van_block.shopify_attributes }}
                 >
                   {% if model_image %}
                     <img
                       src="{{ model_image | image_url: width: 200 }}"
-                      alt="{{ model_name }}"
+                      alt="{{ display_name }}"
                       loading="lazy"
                       width="200"
                       height="auto"
                     >
                   {% else %}
                     <div class="cvc-van-model-link__placeholder">
-                      <span>{{ model_name }}</span>
+                      <span>{{ display_name }}</span>
                     </div>
                   {% endif %}
-                  <span class="cvc-van-model-link__label">{{ model_name }}</span>
+                  <span class="cvc-van-model-link__label">{{ display_name }}</span>
                 </a>
               {% endif %}
             {% endif %}
@@ -109,20 +111,22 @@
     
     /**
      * Update URL with filter parameter and optionally reload
+     * @param {string} modelId - The model slug
+     * @param {string} modelName - The exact metafield value to filter by
      */
-    function updateURLWithFilter(modelId) {
+    function updateURLWithFilter(modelId, modelName) {
       const url = new URL(window.location.href);
       
-      // Remove any existing filter.p.tag parameters
+      // Remove any existing Van Model filter parameters
       const params = new URLSearchParams(url.search);
       for (const key of Array.from(params.keys())) {
-        if (key.startsWith('filter.p.tag')) {
+        if (key.startsWith('filter.v.m.custom.van_model') || key.startsWith('filter.p.tag')) {
           params.delete(key);
         }
       }
       
-      // Add the new filter parameter
-      params.set('filter.p.tag', modelId);
+      // Add the new metafield filter parameter (use exact modelName value)
+      params.set('filter.v.m.custom.van_model', modelName);
       
       // Update the URL
       url.search = params.toString();
@@ -132,16 +136,19 @@
     
     /**
      * Apply filter to current page or navigate
+     * @param {string} modelId - The model slug
+     * @param {string} displayName - The display name for UI messages
+     * @param {string} modelName - The exact metafield value to filter by
      */
-    function applyFilterToPage(modelId, modelName) {
+    function applyFilterToPage(modelId, displayName, modelName) {
       // If on collection or product page, update URL and reload to apply filter
       if (isCollectionOrProductPage()) {
-        const newUrl = updateURLWithFilter(modelId);
+        const newUrl = updateURLWithFilter(modelId, modelName);
         console.log('Navigating to filtered URL:', newUrl.toString());
         window.location.href = newUrl.toString();
       } else {
-        // On other pages, just show a notification
-        showNotification(`Van filter set to: ${modelName}. Navigate to a collection to see filtered products.`, modelName);
+        // On other pages, just show a notification (use displayName for UI)
+        showNotification(`Van filter set to: ${displayName}. Navigate to a collection to see filtered products.`, displayName);
       }
     }
     
@@ -222,8 +229,9 @@
         
         const modelId = this.getAttribute('data-model-id');
         const modelName = this.getAttribute('data-model-name');
+        const displayName = this.getAttribute('data-display-name') || modelName;
         
-        console.log('Van model link clicked:', { modelId, modelName });
+        console.log('Van model link clicked:', { modelId, modelName, displayName });
         
         if (modelId) {
           // Store the selected van model
@@ -238,15 +246,15 @@
           
           // Dispatch custom event
           const event = new CustomEvent('vanModelSelected', {
-            detail: { modelId, modelName },
+            detail: { modelId, modelName, displayName },
             bubbles: true
           });
           document.dispatchEvent(event);
           
-          console.log('Dispatched vanModelSelected event for:', modelName);
+          console.log('Dispatched vanModelSelected event for:', displayName);
           
-          // Apply filter to current page
-          applyFilterToPage(modelId, modelName);
+          // Apply filter to current page (use displayName for UI messages)
+          applyFilterToPage(modelId, displayName);
         } else {
           console.warn('No modelId found on clicked link');
         }

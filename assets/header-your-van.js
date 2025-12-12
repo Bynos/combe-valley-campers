@@ -27,12 +27,13 @@ class HeaderYourVan {
    */
   loadVanModelsFromDOM() {
     const vanLinks = document.querySelectorAll('.cvc-van-model-link--image[data-model-id]');
-    /** @type {Array<{id: string, name: string, image: string | null}>} */
+    /** @type {Array<{id: string, name: string, displayName: string, image: string | null}>} */
     const models = [];
 
     vanLinks.forEach((link) => {
       const modelId = link.getAttribute('data-model-id');
       const modelName = link.getAttribute('data-model-name');
+      const displayName = link.getAttribute('data-display-name') || modelName;
       const img = link.querySelector('img');
       const imgSrc = img ? img.getAttribute('src') : null;
 
@@ -40,6 +41,7 @@ class HeaderYourVan {
         models.push({
           id: modelId,
           name: modelName,
+          displayName: displayName,
           image: imgSrc
         });
       }
@@ -158,13 +160,13 @@ class HeaderYourVan {
       return;
     }
 
-    // Set van name
-    this.vanName.textContent = vanModel.name;
+    // Set van name (use displayName for UI)
+    this.vanName.textContent = vanModel.displayName || vanModel.name;
 
     // Set van image
     if (vanModel.image) {
       this.vanImage.src = vanModel.image;
-      this.vanImage.alt = vanModel.name;
+      this.vanImage.alt = vanModel.displayName || vanModel.name;
     } else {
       // Use a placeholder if no image
       this.vanImage.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect fill="%23f0f0f0" width="100" height="100"/%3E%3Ctext x="50" y="50" text-anchor="middle" dy=".3em" fill="%23999" font-size="14"%3EVan%3C/text%3E%3C/svg%3E';
@@ -236,9 +238,9 @@ class HeaderYourVan {
       const url = new URL(window.location.href);
       const params = new URLSearchParams(url.search);
       
-      // Remove all filter.p.tag parameters
+      // Remove all Van Model filter parameters (both old tag filters and new metafield filters)
       for (const key of Array.from(params.keys())) {
-        if (key.startsWith('filter.p.tag')) {
+        if (key.startsWith('filter.v.m.custom.van_model') || key.startsWith('filter.p.tag')) {
           params.delete(key);
         }
       }

@@ -349,6 +349,7 @@
                     {% for van_block in section.blocks %}
                       {% if van_block.type == 'van_model' %}
                         {% assign model_name = van_block.settings.van_name %}
+                        {% assign display_name = van_block.settings.van_display_name | default: model_name %}
                         {% assign model_image = van_block.settings.van_image %}
                         
                         {% if model_name != blank %}
@@ -360,11 +361,12 @@
                             class="mobile-drawer__van-item"
                             data-model-id="{{ model_slug }}"
                             data-model-name="{{ model_name }}"
+                            data-display-name="{{ display_name }}"
                           >
                             {% if model_image %}
                               <img
                                 src="{{ model_image | image_url: width: 120 }}"
-                                alt="{{ model_name }}"
+                                alt="{{ display_name }}"
                                 loading="lazy"
                                 width="120"
                                 height="auto"
@@ -372,10 +374,10 @@
                               >
                             {% else %}
                               <div class="mobile-drawer__van-placeholder">
-                                <span>{{ model_name }}</span>
+                                <span>{{ display_name }}</span>
                               </div>
                             {% endif %}
-                            <span class="mobile-drawer__van-label">{{ model_name }}</span>
+                            <span class="mobile-drawer__van-label">{{ display_name }}</span>
                           </a>
                         {% endif %}
                       {% endif %}
@@ -1896,6 +1898,7 @@
         
         const modelId = this.getAttribute('data-model-id');
         const modelName = this.getAttribute('data-model-name');
+        const displayName = this.getAttribute('data-display-name') || modelName;
         
         if (modelId) {
           // Store the selected van model
@@ -1908,15 +1911,15 @@
           const url = new URL(window.location.href);
           const params = new URLSearchParams(url.search);
           
-          // Remove any existing filter.p.tag parameters
+          // Remove any existing Van Model filter parameters
           for (const key of Array.from(params.keys())) {
-            if (key.startsWith('filter.p.tag')) {
+            if (key.startsWith('filter.v.m.custom.van_model') || key.startsWith('filter.p.tag')) {
               params.delete(key);
             }
           }
           
-          // Add the new filter parameter
-          params.set('filter.p.tag', modelId);
+          // Add the new metafield filter parameter (use modelName for filtering)
+          params.set('filter.v.m.custom.van_model', modelName);
           url.search = params.toString();
           
           // Navigate if on collection/product page
@@ -1924,8 +1927,8 @@
           if (pathname.includes('/collections/') || pathname.includes('/products/')) {
             window.location.href = url.toString();
           } else {
-            // Show notification
-            showNotification(`Van filter set to: ${modelName}`);
+            // Show notification (use displayName for UI)
+            showNotification(`Van filter set to: ${displayName}`);
           }
         }
       });
@@ -2132,15 +2135,32 @@
       "name": "Van Model",
       "settings": [
         {
+          "type": "header",
+          "content": "Van Model Selection"
+        },
+        {
+          "type": "text",
+          "id": "van_display_name",
+          "label": "Display Name",
+          "placeholder": "Example: VW T5 Transporter",
+          "info": "The name shown to customers on your website. Can be formatted however you like."
+        },
+        {
           "type": "text",
           "id": "van_name",
-          "label": "Van Name",
-          "info": "The model-[van name] slug will be automatically generated (e.g., 'VW Caddy' becomes 'model-vw-caddy')"
+          "label": "Van Model Metafield Value (for filtering)",
+          "placeholder": "Example: VW T5",
+          "info": "Must match EXACTLY with the Van Model value in your product metafields. Case-sensitive. Used for filtering products."
+        },
+        {
+          "type": "paragraph",
+          "content": "📋 **Copy one of these common metafield values:**\n\n**Volkswagen:**\nVW Caddy | VW Caddy Maxi | VW Crafter | VW T2 Bay | VW T2 Split | VW T4 | VW T5 | VW T6 | VW T25 | VW T7\n\n**Ford:**\nFord Transit Custom | Ford Transit MK7\n\n**Mercedes:**\nMercedes Sprinter\n\n**Others:**\nCitroen Relay | Fiat Ducato | Nissan Primastar | Peugeot Boxer | Renault Trafic | Vauxhall Vivaro"
         },
         {
           "type": "image_picker",
           "id": "van_image",
-          "label": "Van Image"
+          "label": "Van Image",
+          "info": "Upload an image representing this van model (recommended size: 400x300px)"
         }
       ]
     },
