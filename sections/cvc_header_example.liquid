@@ -20,24 +20,46 @@
         {%- comment -%} Loop through Shopify header menu {%- endcomment -%}
         {% for menu_item in linklists.header-menu.links %}
           
-          {%- comment -%} Find matching custom block by position or handle {%- endcomment -%}
+          {%- comment -%} Find matching custom block - Two-Pass Logic {%- endcomment -%}
           {% assign custom_block = null %}
           {% assign current_position = forloop.index %}
+          
+          {%- comment -%} Pass 1: High Priority Blocks (Van Model, Conversion Guides) {%- endcomment -%}
           {% for block in section.blocks %}
-            {% if block.settings.match_type == 'position' %}
-              {%- comment -%} Match by position {%- endcomment -%}
-              {% if block.settings.menu_position == current_position %}
-                {% assign custom_block = block %}
-                {% break %}
-              {% endif %}
-            {% else %}
-              {%- comment -%} Match by handle (default/fallback) {%- endcomment -%}
-              {% if block.settings.menu_handle == menu_item.handle %}
-                {% assign custom_block = block %}
-                {% break %}
+            {% if block.type == 'cvc_van_model_menu' or block.type == 'cvc_conversion_guides' %}
+              {% if block.settings.match_type == 'position' %}
+                {% if block.settings.menu_position == current_position %}
+                  {% assign custom_block = block %}
+                  {% break %}
+                {% endif %}
+              {% else %}
+                {% if block.settings.menu_handle == menu_item.handle %}
+                  {% assign custom_block = block %}
+                  {% break %}
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endfor %}
+
+          {%- comment -%} Pass 2: Generic Triggers (only if no high priority block found) {%- endcomment -%}
+          {% if custom_block == null %}
+            {% for block in section.blocks %}
+              {% if block.type == 'mega_menu_trigger' %}
+                {% if block.settings.menu_position == current_position or block.settings.menu_handle == menu_item.handle %}
+                  {% assign custom_block = block %}
+                  {% break %}
+                {% endif %}
+              {% elsif block.type == 'custom_megamenu' %}
+                 {% if block.settings.match_type == 'position' and block.settings.menu_position == current_position %}
+                    {% assign custom_block = block %}
+                    {% break %}
+                 {% elsif block.settings.match_type == 'handle' and block.settings.menu_handle == menu_item.handle %}
+                    {% assign custom_block = block %}
+                    {% break %}
+                 {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
 
           {%- comment -%} Render menu item {%- endcomment -%}
           {% if menu_item.links.size > 0 %}
@@ -55,6 +77,99 @@
                       {% render 'cvc-van-model-menu', block: custom_block %}
                     {% when 'cvc_conversion_guides' %}
                       {% render 'cvc-conversion-guides', block: custom_block, menu_item: menu_item %}
+                    {% when 'custom_megamenu' %}
+                      <div class="cvc-megamenu cvc-megamenu--custom">
+                        <div class="cvc-megamenu__container">
+                          <div class="cvc-megamenu__content cvc-megamenu__content--custom">
+                            {{ custom_block.settings.content }}
+                          </div>
+                        </div>
+                      </div>
+                    {% when 'mega_menu_trigger' %}
+                      <div class="cvc-megamenu cvc-megamenu--parent-child">
+                        <div class="cvc-megamenu__container" style="{% if custom_block.settings.width == 'container' %}max-width: var(--page-width); margin: 0 auto;{% else %}width: 100%;{% endif %}">
+                          <div class="cvc-megamenu__grid" style="display: flex; flex-wrap: wrap; width: 100%; gap: 0; padding: 0;">
+                            {% for child_block in section.blocks %}
+                              {% if child_block.settings.parent_id == custom_block.settings.trigger_id %}
+                                 {% assign block_width = 'calc(100% / 3)' %}
+                                 {% case child_block.settings.width %}
+                                   {% when 'small' %}
+                                     {% assign block_width = 'calc(100% / 3)' %}
+                                   {% when 'medium' %}
+                                     {% assign block_width = 'calc(100% * 2 / 3)' %}
+                                   {% when 'large' %}
+                                     {% assign block_width = '100%' %}
+                                   {% when '25%' %}
+                                     {% assign block_width = 'calc(100% / 3)' %}
+                                   {% when '33%' %}
+                                     {% assign block_width = 'calc(100% / 3)' %}
+                                   {% when '50%' %}
+                                     {% assign block_width = 'calc(100% * 2 / 3)' %}
+                                   {% when '100%' %}
+                                     {% assign block_width = '100%' %}
+                                   {% else %}
+                                     {% assign block_width = 'calc(100% / 3)' %}
+                                 {% endcase %}
+                                 <div class="cvc-megamenu__item" style="flex: 0 0 {{ block_width }}; max-width: {{ block_width }}; padding: 0; box-sizing: border-box; display: flex; flex-direction: column;">
+                                    {% case child_block.type %}
+                                      {% when 'mega_menu_image' %}
+                                         <div class="cvc-megamenu__image-block">
+                                           {% if child_block.settings.link != blank %}<a href="{{ child_block.settings.link }}">{% endif %}
+                                           {% if child_block.settings.image != blank %}
+                                              {{ child_block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', style: 'width: 100%; height: auto; display: block;' }}
+                                           {% endif %}
+                                           {% if child_block.settings.caption != blank %}
+                                              <p class="cvc-megamenu__caption" style="margin-top: 10px;">{{ child_block.settings.caption }}</p>
+                                           {% endif %}
+                                           {% if child_block.settings.link != blank %}</a>{% endif %}
+                                         </div>
+                                      {% when 'mega_menu_text' %}
+                                         <div class="cvc-megamenu__text-block" style="
+                                            flex: 1;
+                                            display: flex;
+                                            flex-direction: column;
+                                            justify-content: center;
+                                            text-align: {{ child_block.settings.text_alignment }};
+                                            {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
+                                            {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
+                                            padding: {{ child_block.settings.padding }}px;
+                                            border-radius: {{ child_block.settings.border_radius }}px;
+                                            {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
+                                         ">
+                                           {% if child_block.settings.title != blank %}<h3 style="margin-bottom: 10px; {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}">{{ child_block.settings.title }}</h3>{% endif %}
+                                           {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
+                                           {% if child_block.settings.link_text != blank and child_block.settings.link_url != blank %}
+                                              {% assign btn_class = 'button button--secondary' %}
+                                              {% if child_block.settings.button_style == 'primary' %}
+                                                {% assign btn_class = 'button button--primary' %}
+                                              {% elsif child_block.settings.button_style == 'link' %}
+                                                {% assign btn_class = 'link link--text' %}
+                                              {% endif %}
+                                              <a href="{{ child_block.settings.link_url }}" class="{{ btn_class }}" style="margin-top: 10px; display: inline-block;">{{ child_block.settings.link_text }}</a>
+                                           {% endif %}
+                                         </div>
+                                      {% when 'mega_menu_links' %}
+                                         <div class="cvc-megamenu__links-block">
+                                           {% if child_block.settings.title != blank %}<h3 style="margin-bottom: 10px;">{{ child_block.settings.title }}</h3>{% endif %}
+                                           {% if child_block.settings.menu != blank %}
+                                              <ul class="list-unstyled">
+                                              {% for link in child_block.settings.menu.links %}
+                                                 <li style="margin-bottom: 5px;"><a href="{{ link.url }}" class="link link--text">{{ link.title }}</a></li>
+                                              {% endfor %}
+                                              </ul>
+                                           {% endif %}
+                                         </div>
+                                      {% when 'mega_menu_html' %}
+                                         <div class="cvc-megamenu__html-block">
+                                            {{ child_block.settings.html }}
+                                         </div>
+                                    {% endcase %}
+                                 </div>
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
                   {% endcase %}
                 {% else %}
                   {%- comment -%} Render generic megamenu for non-custom items {%- endcomment -%}
@@ -243,24 +358,46 @@
         {%- comment -%} Loop through Shopify header menu {%- endcomment -%}
         {% for menu_item in linklists.header-menu.links %}
           
-          {%- comment -%} Find matching custom block by position or handle {%- endcomment -%}
+          {%- comment -%} Find matching custom block - Two-Pass Logic {%- endcomment -%}
           {% assign custom_block = null %}
           {% assign current_position = forloop.index %}
+          
+          {%- comment -%} Pass 1: High Priority Blocks (Van Model, Conversion Guides) {%- endcomment -%}
           {% for block in section.blocks %}
-            {% if block.settings.match_type == 'position' %}
-              {%- comment -%} Match by position {%- endcomment -%}
-              {% if block.settings.menu_position == current_position %}
-                {% assign custom_block = block %}
-                {% break %}
-              {% endif %}
-            {% else %}
-              {%- comment -%} Match by handle (default/fallback) {%- endcomment -%}
-              {% if block.settings.menu_handle == menu_item.handle %}
-                {% assign custom_block = block %}
-                {% break %}
+            {% if block.type == 'cvc_van_model_menu' or block.type == 'cvc_conversion_guides' %}
+              {% if block.settings.match_type == 'position' %}
+                {% if block.settings.menu_position == current_position %}
+                  {% assign custom_block = block %}
+                  {% break %}
+                {% endif %}
+              {% else %}
+                {% if block.settings.menu_handle == menu_item.handle %}
+                  {% assign custom_block = block %}
+                  {% break %}
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endfor %}
+
+          {%- comment -%} Pass 2: Generic Triggers (only if no high priority block found) {%- endcomment -%}
+          {% if custom_block == null %}
+            {% for block in section.blocks %}
+              {% if block.type == 'mega_menu_trigger' %}
+                {% if block.settings.menu_position == current_position or block.settings.menu_handle == menu_item.handle %}
+                  {% assign custom_block = block %}
+                  {% break %}
+                {% endif %}
+              {% elsif block.type == 'custom_megamenu' %}
+                 {% if block.settings.match_type == 'position' and block.settings.menu_position == current_position %}
+                    {% assign custom_block = block %}
+                    {% break %}
+                 {% elsif block.settings.match_type == 'handle' and block.settings.menu_handle == menu_item.handle %}
+                    {% assign custom_block = block %}
+                    {% break %}
+                 {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
 
           {% if menu_item.links.size > 0 %}
             {%- comment -%} Has children: show button to open submenu {%- endcomment -%}
@@ -286,24 +423,46 @@
     {%- comment -%} Generate submenus dynamically for each menu item {%- endcomment -%}
     {% for menu_item in linklists.header-menu.links %}
       
-      {%- comment -%} Find matching custom block by position or handle {%- endcomment -%}
+      {%- comment -%} Find matching custom block - Two-Pass Logic {%- endcomment -%}
       {% assign custom_block = null %}
       {% assign current_position = forloop.index %}
+      
+      {%- comment -%} Pass 1: High Priority Blocks (Van Model, Conversion Guides) {%- endcomment -%}
       {% for block in section.blocks %}
-        {% if block.settings.match_type == 'position' %}
-          {%- comment -%} Match by position {%- endcomment -%}
-          {% if block.settings.menu_position == current_position %}
-            {% assign custom_block = block %}
-            {% break %}
-          {% endif %}
-        {% else %}
-          {%- comment -%} Match by handle (default/fallback) {%- endcomment -%}
-          {% if block.settings.menu_handle == menu_item.handle %}
-            {% assign custom_block = block %}
-            {% break %}
+        {% if block.type == 'cvc_van_model_menu' or block.type == 'cvc_conversion_guides' %}
+          {% if block.settings.match_type == 'position' %}
+            {% if block.settings.menu_position == current_position %}
+              {% assign custom_block = block %}
+              {% break %}
+            {% endif %}
+          {% else %}
+            {% if block.settings.menu_handle == menu_item.handle %}
+              {% assign custom_block = block %}
+              {% break %}
+            {% endif %}
           {% endif %}
         {% endif %}
       {% endfor %}
+
+      {%- comment -%} Pass 2: Generic Triggers (only if no high priority block found) {%- endcomment -%}
+      {% if custom_block == null %}
+        {% for block in section.blocks %}
+          {% if block.type == 'mega_menu_trigger' %}
+            {% if block.settings.menu_position == current_position or block.settings.menu_handle == menu_item.handle %}
+              {% assign custom_block = block %}
+              {% break %}
+            {% endif %}
+          {% elsif block.type == 'custom_megamenu' %}
+             {% if block.settings.match_type == 'position' and block.settings.menu_position == current_position %}
+                {% assign custom_block = block %}
+                {% break %}
+             {% elsif block.settings.match_type == 'handle' and block.settings.menu_handle == menu_item.handle %}
+                {% assign custom_block = block %}
+                {% break %}
+             {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
 
       <div class="mobile-drawer__submenu" id="submenu-{{ menu_item.handle }}" aria-hidden="true">
         <div class="mobile-drawer__submenu-header">
@@ -383,6 +542,64 @@
                       {% endif %}
                     {% endfor %}
                   </div>
+                </div>
+              
+              {% when 'custom_megamenu' %}
+                {%- comment -%} Custom Megamenu: Render content {%- endcomment -%}
+                <div class="mobile-drawer__custom-content">
+                  {{ custom_block.settings.content }}
+                </div>
+              {% when 'mega_menu_trigger' %}
+                <div class="mobile-drawer__custom-content">
+                  {% for child_block in section.blocks %}
+                    {% if child_block.settings.parent_id == custom_block.settings.trigger_id %}
+                      <div class="mobile-drawer__item" style="margin-bottom: 20px;">
+                        {% case child_block.type %}
+                          {% when 'mega_menu_image' %}
+                             {% if child_block.settings.link != blank %}<a href="{{ child_block.settings.link }}">{% endif %}
+                             {% if child_block.settings.image != blank %}
+                                {{ child_block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', style: 'width: 100%; height: auto; display: block;' }}
+                             {% endif %}
+                             {% if child_block.settings.caption != blank %}
+                                <p style="margin-top: 5px;">{{ child_block.settings.caption }}</p>
+                             {% endif %}
+                             {% if child_block.settings.link != blank %}</a>{% endif %}
+                          {% when 'mega_menu_text' %}
+                             <div style="
+                                text-align: {{ child_block.settings.text_alignment }};
+                                {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
+                                {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
+                                padding: {{ child_block.settings.padding }}px;
+                                border-radius: {{ child_block.settings.border_radius }}px;
+                                {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
+                             ">
+                               {% if child_block.settings.title != blank %}<h3 {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.title }}</h3>{% endif %}
+                               {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
+                               {% if child_block.settings.link_text != blank and child_block.settings.link_url != blank %}
+                                  {% assign btn_class = 'button button--secondary' %}
+                                  {% if child_block.settings.button_style == 'primary' %}
+                                    {% assign btn_class = 'button button--primary' %}
+                                  {% elsif child_block.settings.button_style == 'link' %}
+                                    {% assign btn_class = 'link link--text' %}
+                                  {% endif %}
+                                  <a href="{{ child_block.settings.link_url }}" class="{{ btn_class }}">{{ child_block.settings.link_text }}</a>
+                               {% endif %}
+                             </div>
+                          {% when 'mega_menu_links' %}
+                             {% if child_block.settings.title != blank %}<h3>{{ child_block.settings.title }}</h3>{% endif %}
+                             {% if child_block.settings.menu != blank %}
+                                <ul class="list-unstyled">
+                                {% for link in child_block.settings.menu.links %}
+                                   <li><a href="{{ link.url }}" class="mobile-drawer__link">{{ link.title }}</a></li>
+                                {% endfor %}
+                                </ul>
+                             {% endif %}
+                          {% when 'mega_menu_html' %}
+                             {{ child_block.settings.html }}
+                        {% endcase %}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
                 </div>
               
               {% when 'cvc_conversion_guides' %}
@@ -780,6 +997,41 @@
   .cvc-header--dark .cvc-megamenu__column-title {
     color: var(--cvc-yellow);
     border-bottom-color: var(--cvc-yellow);
+  }
+
+  /* Custom Megamenu Content Styling */
+  .cvc-megamenu--custom .cvc-megamenu__content--custom {
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Utility classes for custom megamenu content */
+  .cvc-megamenu__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .cvc-megamenu__column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cvc-megamenu__text {
+    line-height: 1.6;
+  }
+
+  .cvc-megamenu__link {
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .cvc-megamenu__link:hover {
+    opacity: 0.7;
   }
 
   /* Conversion Guides Phase Column Layout - Balanced multi-row */
@@ -1504,6 +1756,32 @@
     line-height: 1.2;
   }
 
+  /* Custom Megamenu Content */
+  .mobile-drawer__custom-content {
+    padding: 1.25rem;
+  }
+
+  .mobile-drawer__custom-content h1,
+  .mobile-drawer__custom-content h2,
+  .mobile-drawer__custom-content h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+  }
+
+  .mobile-drawer__custom-content p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .mobile-drawer__custom-content a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .mobile-drawer__custom-content a:hover {
+    opacity: 0.7;
+  }
+
   /* Conversion Guides Simple List */
   .mobile-drawer__simple-list {
     padding: 0.5rem 0;
@@ -2080,6 +2358,240 @@
       "type": "@app"
     },
     {
+      "type": "mega_menu_trigger",
+      "name": "Mega Menu Trigger",
+      "settings": [
+        {
+          "type": "text",
+          "id": "trigger_id",
+          "label": "Trigger ID",
+          "info": "Unique ID to link child blocks to this menu item."
+        },
+        {
+          "type": "text",
+          "id": "menu_handle",
+          "label": "Menu Handle",
+          "info": "Handle of the menu item to attach this megamenu to."
+        },
+        {
+          "type": "number",
+          "id": "menu_position",
+          "label": "Menu Position",
+          "info": "Position of the menu item (1-based)."
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            { "value": "full", "label": "Full Width" },
+            { "value": "container", "label": "Container Width" }
+          ],
+          "default": "full"
+        }
+      ]
+    },
+    {
+      "type": "mega_menu_image",
+      "name": "Mega Menu Image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_id",
+          "label": "Parent ID",
+          "info": "Must match the Trigger ID of the parent menu item."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            { "value": "small", "label": "Small (33%)" },
+            { "value": "medium", "label": "Medium (66%)" },
+            { "value": "large", "label": "Large (100%)" }
+          ],
+          "default": "small"
+        }
+      ]
+    },
+    {
+      "type": "mega_menu_text",
+      "name": "Mega Menu Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_id",
+          "label": "Parent ID",
+          "info": "Must match the Trigger ID of the parent menu item."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            { "value": "small", "label": "Small (33%)" },
+            { "value": "medium", "label": "Medium (66%)" },
+            { "value": "large", "label": "Large (100%)" }
+          ],
+          "default": "small"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color"
+        },
+        {
+          "type": "range",
+          "id": "padding",
+          "min": 0,
+          "max": 60,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "border_radius",
+          "min": 0,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Border Radius",
+          "default": 0
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_shadow",
+          "label": "Enable Shadow",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button Style",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "link", "label": "Link" }
+          ],
+          "default": "secondary"
+        }
+      ]
+    },
+    {
+      "type": "mega_menu_links",
+      "name": "Mega Menu Links",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_id",
+          "label": "Parent ID",
+          "info": "Must match the Trigger ID of the parent menu item."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            { "value": "small", "label": "Small (33%)" },
+            { "value": "medium", "label": "Medium (66%)" },
+            { "value": "large", "label": "Large (100%)" }
+          ],
+          "default": "small"
+        }
+      ]
+    },
+    {
+      "type": "mega_menu_html",
+      "name": "Mega Menu HTML",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_id",
+          "label": "Parent ID",
+          "info": "Must match the Trigger ID of the parent menu item."
+        },
+        {
+          "type": "html",
+          "id": "html",
+          "label": "HTML"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Width",
+          "options": [
+            { "value": "small", "label": "Small (33%)" },
+            { "value": "medium", "label": "Medium (66%)" },
+            { "value": "large", "label": "Large (100%)" }
+          ],
+          "default": "small"
+        }
+      ]
+    },
+    {
       "type": "cvc_van_model_menu",
       "name": "Van Model Megamenu",
       "limit": 1,
@@ -2161,6 +2673,67 @@
           "id": "van_image",
           "label": "Van Image",
           "info": "Upload an image representing this van model (recommended size: 400x300px)"
+        }
+      ]
+    },
+    {
+      "type": "custom_megamenu",
+      "name": "Custom Megamenu",
+      "settings": [
+        {
+          "type": "radio",
+          "id": "match_type",
+          "label": "Match Menu Item By",
+          "options": [
+            {
+              "value": "position",
+              "label": "Position (menu item #)"
+            },
+            {
+              "value": "handle",
+              "label": "Handle (match specific handle)"
+            }
+          ],
+          "default": "position",
+          "info": "Choose how this megamenu should match to a menu item."
+        },
+        {
+          "type": "range",
+          "id": "menu_position",
+          "label": "Menu Position",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 3,
+          "info": "Which position in the menu (1 = first item, 2 = second item, etc.)"
+        },
+        {
+          "type": "text",
+          "id": "menu_handle",
+          "label": "Menu Handle (if matching by handle)",
+          "default": "custom",
+          "info": "Only used if 'Match by Handle' is selected. The handle of the menu item."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Title",
+          "default": "Custom Menu",
+          "info": "This is just for reference in the theme editor."
+        },
+        {
+          "type": "header",
+          "content": "Megamenu Content"
+        },
+        {
+          "type": "html",
+          "id": "content",
+          "label": "Content",
+          "info": "Add HTML/Liquid content for your megamenu. Liquid code will be executed."
+        },
+        {
+          "type": "paragraph",
+          "content": "💡 Tip: You can use Liquid to loop through collections, products, or create custom layouts. Use CSS classes like 'cvc-megamenu__grid', 'cvc-megamenu__column' for styling."
         }
       ]
     },

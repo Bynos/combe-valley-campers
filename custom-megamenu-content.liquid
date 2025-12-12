@@ -1,0 +1,185 @@
+<style>
+    .custom-megamenu-content {
+        padding: 2rem;
+        max-width: 100%;
+    }
+
+    .custom-megamenu-content h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+
+    .custom-megamenu-content p {
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        color: #666;
+    }
+
+    .custom-megamenu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .custom-megamenu-column h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: #333;
+    }
+
+    .custom-megamenu-column ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .custom-megamenu-column li {
+        margin-bottom: 0.5rem;
+    }
+
+    .custom-megamenu-column a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .custom-megamenu-column a:hover {
+        color: #000;
+    }
+
+    .custom-megamenu-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .custom-megamenu-column a.image-link {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .custom-megamenu-column a.image-link:hover img {
+        opacity: 0.85;
+        transform: scale(1.02);
+    }
+
+    .custom-megamenu-column a.image-link img {
+        transition: all 0.3s ease;
+    }
+</style>
+
+<div class="custom-megamenu-content">
+    <h2>Welcome to Combe Valley Campers</h2>
+    <p>Explore our collection of campervan conversion parts and accessories.</p>
+
+    <div class="custom-megamenu-grid">
+        <div class="custom-megamenu-column">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="/collections">All Collections</a></li>
+                <li><a href="/pages/about">About Us</a></li>
+                <li><a href="/pages/contact">Contact</a></li>
+            </ul>
+        </div>
+        
+        <div class="custom-megamenu-column">
+            <h3>Popular Categories</h3>
+            <!-- Example with image -->
+            <a href="/collections/electrical" class="image-link">
+                <img src="https://cdn.shopify.com/s/files/1/0808/1060/6931/files/A7401159-100x100.jpg?v=1765290242"
+                     alt="Electrical" 
+                     class="custom-megamenu-image">
+            </a>
+            <ul>
+                <li><a href="/collections/electrical">Electrical</a></li>
+                <li><a href="/collections/furniture">Furniture</a></li>
+                <li><a href="/collections/windows">Windows</a></li>
+            </ul>
+        </div>
+        
+        <div class="custom-megamenu-column">
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="/pages/conversion-guides">Conversion Guides</a></li>
+                <li><a href="/blogs/news">Blog</a></li>
+                <li><a href="/pages/faq">FAQ</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 
+HOW TO ADD SHOPIFY IMAGES:
+
+1. Upload your image:
+   - Go to: Shopify Admin > Content > Files
+   - Click "Upload files"
+   - Upload your image
+
+2. Get the image URL:
+   - Click on the uploaded image
+   - Copy the URL (looks like: https://cdn.shopify.com/s/files/1/xxxx/xxxx/files/your-image.jpg)
+
+3. Add to your content:
+   <img src="YOUR_COPIED_URL" alt="Description" class="custom-megamenu-image">
+
+4. Or wrap in a link:
+   <a href="/collections/your-collection" class="image-link">
+       <img src="YOUR_COPIED_URL" alt="Description" class="custom-megamenu-image">
+   </a>
+
+EXAMPLE STRUCTURES:
+
+Image with heading:
+<div class="custom-megamenu-column">
+    <img src="https://cdn.shopify.com/..." alt="Category Name" class="custom-megamenu-image">
+    <h3>Category Name</h3>
+    <ul>
+        <li><a href="/collections/example">Link</a></li>
+    </ul>
+</div>
+
+Featured image link:
+<div class="custom-megamenu-column">
+    <a href="/collections/featured" class="image-link">
+        <img src="https://cdn.shopify.com/..." alt="Featured" class="custom-megamenu-image">
+    </a>
+    <h3>Featured Collection</h3>
+</div>
+-->
+
+{% comment %}
+  INSTRUCTIONS:
+  
+  1. Copy everything ABOVE this comment block (from the top down to here)
+  2. Paste into your Custom Megamenu "Content" field in the theme editor
+  
+  CUSTOMIZATION OPTIONS:
+  
+  - Change the menu handle on line 8: assign menu = linklists.YOUR_MENU_HANDLE
+    (Available menus: main-menu, footer, etc. - check your Navigation settings)
+  
+  - Modify the heading text on line 71: <h2>Welcome to {{ shop_name }}</h2>
+  
+  - Change the description on line 72
+  
+  - Adjust the grid columns by changing minmax(200px, 1fr) on line 42
+    - Smaller value = more columns
+    - Larger value = fewer columns
+  
+  - Limit number of menu items shown by changing limit: 4 on line 76
+  
+  DYNAMIC SOURCES AVAILABLE:
+  - {{ shop.name }} - Your shop name
+  - {{ shop.url }} - Your shop URL
+  - {{ linklists.HANDLE }} - Any menu by its handle
+  - {{ collections.all }} - All collections
+  - {{ pages.HANDLE }} - Any page by its handle
+  - {{ settings.YOUR_SETTING }} - Theme settings (if configured)
+{% endcomment %}

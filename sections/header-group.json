@@ -136,6 +136,54 @@
     "cvc_header_example_KFggR8": {
       "type": "cvc_header_example",
       "blocks": {
+        "mega_menu_image_E4LtGb": {
+          "type": "mega_menu_image",
+          "settings": {
+            "parent_id": "new-link-mega",
+            "image": "shopify://shop_images/sale-lettering-close-up.jpg",
+            "link": "shopify://collections/sale",
+            "caption": "",
+            "width": "25%"
+          }
+        },
+        "mega_menu_html_r7KbiK": {
+          "type": "mega_menu_html",
+          "settings": {
+            "parent_id": "new-link-mega",
+            "html": "<h3>A HTML Panel</h3>\n<p>This might be useful for somethings that need to be done.</p>\n\n<ul>\n<li>Like lists if stuff</li>\n<li><a href=\"https://buildyouradventure.myshopify.com/collections/windows\">That have links</a></li> \n</ul>\n\n<p>Might be useful!</p>",
+            "width": "25%"
+          }
+        },
+        "mega_menu_text_LP7ryG": {
+          "type": "mega_menu_text",
+          "settings": {
+            "parent_id": "new-link-mega",
+            "title": "This is a new part",
+            "text": "<p>With new part text</p>",
+            "link_text": "",
+            "link_url": "",
+            "width": "25%"
+          }
+        },
+        "mega_menu_text_yDfDQg": {
+          "type": "mega_menu_text",
+          "settings": {
+            "parent_id": "new-link-mega",
+            "title": "",
+            "text": "<h5><strong>This is a new thing</strong><br/>This is a paragraph if text with <a href=\"/collections/bundle\" title=\"Bundle\">a link</a></h5>",
+            "link_text": "",
+            "link_url": "",
+            "width": "25%"
+          }
+        },
+        "mega_menu_trigger_wdTtkz": {
+          "type": "mega_menu_trigger",
+          "settings": {
+            "trigger_id": "new-link-mega",
+            "menu_handle": "new-link",
+            "width": "full"
+          }
+        },
         "cvc_van_model_menu_raVj3A": {
           "type": "cvc_van_model_menu",
           "settings": {
@@ -363,6 +411,11 @@
         }
       },
       "block_order": [
+        "mega_menu_image_E4LtGb",
+        "mega_menu_html_r7KbiK",
+        "mega_menu_text_LP7ryG",
+        "mega_menu_text_yDfDQg",
+        "mega_menu_trigger_wdTtkz",
         "cvc_van_model_menu_raVj3A",
         "van_model_rCTNKd",
         "van_model_gxFPdm",
