@@ -537,14 +537,18 @@
       products.forEach(product => {
         const productModels = product.getAttribute('data-product-models');
         
+        // Find the parent list item or resource-list__item
+        const parentItem = product.closest('.product-grid__item, .resource-list__item, li');
+        const elementToHide = parentItem || product;
+        
         if (!this.selectedModel) {
-          product.style.display = '';
+          elementToHide.style.display = '';
           product.classList.remove('filtered-out');
         } else {
           const hasModelTags = productModels && productModels.trim() !== '';
           
           if (!hasModelTags) {
-            product.style.display = '';
+            elementToHide.style.display = '';
             product.classList.remove('filtered-out');
           } else {
             const models = productModels.split(' ').filter(m => m.trim() !== '');
@@ -553,10 +557,10 @@
             const hasNoModelTags = models.every(tag => !tag.startsWith('model-'));
             
             if (hasMatchingModel || hasModelUniversal || hasNoModelTags) {
-              product.style.display = '';
+              elementToHide.style.display = '';
               product.classList.remove('filtered-out');
             } else {
-              product.style.display = 'none';
+              elementToHide.style.display = 'none';
               product.classList.add('filtered-out');
             }
           }

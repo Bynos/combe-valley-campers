@@ -1922,9 +1922,9 @@
           params.set('filter.p.m.custom.van_model', modelName);
           url.search = params.toString();
           
-          // Navigate if on collection/product page
+          // Navigate if on collection/product page or all products page
           const pathname = window.location.pathname;
-          if (pathname.includes('/collections/') || pathname.includes('/products/')) {
+          if (pathname.includes('/collections/') || pathname.includes('/products/') || pathname === '/products') {
             window.location.href = url.toString();
           } else {
             // Show notification (use displayName for UI)

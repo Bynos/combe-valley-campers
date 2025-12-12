@@ -254,11 +254,11 @@ class HeaderYourVan {
   }
 
   /**
-   * Check if we're on a collection or product page
+   * Check if we're on a collection, product listing, or product page
    */
   isCollectionOrProductPage() {
     const pathname = window.location.pathname;
-    return pathname.includes('/collections/') || pathname.includes('/products/');
+    return pathname.includes('/collections/') || pathname.includes('/products/') || pathname === '/products';
   }
 
   /**
