@@ -240,7 +240,7 @@ class HeaderYourVan {
       
       // Remove all Van Model filter parameters (both old tag filters and new metafield filters)
       for (const key of Array.from(params.keys())) {
-        if (key.startsWith('filter.v.m.custom.van_model') || key.startsWith('filter.p.tag')) {
+        if (key.startsWith('filter.p.m.custom.van_model') || key.startsWith('filter.p.tag')) {
           params.delete(key);
         }
       }
