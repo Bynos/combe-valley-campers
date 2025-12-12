@@ -170,6 +170,20 @@
     "type_letter_spacing_h5": "heading-normal",
     "type_letter_spacing_h6": "heading-normal",
     "content_for_index": [],
+    "blocks": {
+      "4571859552318407796": {
+        "type": "shopify://apps/globo-color-swatch/blocks/app-embed-block/4394f710-096c-4021-bbde-8ebb26057c11",
+        "disabled": false,
+        "settings": {
+          "customCssGCW": ""
+        }
+      },
+      "5918707185744429496": {
+        "type": "shopify://apps/optis-product-options/blocks/bss-po-script/2c446099-c349-4e73-80cd-49c9770b7807",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -682,6 +696,7 @@
   },
   "platform_customizations": {
     "custom_css": [
+      ".product-form__input legend,.product-form__label,.variant-picker__label,fieldset legend,.product-option-label,label[for*=\"option\"],.option-label {font-weight: bold !important;}",
       "input[type=\"radio\"]:checked + label,input:checked + label,.product-form__input input:checked + label,fieldset input:checked + label,.variant-input input:checked + label,button.selected,.button--selected,label.active,[aria-checked=\"true\"] {background-color: #fbb000 !important; border: 2px solid #fbb000 !important;}",
       " /* Hover state */input[type=\"radio\"] + label:hover,.product-form__input label:hover,fieldset label:hover {border: 2px solid #fbb000 !important;}",
       " /* Base styling */input[type=\"radio\"] + label {display: inline-block; padding: 10px 20px; border: 2px solid transparent !important;}"

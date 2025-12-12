@@ -1,3 +1,11 @@
+input:checked + label.swatch-anchor.globo-border-color-swatch,
+label.swatch-anchor.globo-border-color-swatch.selected,
+label.swatch-anchor.globo-border-color-swatch:active {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 * {
   box-sizing: border-box;
 }
