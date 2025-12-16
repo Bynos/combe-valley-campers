@@ -146,14 +146,6 @@
             "width": "25%"
           }
         },
-        "mega_menu_html_r7KbiK": {
-          "type": "mega_menu_html",
-          "settings": {
-            "parent_id": "new-link-mega",
-            "html": "<h3>A HTML Panel</h3>\n<p>This might be useful for somethings that need to be done.</p>\n\n<ul>\n<li>Like lists if stuff</li>\n<li><a href=\"https://buildyouradventure.myshopify.com/collections/windows\">That have links</a></li> \n</ul>\n\n<p>Might be useful!</p>",
-            "width": "25%"
-          }
-        },
         "mega_menu_text_LP7ryG": {
           "type": "mega_menu_text",
           "settings": {
@@ -162,7 +154,32 @@
             "text": "<p>With new part text</p>",
             "link_text": "",
             "link_url": "",
-            "width": "25%"
+            "width": "25%",
+            "text_alignment": "left",
+            "background_color": "#c52727",
+            "text_color": "#ffffff",
+            "padding": 40,
+            "border_radius": 0,
+            "enable_shadow": false,
+            "button_style": "secondary"
+          }
+        },
+        "mega_menu_text_Y4D9wK": {
+          "type": "mega_menu_text",
+          "settings": {
+            "parent_id": "new-link-mega",
+            "title": "Wonderful Things",
+            "text": "<p>For you to do and buy!</p>",
+            "link_text": "",
+            "link_url": "",
+            "width": "small",
+            "text_alignment": "center",
+            "background_color": "#bed4b6",
+            "text_color": "#344944",
+            "padding": 40,
+            "border_radius": 0,
+            "enable_shadow": false,
+            "button_style": "secondary"
           }
         },
         "mega_menu_text_yDfDQg": {
@@ -173,7 +190,24 @@
             "text": "<h5><strong>This is a new thing</strong><br/>This is a paragraph if text with <a href=\"/collections/bundle\" title=\"Bundle\">a link</a></h5>",
             "link_text": "",
             "link_url": "",
-            "width": "25%"
+            "width": "medium",
+            "text_alignment": "left",
+            "background_color": "#f5f5f5",
+            "text_color": "#344945",
+            "padding": 40,
+            "border_radius": 0,
+            "enable_shadow": false,
+            "button_style": "secondary"
+          }
+        },
+        "mega_menu_image_hggUnT": {
+          "type": "mega_menu_image",
+          "settings": {
+            "parent_id": "new-link-mega",
+            "image": "shopify://shop_images/Screenshot2025-12-10091103.jpg",
+            "link": "shopify://collections/electrics",
+            "caption": "",
+            "width": "small"
           }
         },
         "mega_menu_trigger_wdTtkz": {
@@ -412,9 +446,10 @@
       },
       "block_order": [
         "mega_menu_image_E4LtGb",
-        "mega_menu_html_r7KbiK",
         "mega_menu_text_LP7ryG",
+        "mega_menu_text_Y4D9wK",
         "mega_menu_text_yDfDQg",
+        "mega_menu_image_hggUnT",
         "mega_menu_trigger_wdTtkz",
         "cvc_van_model_menu_raVj3A",
         "van_model_rCTNKd",
