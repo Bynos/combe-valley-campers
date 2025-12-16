@@ -62,14 +62,14 @@
           {% endif %}
 
           {%- comment -%} Render menu item {%- endcomment -%}
-          {% if menu_item.links.size > 0 %}
-            {%- comment -%} Has children: use button with megamenu {%- endcomment -%}
+          {% if menu_item.links.size > 0 or custom_block %}
+            {%- comment -%} Has children OR custom block: use button with megamenu {%- endcomment -%}
             <li class="cvc-header__menu-item has-megamenu"{% if custom_block %} {{ custom_block.shopify_attributes }}{% endif %}>
-              <button class="cvc-header__menu-link">
+              <span class="cvc-header__menu-link" role="button" tabindex="0" ref="menuitem">
                 {{ menu_item.title }}
-              </button>
+              </span>
               
-              <div class="cvc-header__megamenu-panel">
+              <div class="cvc-header__megamenu-panel" ref="submenu[]">
                 {% if custom_block %}
                   {%- comment -%} Render custom megamenu {%- endcomment -%}
                   {% case custom_block.type %}
@@ -114,40 +114,60 @@
                                     {% case child_block.type %}
                                       {% when 'mega_menu_image' %}
                                          <div class="cvc-megamenu__image-block">
-                                           {% if child_block.settings.link != blank %}<a href="{{ child_block.settings.link }}">{% endif %}
+                                           {% if child_block.settings.link != blank and child_block.settings.link != '#' and child_block.settings.link != '#new-link' %}<a href="{{ child_block.settings.link }}">{% endif %}
                                            {% if child_block.settings.image != blank %}
                                               {{ child_block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', style: 'width: 100%; height: auto; display: block;' }}
                                            {% endif %}
                                            {% if child_block.settings.caption != blank %}
                                               <p class="cvc-megamenu__caption" style="margin-top: 10px;">{{ child_block.settings.caption }}</p>
                                            {% endif %}
-                                           {% if child_block.settings.link != blank %}</a>{% endif %}
+                                           {% if child_block.settings.link != blank and child_block.settings.link != '#' and child_block.settings.link != '#new-link' %}</a>{% endif %}
                                          </div>
                                       {% when 'mega_menu_text' %}
-                                         <div class="cvc-megamenu__text-block" style="
-                                            flex: 1;
-                                            display: flex;
-                                            flex-direction: column;
-                                            justify-content: center;
-                                            text-align: {{ child_block.settings.text_alignment }};
-                                            {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
-                                            {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
-                                            padding: {{ child_block.settings.padding }}px;
-                                            border-radius: {{ child_block.settings.border_radius }}px;
-                                            {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
-                                         ">
-                                           {% if child_block.settings.title != blank %}<h3 style="margin-bottom: 10px; {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}">{{ child_block.settings.title }}</h3>{% endif %}
-                                           {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
-                                           {% if child_block.settings.link_text != blank and child_block.settings.link_url != blank %}
-                                              {% assign btn_class = 'button button--secondary' %}
-                                              {% if child_block.settings.button_style == 'primary' %}
-                                                {% assign btn_class = 'button button--primary' %}
-                                              {% elsif child_block.settings.button_style == 'link' %}
-                                                {% assign btn_class = 'link link--text' %}
-                                              {% endif %}
-                                              <a href="{{ child_block.settings.link_url }}" class="{{ btn_class }}" style="margin-top: 10px; display: inline-block;">{{ child_block.settings.link_text }}</a>
-                                           {% endif %}
-                                         </div>
+                                         {% if child_block.settings.link_url != blank and child_block.settings.link_url != '#' and child_block.settings.link_url != '#new-link' %}
+                                           <div class="cvc-megamenu__text-block-link" onclick="window.location.href='{{ child_block.settings.link_url }}'" style="
+                                              flex: 1;
+                                              display: flex;
+                                              flex-direction: column;
+                                              justify-content: center;
+                                              text-align: {{ child_block.settings.text_alignment }};
+                                              {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
+                                              {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
+                                              padding: {{ child_block.settings.padding }}px;
+                                              border-radius: {{ child_block.settings.border_radius }}px;
+                                              {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
+                                              cursor: pointer;
+                                              transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                           ">
+                                             {% if child_block.settings.title != blank %}<h3 style="margin-bottom: 10px; {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}">{{ child_block.settings.title }}</h3>{% endif %}
+                                             {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
+                                             {% if child_block.settings.link_text != blank %}
+                                                {% assign btn_class = 'button button--secondary' %}
+                                                {% if child_block.settings.button_style == 'primary' %}
+                                                  {% assign btn_class = 'button button--primary' %}
+                                                {% elsif child_block.settings.button_style == 'link' %}
+                                                  {% assign btn_class = 'link link--text' %}
+                                                {% endif %}
+                                                <span class="{{ btn_class }}" style="margin-top: 10px; display: inline-block;">{{ child_block.settings.link_text }}</span>
+                                             {% endif %}
+                                           </div>
+                                         {% else %}
+                                           <div class="cvc-megamenu__text-block" style="
+                                              flex: 1;
+                                              display: flex;
+                                              flex-direction: column;
+                                              justify-content: center;
+                                              text-align: {{ child_block.settings.text_alignment }};
+                                              {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
+                                              {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
+                                              padding: {{ child_block.settings.padding }}px;
+                                              border-radius: {{ child_block.settings.border_radius }}px;
+                                              {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
+                                           ">
+                                             {% if child_block.settings.title != blank %}<h3 style="margin-bottom: 10px; {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}">{{ child_block.settings.title }}</h3>{% endif %}
+                                             {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
+                                           </div>
+                                         {% endif %}
                                       {% when 'mega_menu_links' %}
                                          <div class="cvc-megamenu__links-block">
                                            {% if child_block.settings.title != blank %}<h3 style="margin-bottom: 10px;">{{ child_block.settings.title }}</h3>{% endif %}
@@ -556,35 +576,51 @@
                       <div class="mobile-drawer__item" style="margin-bottom: 20px;">
                         {% case child_block.type %}
                           {% when 'mega_menu_image' %}
-                             {% if child_block.settings.link != blank %}<a href="{{ child_block.settings.link }}">{% endif %}
+                             {% if child_block.settings.link != blank and child_block.settings.link != '#' and child_block.settings.link != '#new-link' %}<a href="{{ child_block.settings.link }}">{% endif %}
                              {% if child_block.settings.image != blank %}
                                 {{ child_block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', style: 'width: 100%; height: auto; display: block;' }}
                              {% endif %}
                              {% if child_block.settings.caption != blank %}
                                 <p style="margin-top: 5px;">{{ child_block.settings.caption }}</p>
                              {% endif %}
-                             {% if child_block.settings.link != blank %}</a>{% endif %}
+                             {% if child_block.settings.link != blank and child_block.settings.link != '#' and child_block.settings.link != '#new-link' %}</a>{% endif %}
                           {% when 'mega_menu_text' %}
-                             <div style="
-                                text-align: {{ child_block.settings.text_alignment }};
-                                {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
-                                {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
-                                padding: {{ child_block.settings.padding }}px;
-                                border-radius: {{ child_block.settings.border_radius }}px;
-                                {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
-                             ">
-                               {% if child_block.settings.title != blank %}<h3 {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.title }}</h3>{% endif %}
-                               {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
-                               {% if child_block.settings.link_text != blank and child_block.settings.link_url != blank %}
-                                  {% assign btn_class = 'button button--secondary' %}
-                                  {% if child_block.settings.button_style == 'primary' %}
-                                    {% assign btn_class = 'button button--primary' %}
-                                  {% elsif child_block.settings.button_style == 'link' %}
-                                    {% assign btn_class = 'link link--text' %}
-                                  {% endif %}
-                                  <a href="{{ child_block.settings.link_url }}" class="{{ btn_class }}">{{ child_block.settings.link_text }}</a>
-                               {% endif %}
-                             </div>
+                             {% if child_block.settings.link_url != blank and child_block.settings.link_url != '#' and child_block.settings.link_url != '#new-link' %}
+                               <div onclick="window.location.href='{{ child_block.settings.link_url }}'" style="
+                                  display: block;
+                                  text-align: {{ child_block.settings.text_alignment }};
+                                  {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
+                                  {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
+                                  padding: {{ child_block.settings.padding }}px;
+                                  border-radius: {{ child_block.settings.border_radius }}px;
+                                  {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
+                                  cursor: pointer;
+                               ">
+                                 {% if child_block.settings.title != blank %}<h3 {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.title }}</h3>{% endif %}
+                                 {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
+                                 {% if child_block.settings.link_text != blank %}
+                                    {% assign btn_class = 'button button--secondary' %}
+                                    {% if child_block.settings.button_style == 'primary' %}
+                                      {% assign btn_class = 'button button--primary' %}
+                                    {% elsif child_block.settings.button_style == 'link' %}
+                                      {% assign btn_class = 'link link--text' %}
+                                    {% endif %}
+                                    <span class="{{ btn_class }}">{{ child_block.settings.link_text }}</span>
+                                 {% endif %}
+                               </div>
+                             {% else %}
+                               <div style="
+                                  text-align: {{ child_block.settings.text_alignment }};
+                                  {% if child_block.settings.background_color != blank %}background-color: {{ child_block.settings.background_color }};{% endif %}
+                                  {% if child_block.settings.text_color != blank %}color: {{ child_block.settings.text_color }};{% endif %}
+                                  padding: {{ child_block.settings.padding }}px;
+                                  border-radius: {{ child_block.settings.border_radius }}px;
+                                  {% if child_block.settings.enable_shadow %}box-shadow: 0 4px 12px rgba(0,0,0,0.1);{% endif %}
+                               ">
+                                 {% if child_block.settings.title != blank %}<h3 {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.title }}</h3>{% endif %}
+                                 {% if child_block.settings.text != blank %}<div class="rte" {% if child_block.settings.text_color != blank %}style="color: {{ child_block.settings.text_color }};"{% endif %}>{{ child_block.settings.text }}</div>{% endif %}
+                               </div>
+                             {% endif %}
                           {% when 'mega_menu_links' %}
                              {% if child_block.settings.title != blank %}<h3>{{ child_block.settings.title }}</h3>{% endif %}
                              {% if child_block.settings.menu != blank %}
@@ -1032,6 +1068,16 @@
 
   .cvc-megamenu__link:hover {
     opacity: 0.7;
+  }
+
+  /* Clickable mega menu text block styles */
+  .cvc-megamenu__text-block-link {
+    cursor: pointer;
+  }
+
+  .cvc-megamenu__text-block-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15) !important;
   }
 
   /* Conversion Guides Phase Column Layout - Balanced multi-row */
