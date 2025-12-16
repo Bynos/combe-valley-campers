@@ -1,0 +1,23 @@
+# System Files
+.DS_Store
+Thumbs.db
+*.swp
+
+# Editor Directories
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Shopify
+.shopify/
+.shopify-cli/
+
+# Local/Private files
+notes.txt
+errors.md
