@@ -39,10 +39,11 @@ class FacetsFormComponent extends Component {
 
     // Preserve the van model filter if it exists in the current URL
     // This filter is applied externally by the Van Model Chooser and should not be removed
+    // Using custom 'van_model' parameter instead of Shopify filter to allow products without metafields
     const currentUrl = new URL(window.location.href);
-    const vanModelFilter = currentUrl.searchParams.get('filter.p.m.custom.van_model');
+    const vanModelFilter = currentUrl.searchParams.get('van_model');
     if (vanModelFilter) {
-      newParameters.set('filter.p.m.custom.van_model', vanModelFilter);
+      newParameters.set('van_model', vanModelFilter);
     }
 
     return newParameters;

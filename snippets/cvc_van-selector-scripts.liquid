@@ -345,7 +345,7 @@
     syncFromURL() {
       // Check if URL has a metafield filter parameter
       const urlParams = new URLSearchParams(window.location.search);
-      const urlFilter = urlParams.get('filter.p.m.custom.van_model');
+      const urlFilter = urlParams.get('van_model');
       
       if (urlFilter) {
         // Convert metafield value to modelId format (e.g., "Mercedes Sprinter" -> "model-mercedes-sprinter")
@@ -469,13 +469,13 @@
       // Remove any existing Van Model filter parameters (both old tag and new metafield)
       const params = new URLSearchParams(url.search);
       for (const key of Array.from(params.keys())) {
-        if (key.startsWith('filter.p.tag') || key.startsWith('filter.p.m.custom.van_model')) {
+        if (key.startsWith('filter.p.tag') || key.startsWith('filter.p.m.custom.van_model') || key === 'van_model') {
           params.delete(key);
         }
       }
       
-      // Add the new metafield filter parameter (use exact modelName value)
-      params.set('filter.p.m.custom.van_model', modelName);
+      // Add the new custom van_model parameter (not using Shopify's filter to allow products without metafields)
+      params.set('van_model', modelName);
       
       // Update the URL
       url.search = params.toString();
@@ -494,7 +494,7 @@
         
         // Remove all Van Model filter parameters (both old tag and new metafield)
         for (const key of Array.from(params.keys())) {
-          if (key.startsWith('filter.p.tag') || key.startsWith('filter.p.m.custom.van_model')) {
+          if (key.startsWith('filter.p.tag') || key.startsWith('filter.p.m.custom.van_model') || key === 'van_model') {
             params.delete(key);
           }
         }
@@ -642,7 +642,7 @@
           } catch (e) {
             // If URL parsing fails, use simple string concatenation
             const separator = originalHref.includes('?') ? '&' : '?';
-            link.href = `${originalHref}${separator}filter.p.m.custom.van_model=${encodeURIComponent(metafieldValue)}`;
+            link.href = `${originalHref}${separator}van_model=${encodeURIComponent(metafieldValue)}`;
             return;
           }
           
@@ -655,7 +655,7 @@
           }
           
           // Add the new filter parameter with exact case
-          params.set('filter.p.m.custom.van_model', metafieldValue);
+          params.set('van_model', metafieldValue);
           url.search = params.toString();
           
           link.href = url.toString();

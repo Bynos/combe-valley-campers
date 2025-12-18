@@ -2235,15 +2235,15 @@
           const url = new URL(window.location.href);
           const params = new URLSearchParams(url.search);
           
-          // Remove any existing Van Model filter parameters
+          // Remove any existing Van Model filter parameters (including old Shopify filter format)
           for (const key of Array.from(params.keys())) {
-            if (key.startsWith('filter.p.m.custom.van_model') || key.startsWith('filter.p.tag')) {
+            if (key.startsWith('filter.p.m.custom.van_model') || key.startsWith('filter.p.tag') || key === 'van_model') {
               params.delete(key);
             }
           }
           
-          // Add the new metafield filter parameter (use modelName for filtering)
-          params.set('filter.p.m.custom.van_model', modelName);
+          // Add the new custom van_model parameter (not using Shopify's filter to allow products without metafields)
+          params.set('van_model', modelName);
           url.search = params.toString();
           
           // Navigate if on collection/product page or all products page
