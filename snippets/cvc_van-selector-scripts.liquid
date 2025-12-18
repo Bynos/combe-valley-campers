@@ -340,6 +340,9 @@
       // to avoid duplicate event handlers. This global script only handles the dropdown and page state.
       this.updateUIState();
       this.applyFiltersToPage();
+      
+      // Set up observer to re-filter when new products are loaded (pagination, AJAX)
+      this.setupProductObserver();
     }
     
     syncFromURL() {
@@ -352,7 +355,6 @@
         const modelId = 'model-' + urlFilter.toLowerCase().replace(/\s+/g, '-');
         // Sync URL filter to sessionStorage, including the exact modelName
         this.setSelectedModel(modelId, urlFilter);
-        console.log('Synced filter from URL:', urlFilter, '-> modelId:', modelId);
       }
     }
 
@@ -547,9 +549,41 @@
     }
 
     applyFiltersToPage() {
+      // Apply client-side filtering on all pages since Shopify pagination strips custom URL parameters
       this.filterProducts();
       this.modifySearchForms();
       this.modifyCollectionLinks();
+    }
+    
+    setupProductObserver() {
+      // Watch for new products being added to the DOM (pagination, AJAX loading)
+      const productContainer = document.querySelector('.collection-wrapper, .product-grid-container');
+      
+      if (!productContainer) return;
+      
+      const observer = new MutationObserver((mutations) => {
+        let needsRefilter = false;
+        
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) { // Element node
+              // Check if new product was added
+              if (node.matches && (node.matches('[data-product-models]') || node.querySelector('[data-product-models]'))) {
+                needsRefilter = true;
+              }
+            }
+          });
+        });
+        
+        if (needsRefilter) {
+          this.filterProducts();
+        }
+      });
+      
+      observer.observe(productContainer, {
+        childList: true,
+        subtree: true
+      });
     }
 
     filterProducts() {
@@ -569,6 +603,7 @@
           const hasModelTags = productModels && productModels.trim() !== '';
           
           if (!hasModelTags) {
+            // Product has no model tags - show it (universal)
             elementToHide.style.display = '';
             product.classList.remove('filtered-out');
           } else {

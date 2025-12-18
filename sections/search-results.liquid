@@ -17,6 +17,18 @@
   <div
     class="collection-wrapper grid gap-style"
   >
+    {% comment %} Get van model filter from URL if present (using custom parameter, not Shopify's filter) {% endcomment %}
+    {% assign van_model_filter = '' %}
+    {% if request.query_string contains 'van_model=' %}
+      {% assign query_params = request.query_string | split: '&' %}
+      {% for param in query_params %}
+        {% if param contains 'van_model=' %}
+          {% assign van_model_filter = param | split: '=' | last | url_decode %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
     {% paginate search.results by 24 %}
       {% if search.results_count > 0 %}
         {% content_for 'block', type: 'filters', id: 'filters', results: search, results_size: search.results_count %}
@@ -30,15 +42,48 @@
 
       {% capture children %}
         {% for product in products %}
-          <li
-            id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-            data-page="{{ paginate.current_page }}"
-            data-product-id="{{ product.id }}"
-            ref="cards[]"
-          >
-            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
-          </li>
+          {% comment %} Check if product should be shown based on van model filter {% endcomment %}
+          {% assign show_product = false %}
+          
+          {% if van_model_filter == '' %}
+            {% comment %} No van model filter active, show all products {% endcomment %}
+            {% assign show_product = true %}
+          {% else %}
+            {% comment %} Van model filter active - show if product matches OR has no van_model metafield {% endcomment %}
+            {% assign product_van_model = product.metafields.custom.van_model.value %}
+            
+            {% if product_van_model == blank %}
+              {% comment %} Product has no van model metafield, always show it (universal products) {% endcomment %}
+              {% assign show_product = true %}
+            {% else %}
+              {% comment %} Product HAS van model metafield - check if filter value is in the list {% endcomment %}
+              {% assign product_has_matching_model = false %}
+              
+              {% comment %} Loop through each model in the product's van_model list {% endcomment %}
+              {% for model in product_van_model %}
+                {% if model == van_model_filter %}
+                  {% assign product_has_matching_model = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+              
+              {% if product_has_matching_model %}
+                {% assign show_product = true %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+          
+          {% if show_product %}
+            <li
+              id="{{ section.id }}-{{ product.id }}"
+              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+              data-page="{{ paginate.current_page }}"
+              data-product-id="{{ product.id }}"
+              ref="cards[]"
+            >
+              {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
+            </li>
+          {% endif %}
         {% endfor %}
       {% endcapture %}
 

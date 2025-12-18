@@ -41,53 +41,20 @@
       results_size: collection.products_count
     %}
 
-    {% comment %} Get van model filter from URL if present (using custom parameter, not Shopify's filter) {% endcomment %}
-    {% assign van_model_filter = '' %}
-    {% if request.query_string contains 'van_model=' %}
-      {% assign query_params = request.query_string | split: '&' %}
-      {% for param in query_params %}
-        {% if param contains 'van_model=' %}
-          {% assign van_model_filter = param | split: '=' | last | url_decode %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-
     {% paginate collection.products by 24 %}
       {% capture children %}
         {% for product in collection.products %}
-          {% comment %} Check if product should be shown based on van model filter {% endcomment %}
-          {% assign show_product = false %}
-          
-          {% if van_model_filter == '' %}
-            {% comment %} No van model filter active, show all products {% endcomment %}
-            {% assign show_product = true %}
-          {% else %}
-            {% comment %} Van model filter active - show if product matches OR has no van_model metafield {% endcomment %}
-            {% assign product_van_model = product.metafields.custom.van_model.value %}
-            
-            {% if product_van_model == blank %}
-              {% comment %} Product has no van model metafield, always show it {% endcomment %}
-              {% assign show_product = true %}
-            {% elsif product_van_model contains van_model_filter %}
-              {% comment %} Product matches the filter {% endcomment %}
-              {% assign show_product = true %}
-            {% endif %}
-          {% endif %}
-          
-          {% if show_product %}
-            <li
-              id="{{ section.id }}-{{ product.id }}"
-              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-              data-page="{{ paginate.current_page }}"
-              data-product-id="{{ product.id }}"
-              ref="cards[]"
-            >
-              {% # theme-check-disable %}
-              {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
-              {% # theme-check-enable %}
-            </li>
-          {% endif %}
+          <li
+            id="{{ section.id }}-{{ product.id }}"
+            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+            data-page="{{ paginate.current_page }}"
+            data-product-id="{{ product.id }}"
+            ref="cards[]"
+          >
+            {% # theme-check-disable %}
+            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
+            {% # theme-check-enable %}
+          </li>
         {% endfor %}
       {% endcapture %}
 
