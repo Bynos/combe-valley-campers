@@ -37,6 +37,14 @@ class FacetsFormComponent extends Component {
     const searchQuery = this.#getSearchQuery();
     if (searchQuery) newParameters.set(SEARCH_QUERY, searchQuery);
 
+    // Preserve the van model filter if it exists in the current URL
+    // This filter is applied externally by the Van Model Chooser and should not be removed
+    const currentUrl = new URL(window.location.href);
+    const vanModelFilter = currentUrl.searchParams.get('filter.p.m.custom.van_model');
+    if (vanModelFilter) {
+      newParameters.set('filter.p.m.custom.van_model', vanModelFilter);
+    }
+
     return newParameters;
   }
 

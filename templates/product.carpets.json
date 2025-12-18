@@ -337,7 +337,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>Why not also purchase</h3>",
+            "text": "<h3><strong>Why not also purchase</strong></h3>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -478,7 +478,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2><strong>Watch out How To Guides</strong></h2>",
+            "text": "<h2><strong>Watch our How To Guides</strong></h2>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",

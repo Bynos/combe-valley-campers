@@ -138,25 +138,26 @@
       "blocks": {
         "mega_menu_image_E4LtGb": {
           "type": "mega_menu_image",
+          "disabled": true,
           "settings": {
-            "parent_id": "new-link-mega",
+            "parent_id": "conversion-guides",
             "image": "shopify://shop_images/sale-lettering-close-up.jpg",
             "link": "shopify://collections/sale",
             "caption": "",
-            "width": "25%"
+            "width": "large"
           }
         },
         "mega_menu_text_LP7ryG": {
           "type": "mega_menu_text",
           "settings": {
-            "parent_id": "new-link-mega",
-            "title": "This is a new part",
-            "text": "<p>With new part text</p>",
+            "parent_id": "conversion-guides",
+            "title": "Watch Tutorials",
+            "text": "<p>Visit our YouTube channel for clear, practical video walkthroughs that make every step easy to follow.</p><p><strong>Great for:</strong> visual learners, step-by-step demonstrations, getting quick answers.</p>",
             "link_text": "",
-            "link_url": "",
+            "link_url": "https://www.youtube.com/@CombeValleyCampers",
             "width": "25%",
-            "text_alignment": "left",
-            "background_color": "#c52727",
+            "text_alignment": "center",
+            "background_color": "#bed4b6",
             "text_color": "#ffffff",
             "padding": 40,
             "border_radius": 0,
@@ -167,15 +168,15 @@
         "mega_menu_text_Y4D9wK": {
           "type": "mega_menu_text",
           "settings": {
-            "parent_id": "new-link-mega",
-            "title": "Wonderful Things",
-            "text": "<p>For you to do and buy!</p>",
+            "parent_id": "conversion-guides",
+            "title": "Listen to Our Podcast",
+            "text": "<p>Tune in for conversations, insights, and behind-the-scenes knowledge—perfect for learning on the go.</p><p><strong>Great for:</strong> commuting, multitasking, deeper discussions and ideas.<br/></p>",
             "link_text": "",
-            "link_url": "",
+            "link_url": "shopify://pages/the-camper-van-cast",
             "width": "small",
             "text_alignment": "center",
-            "background_color": "#bed4b6",
-            "text_color": "#344944",
+            "background_color": "#fbb000",
+            "text_color": "#ffffff",
             "padding": 40,
             "border_radius": 0,
             "enable_shadow": false,
@@ -185,37 +186,27 @@
         "mega_menu_text_yDfDQg": {
           "type": "mega_menu_text",
           "settings": {
-            "parent_id": "new-link-mega",
-            "title": "",
-            "text": "<h5><strong>This is a new thing</strong><br/>This is a paragraph if text with <a href=\"/collections/bundle\" title=\"Bundle\">a link</a></h5>",
+            "parent_id": "conversion-guides",
+            "title": "Read How-To Guides",
+            "text": "<p>Our written guides offer detailed instructions you can reference anytime.</p><p><strong>Great for:</strong> troubleshooting, in-depth learning, saving tips for later.</p>",
             "link_text": "",
-            "link_url": "",
-            "width": "medium",
-            "text_alignment": "left",
-            "background_color": "#f5f5f5",
-            "text_color": "#344945",
+            "link_url": "shopify://blogs/guides",
+            "width": "small",
+            "text_alignment": "center",
+            "background_color": "#bed4b6",
+            "text_color": "#ffffff",
             "padding": 40,
             "border_radius": 0,
             "enable_shadow": false,
             "button_style": "secondary"
           }
         },
-        "mega_menu_image_hggUnT": {
-          "type": "mega_menu_image",
-          "settings": {
-            "parent_id": "new-link-mega",
-            "image": "shopify://shop_images/Screenshot2025-12-10091103.jpg",
-            "link": "shopify://collections/electrics",
-            "caption": "",
-            "width": "small"
-          }
-        },
         "mega_menu_trigger_wdTtkz": {
           "type": "mega_menu_trigger",
           "settings": {
-            "trigger_id": "new-link-mega",
-            "menu_handle": "new-link",
-            "width": "full"
+            "trigger_id": "conversion-guides",
+            "menu_handle": "conversion-guides",
+            "width": "container"
           }
         },
         "cvc_van_model_menu_raVj3A": {
@@ -414,6 +405,7 @@
         "cvc_conversion_guides_VT87XM": {
           "type": "cvc_conversion_guides",
           "name": "Conversion Phases",
+          "disabled": true,
           "settings": {
             "match_type": "position",
             "menu_position": 2,
@@ -449,7 +441,6 @@
         "mega_menu_text_LP7ryG",
         "mega_menu_text_Y4D9wK",
         "mega_menu_text_yDfDQg",
-        "mega_menu_image_hggUnT",
         "mega_menu_trigger_wdTtkz",
         "cvc_van_model_menu_raVj3A",
         "van_model_rCTNKd",

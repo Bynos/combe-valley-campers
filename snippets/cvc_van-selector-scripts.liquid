@@ -321,6 +321,7 @@
   class VanSelectorManager {
     constructor() {
       this.selectedModel = this.getSelectedModel();
+      this.selectedModelName = this.getSelectedModelName();
       this.init();
     }
 
@@ -335,20 +336,23 @@
     setup() {
       this.syncFromURL();
       this.setupDropdown();
-      this.setupVanModelLinks();
+      // Note: Van model link click handlers are set up by cvc-van-model-menu.liquid snippet
+      // to avoid duplicate event handlers. This global script only handles the dropdown and page state.
       this.updateUIState();
       this.applyFiltersToPage();
     }
     
     syncFromURL() {
-      // Check if URL has a filter.p.tag parameter
+      // Check if URL has a metafield filter parameter
       const urlParams = new URLSearchParams(window.location.search);
-      const urlFilter = urlParams.get('filter.p.tag');
+      const urlFilter = urlParams.get('filter.p.m.custom.van_model');
       
       if (urlFilter) {
-        // Sync URL filter to sessionStorage
-        this.setSelectedModel(urlFilter);
-        console.log('Synced filter from URL:', urlFilter);
+        // Convert metafield value to modelId format (e.g., "Mercedes Sprinter" -> "model-mercedes-sprinter")
+        const modelId = 'model-' + urlFilter.toLowerCase().replace(/\s+/g, '-');
+        // Sync URL filter to sessionStorage, including the exact modelName
+        this.setSelectedModel(modelId, urlFilter);
+        console.log('Synced filter from URL:', urlFilter, '-> modelId:', modelId);
       }
     }
 
@@ -361,14 +365,30 @@
       }
     }
 
-    setSelectedModel(modelId) {
+    getSelectedModelName() {
+      try {
+        return sessionStorage.getItem(SESSION_KEY + '_name');
+      } catch (e) {
+        console.warn('sessionStorage not available:', e);
+        return null;
+      }
+    }
+
+    setSelectedModel(modelId, modelName = null) {
       try {
         if (modelId) {
           sessionStorage.setItem(SESSION_KEY, modelId);
           this.selectedModel = modelId;
+          // Store the exact modelName (with correct case) separately
+          if (modelName) {
+            sessionStorage.setItem(SESSION_KEY + '_name', modelName);
+            this.selectedModelName = modelName;
+          }
         } else {
           sessionStorage.removeItem(SESSION_KEY);
+          sessionStorage.removeItem(SESSION_KEY + '_name');
           this.selectedModel = null;
+          this.selectedModelName = null;
         }
       } catch (e) {
         console.warn('Could not save to sessionStorage:', e);
@@ -409,31 +429,32 @@
           e.preventDefault();
           const modelId = link.getAttribute('data-model-id');
           const modelName = link.getAttribute('data-model-name');
+          const displayName = link.getAttribute('data-display-name') || modelName;
           
-          if (modelId) {
-            this.handleModelSelection(modelId, modelName);
+          if (modelId && modelName) {
+            this.handleModelSelection(modelId, modelName, displayName);
           }
         });
       });
     }
 
-    handleModelSelection(modelId, modelName = null) {
+    handleModelSelection(modelId, modelName = null, displayName = null) {
       if (!modelId) {
         this.clearSelection();
         return;
       }
 
-      this.setSelectedModel(modelId);
+      this.setSelectedModel(modelId, modelName);
       this.updateUIState();
       
       // Check if we're on a collection or product page
       if (this.isCollectionOrProductPage()) {
-        // Update URL and reload to apply filter
-        this.updateURLAndReload(modelId);
+        // Update URL and reload to apply filter using metafield
+        this.updateURLAndReload(modelName || modelId);
       } else {
         // On other pages, just apply filters without reload
         this.applyFiltersToPage();
-        this.showNotification(`Van model set to: ${modelName || modelId}`);
+        this.showNotification(`Van model set to: ${displayName || modelName || modelId}`);
       }
     }
     
@@ -442,19 +463,19 @@
       return pathname.includes('/collections/') || pathname.includes('/products/');
     }
     
-    updateURLAndReload(modelId) {
+    updateURLAndReload(modelName) {
       const url = new URL(window.location.href);
       
-      // Remove any existing filter.p.tag parameters
+      // Remove any existing Van Model filter parameters (both old tag and new metafield)
       const params = new URLSearchParams(url.search);
       for (const key of Array.from(params.keys())) {
-        if (key.startsWith('filter.p.tag')) {
+        if (key.startsWith('filter.p.tag') || key.startsWith('filter.p.m.custom.van_model')) {
           params.delete(key);
         }
       }
       
-      // Add the new filter parameter
-      params.set('filter.p.tag', modelId);
+      // Add the new metafield filter parameter (use exact modelName value)
+      params.set('filter.p.m.custom.van_model', modelName);
       
       // Update the URL
       url.search = params.toString();
@@ -471,9 +492,9 @@
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
         
-        // Remove all filter.p.tag parameters
+        // Remove all Van Model filter parameters (both old tag and new metafield)
         for (const key of Array.from(params.keys())) {
-          if (key.startsWith('filter.p.tag')) {
+          if (key.startsWith('filter.p.tag') || key.startsWith('filter.p.m.custom.van_model')) {
             params.delete(key);
           }
         }
@@ -611,6 +632,9 @@
         const originalHref = link.getAttribute('data-original-href');
         
         if (this.selectedModel) {
+          // Get the exact modelName with correct case
+          const metafieldValue = this.getSelectedModelName() || this.selectedModel.replace('model-', '').replace(/-/g, ' ');
+          
           // Parse the URL to properly add the filter parameter
           let url;
           try {
@@ -618,7 +642,7 @@
           } catch (e) {
             // If URL parsing fails, use simple string concatenation
             const separator = originalHref.includes('?') ? '&' : '?';
-            link.href = `${originalHref}${separator}filter.p.tag=${this.selectedModel}`;
+            link.href = `${originalHref}${separator}filter.p.m.custom.van_model=${encodeURIComponent(metafieldValue)}`;
             return;
           }
           
@@ -630,8 +654,8 @@
             }
           }
           
-          // Add the new filter parameter
-          params.set('filter.p.tag', this.selectedModel);
+          // Add the new filter parameter with exact case
+          params.set('filter.p.m.custom.van_model', metafieldValue);
           url.search = params.toString();
           
           link.href = url.toString();

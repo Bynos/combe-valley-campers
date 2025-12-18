@@ -253,8 +253,8 @@
           
           console.log('Dispatched vanModelSelected event for:', displayName);
           
-          // Apply filter to current page (use displayName for UI messages)
-          applyFilterToPage(modelId, displayName);
+          // Apply filter to current page (pass all 3 parameters: modelId for sessionStorage, displayName for UI, modelName for filtering)
+          applyFilterToPage(modelId, displayName, modelName);
         } else {
           console.warn('No modelId found on clicked link');
         }
